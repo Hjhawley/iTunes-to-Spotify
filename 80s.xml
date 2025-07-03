@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Date</key><date>2025-06-13T16:09:19Z</date>
+	<key>Application Version</key><string>12.13.7.1</string>
+	<key>Features</key><integer>5</integer>
+	<key>Show Content Ratings</key><true/>
+	<key>Music Folder</key><string>file://localhost/C:/Users/hjhaw/Music/iTunes/iTunes%20Media/</string>
+	<key>Library Persistent ID</key><string>5D01212205FC460C</string>
+	<key>Tracks</key>
+	<dict>
+		<key>4096</key>
+		<dict>
+			<key>Track ID</key><integer>4096</integer>
+			<key>Name</key><string>Born Under Punches (The Heat Goes On)</string>
+			<key>Artist</key><string>Talking Heads</string>
+			<key>Album Artist</key><string>Talking Heads</string>
+			<key>Composer</key><string>Brian Eno, Chris Frantz, David Byrne, Jerry Harrison &#38; Tina Weymouth</string>
+			<key>Album</key><string>Remain In Light</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>12174137</integer>
+			<key>Total Time</key><integer>348973</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>8</integer>
+			<key>Year</key><integer>1980</integer>
+			<key>Date Modified</key><date>2023-09-25T05:38:55Z</date>
+			<key>Date Added</key><date>2023-09-25T05:38:55Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3822302912</integer>
+			<key>Play Date UTC</key><date>2025-02-13T21:48:32Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2025-01-08T21:35:40Z</date>
+			<key>Release Date</key><date>1980-10-08T07:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Remain In Light</string>
+			<key>Sort Artist</key><string>Talking Heads</string>
+			<key>Sort Name</key><string>Born Under Punches (The Heat Goes On)</string>
+			<key>Persistent ID</key><string>A40A72C0302A65E1</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>4130</key>
+		<dict>
+			<key>Track ID</key><integer>4130</integer>
+			<key>Name</key><string>Shout</string>
+			<key>Artist</key><string>Tears for Fears</string>
+			<key>Album Artist</key><string>Tears for Fears</string>
+			<key>Composer</key><string>Roland Orzabal &#38; Ian Stanley</string>
+			<key>Album</key><string>Songs from the Big Chair</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>14727342</integer>
+			<key>Total Time</key><integer>392667</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>8</integer>
+			<key>Year</key><integer>1984</integer>
+			<key>Date Modified</key><date>2023-09-25T05:38:55Z</date>
+			<key>Date Added</key><date>2023-09-25T05:38:55Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>Indigo</string>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3826982110</integer>
+			<key>Play Date UTC</key><date>2025-04-09T00:35:10Z</date>
+			<key>Skip Count</key><integer>2</integer>
+			<key>Skip Date</key><date>2024-12-21T19:31:57Z</date>
+			<key>Release Date</key><date>1984-11-23T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Songs from the Big Chair</string>
+			<key>Sort Artist</key><string>Tears for Fears</string>
+			<key>Sort Name</key><string>Shout</string>
+			<key>Persistent ID</key><string>2BBC3ED132AA8BEE</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>4134</key>
+		<dict>
+			<key>Track ID</key><integer>4134</integer>
+			<key>Name</key><string>Everybody Wants to Rule the World</string>
+			<key>Artist</key><string>Tears for Fears</string>
+			<key>Album Artist</key><string>Tears for Fears</string>
+			<key>Composer</key><string>Ian Stanley, Roland Orzabal &#38; Christopher Merrick Hughes</string>
+			<key>Album</key><string>Songs from the Big Chair</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>9477311</integer>
+			<key>Total Time</key><integer>251480</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>8</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2023-09-25T05:38:55Z</date>
+			<key>Date Added</key><date>2023-09-25T05:38:55Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>Green</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3832262988</integer>
+			<key>Play Date UTC</key><date>2025-06-09T03:29:48Z</date>
+			<key>Release Date</key><date>1985-02-25T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Songs from the Big Chair</string>
+			<key>Sort Artist</key><string>Tears for Fears</string>
+			<key>Sort Name</key><string>Everybody Wants to Rule the World</string>
+			<key>Persistent ID</key><string>B666BBE49EBBE4BC</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>4772</key>
+		<dict>
+			<key>Track ID</key><integer>4772</integer>
+			<key>Name</key><string>Life In a Northern Town (LP Version)</string>
+			<key>Artist</key><string>The Dream Academy</string>
+			<key>Album Artist</key><string>The Dream Academy</string>
+			<key>Composer</key><string>Gilbert Gabriel &#38; Nick Laird-Clowes</string>
+			<key>Album</key><string>The Dream Academy</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>9274444</integer>
+			<key>Total Time</key><integer>259293</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2023-09-25T05:46:51Z</date>
+			<key>Date Added</key><date>2023-09-25T05:46:51Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>White</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3817625206</integer>
+			<key>Play Date UTC</key><date>2024-12-21T18:26:46Z</date>
+			<key>Release Date</key><date>1985-01-01T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Dream Academy</string>
+			<key>Sort Album Artist</key><string>Dream Academy</string>
+			<key>Sort Artist</key><string>Dream Academy</string>
+			<key>Sort Name</key><string>Life In a Northern Town (LP Version)</string>
+			<key>Persistent ID</key><string>3E4AD96DCE0816AE</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>5402</key>
+		<dict>
+			<key>Track ID</key><integer>5402</integer>
+			<key>Name</key><string>The Mercy Seat (2010 Remaster)</string>
+			<key>Artist</key><string>Nick Cave &#38; The Bad Seeds</string>
+			<key>Album Artist</key><string>Nick Cave &#38; The Bad Seeds</string>
+			<key>Composer</key><string>Mick Harvey &#38; Nick Cave</string>
+			<key>Album</key><string>Tender Prey (2010 - Remaster)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>14961150</integer>
+			<key>Total Time</key><integer>438080</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1988</integer>
+			<key>Date Modified</key><date>2023-09-25T05:59:54Z</date>
+			<key>Date Added</key><date>2023-09-25T05:59:54Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3781066901</integer>
+			<key>Play Date UTC</key><date>2023-10-25T14:21:41Z</date>
+			<key>Release Date</key><date>1988-09-19T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Tender Prey (2010 - Remaster)</string>
+			<key>Sort Artist</key><string>Nick Cave &#38; The Bad Seeds</string>
+			<key>Sort Name</key><string>Mercy Seat (2010 Remaster)</string>
+			<key>Persistent ID</key><string>7E7AD007B4C8D926</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>5742</key>
+		<dict>
+			<key>Track ID</key><integer>5742</integer>
+			<key>Name</key><string>Running Up That Hill (A Deal With God) [2018 Remaster]</string>
+			<key>Artist</key><string>Kate Bush</string>
+			<key>Album Artist</key><string>Kate Bush</string>
+			<key>Composer</key><string>Kate Bush</string>
+			<key>Album</key><string>Hounds of Love (2018 Remaster)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>10961141</integer>
+			<key>Total Time</key><integer>300840</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>12</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2023-09-25T06:02:06Z</date>
+			<key>Date Added</key><date>2023-09-25T06:02:06Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>White</string>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3832138838</integer>
+			<key>Play Date UTC</key><date>2025-06-07T17:00:38Z</date>
+			<key>Release Date</key><date>1985-08-05T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Hounds of Love (2018 Remaster)</string>
+			<key>Sort Artist</key><string>Kate Bush</string>
+			<key>Sort Name</key><string>Running Up That Hill (A Deal With God) [2018 Remaster]</string>
+			<key>Persistent ID</key><string>D2D5D24FEFD27465</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>5754</key>
+		<dict>
+			<key>Track ID</key><integer>5754</integer>
+			<key>Name</key><string>Teen Age Riot (2012 Remastered Version)</string>
+			<key>Artist</key><string>Sonic Youth</string>
+			<key>Album Artist</key><string>Sonic Youth</string>
+			<key>Album</key><string>Daydream Nation (2012 Remastered Version)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>15247653</integer>
+			<key>Total Time</key><integer>418947</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1988</integer>
+			<key>Date Modified</key><date>2023-09-25T06:02:06Z</date>
+			<key>Date Added</key><date>2023-09-25T06:02:06Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>5</integer>
+			<key>Play Date</key><integer>3783760027</integer>
+			<key>Play Date UTC</key><date>2023-11-25T19:27:07Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2025-01-08T21:53:10Z</date>
+			<key>Release Date</key><date>1988-10-18T07:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Daydream Nation (2012 Remastered Version)</string>
+			<key>Sort Artist</key><string>Sonic Youth</string>
+			<key>Sort Name</key><string>Teen Age Riot (2012 Remastered Version)</string>
+			<key>Persistent ID</key><string>183ACB73E5D9FE6B</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>6992</key>
+		<dict>
+			<key>Track ID</key><integer>6992</integer>
+			<key>Name</key><string>Head Over Heels / Broken</string>
+			<key>Artist</key><string>Tears for Fears</string>
+			<key>Album Artist</key><string>Tears for Fears</string>
+			<key>Composer</key><string>Roland Orzabal &#38; Curt Smith</string>
+			<key>Album</key><string>Songs from the Big Chair</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>11279686</integer>
+			<key>Total Time</key><integer>302120</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>7</integer>
+			<key>Track Count</key><integer>8</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2023-09-25T16:52:04Z</date>
+			<key>Date Added</key><date>2023-09-25T16:52:04Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3817636207</integer>
+			<key>Play Date UTC</key><date>2024-12-21T21:30:07Z</date>
+			<key>Release Date</key><date>1985-02-25T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Songs from the Big Chair</string>
+			<key>Sort Artist</key><string>Tears for Fears</string>
+			<key>Sort Name</key><string>Head Over Heels / Broken</string>
+			<key>Persistent ID</key><string>5B0E42A849352E32</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>7144</key>
+		<dict>
+			<key>Track ID</key><integer>7144</integer>
+			<key>Name</key><string>Once In a Lifetime</string>
+			<key>Artist</key><string>Talking Heads</string>
+			<key>Album Artist</key><string>Talking Heads</string>
+			<key>Composer</key><string>Brian Eno, Chris Frantz, David Byrne, Jerry Harrison &#38; Tina Weymouth</string>
+			<key>Album</key><string>Remain In Light</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>9185595</integer>
+			<key>Total Time</key><integer>258600</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>8</integer>
+			<key>Year</key><integer>1980</integer>
+			<key>Date Modified</key><date>2023-09-25T16:52:05Z</date>
+			<key>Date Added</key><date>2023-09-25T16:52:05Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>Yellow</string>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3822303847</integer>
+			<key>Play Date UTC</key><date>2025-02-13T22:04:07Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2025-01-08T21:57:21Z</date>
+			<key>Release Date</key><date>1980-10-08T07:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Remain In Light</string>
+			<key>Sort Artist</key><string>Talking Heads</string>
+			<key>Sort Name</key><string>Once In a Lifetime</string>
+			<key>Persistent ID</key><string>4DB10A7F2DBB8DF4</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>7568</key>
+		<dict>
+			<key>Track ID</key><integer>7568</integer>
+			<key>Name</key><string>This Must Be the Place (Naive Melody)</string>
+			<key>Artist</key><string>Talking Heads</string>
+			<key>Album Artist</key><string>Talking Heads</string>
+			<key>Composer</key><string>Chris Frantz, David Byrne, Jerry Harrison &#38; Tina Weymouth</string>
+			<key>Album</key><string>Speaking In Tongues</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>11209345</integer>
+			<key>Total Time</key><integer>295427</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>9</integer>
+			<key>Year</key><integer>1983</integer>
+			<key>Date Modified</key><date>2023-09-25T16:53:02Z</date>
+			<key>Date Added</key><date>2023-09-25T16:53:02Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>29</integer>
+			<key>Play Date</key><integer>3832134772</integer>
+			<key>Play Date UTC</key><date>2025-06-07T15:52:52Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2024-11-23T19:11:14Z</date>
+			<key>Release Date</key><date>1983-05-31T07:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Speaking In Tongues</string>
+			<key>Sort Artist</key><string>Talking Heads</string>
+			<key>Sort Name</key><string>This Must Be the Place (Naive Melody)</string>
+			<key>Persistent ID</key><string>1734C63ABCD8A5CA</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>10766</key>
+		<dict>
+			<key>Track ID</key><integer>10766</integer>
+			<key>Name</key><string>This Is the Day</string>
+			<key>Artist</key><string>The The</string>
+			<key>Album Artist</key><string>The The</string>
+			<key>Composer</key><string>Matt Johnson</string>
+			<key>Album</key><string>Soul Mining</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>11408522</integer>
+			<key>Total Time</key><integer>297067</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>7</integer>
+			<key>Year</key><integer>1982</integer>
+			<key>Date Modified</key><date>2023-09-26T03:39:10Z</date>
+			<key>Date Added</key><date>2023-09-26T03:39:10Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>Green</string>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3817819194</integer>
+			<key>Play Date UTC</key><date>2024-12-24T00:19:54Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2024-05-02T04:44:47Z</date>
+			<key>Release Date</key><date>1982-01-01T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Soul Mining</string>
+			<key>Sort Album Artist</key><string>The</string>
+			<key>Sort Artist</key><string>The</string>
+			<key>Sort Name</key><string>This Is the Day</string>
+			<key>Persistent ID</key><string>7B17D5F8CCB4490C</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>11098</key>
+		<dict>
+			<key>Track ID</key><integer>11098</integer>
+			<key>Name</key><string>Eye Know (feat. Otis Redding)</string>
+			<key>Artist</key><string>De La Soul</string>
+			<key>Album Artist</key><string>De La Soul</string>
+			<key>Composer</key><string>Otis Redding, Kelvin Mercer, David Jolicoeur, Vincent Mason, Paul Huston, Donald Fagen, Walter Becker, Stephen Lee Cropper, John Gary Williams &#38; Booker T. Jones Jr.</string>
+			<key>Album</key><string>3 Feet High and Rising</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>8979062</integer>
+			<key>Total Time</key><integer>252672</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>23</integer>
+			<key>Year</key><integer>1989</integer>
+			<key>Date Modified</key><date>2023-09-26T03:39:11Z</date>
+			<key>Date Added</key><date>2023-09-26T03:39:11Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>3</integer>
+			<key>Play Date</key><integer>3829461655</integer>
+			<key>Play Date UTC</key><date>2025-05-07T17:20:55Z</date>
+			<key>Release Date</key><date>1989-03-03T08:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>3 Feet High and Rising</string>
+			<key>Sort Artist</key><string>De La Soul</string>
+			<key>Sort Name</key><string>Eye Know (feat. Otis Redding)</string>
+			<key>Persistent ID</key><string>C26F3F53C17A736B</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>12186</key>
+		<dict>
+			<key>Track ID</key><integer>12186</integer>
+			<key>Name</key><string>Bonny</string>
+			<key>Artist</key><string>Prefab Sprout</string>
+			<key>Album Artist</key><string>Prefab Sprout</string>
+			<key>Composer</key><string>Paddy McAloon</string>
+			<key>Album</key><string>Steve McQueen (Legacy Edition)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>8558185</integer>
+			<key>Total Time</key><integer>226373</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>2</integer>
+			<key>Track Count</key><integer>22</integer>
+			<key>Year</key><integer>1985</integer>
+			<key>Date Modified</key><date>2023-09-26T04:08:59Z</date>
+			<key>Date Added</key><date>2023-09-26T04:08:59Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>4</integer>
+			<key>Play Date</key><integer>3783852337</integer>
+			<key>Play Date UTC</key><date>2023-11-26T21:05:37Z</date>
+			<key>Release Date</key><date>1985-06-22T07:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Steve McQueen (Legacy Edition)</string>
+			<key>Sort Artist</key><string>Prefab Sprout</string>
+			<key>Sort Name</key><string>Bonny</string>
+			<key>Persistent ID</key><string>09A5F69CB14AD3A5</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>13996</key>
+		<dict>
+			<key>Track ID</key><integer>13996</integer>
+			<key>Name</key><string>Police On My Back (Remastered)</string>
+			<key>Artist</key><string>The Clash</string>
+			<key>Album Artist</key><string>The Clash</string>
+			<key>Composer</key><string>Edmond Grant</string>
+			<key>Album</key><string>Sandinista! (Remastered)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>7506560</integer>
+			<key>Total Time</key><integer>196954</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>19</integer>
+			<key>Track Count</key><integer>36</integer>
+			<key>Year</key><integer>1980</integer>
+			<key>Date Modified</key><date>2024-06-22T03:38:06Z</date>
+			<key>Date Added</key><date>2024-06-22T03:38:06Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>56</integer>
+			<key>Play Date</key><integer>3832137113</integer>
+			<key>Play Date UTC</key><date>2025-06-07T16:31:53Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2025-01-08T21:55:12Z</date>
+			<key>Release Date</key><date>1980-12-12T08:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Sandinista! (Remastered)</string>
+			<key>Sort Album Artist</key><string>Clash</string>
+			<key>Sort Artist</key><string>Clash</string>
+			<key>Sort Name</key><string>Police On My Back (Remastered)</string>
+			<key>Persistent ID</key><string>1B92638C997E5BD4</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>14026</key>
+		<dict>
+			<key>Track ID</key><integer>14026</integer>
+			<key>Name</key><string>Can't Hardly Wait</string>
+			<key>Artist</key><string>The Replacements</string>
+			<key>Album Artist</key><string>The Replacements</string>
+			<key>Composer</key><string>Paul Westerberg</string>
+			<key>Album</key><string>Pleased To Meet Me</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>6660162</integer>
+			<key>Total Time</key><integer>183227</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>11</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>1987</integer>
+			<key>Date Modified</key><date>2024-06-27T15:11:51Z</date>
+			<key>Date Added</key><date>2024-06-27T15:11:51Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>10</integer>
+			<key>Play Date</key><integer>3814166534</integer>
+			<key>Play Date UTC</key><date>2024-11-11T17:42:14Z</date>
+			<key>Release Date</key><date>1987-07-07T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Pleased To Meet Me</string>
+			<key>Sort Album Artist</key><string>Replacements</string>
+			<key>Sort Artist</key><string>Replacements</string>
+			<key>Sort Name</key><string>Can't Hardly Wait</string>
+			<key>Persistent ID</key><string>C44FD97B94B95995</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>14106</key>
+		<dict>
+			<key>Track ID</key><integer>14106</integer>
+			<key>Name</key><string>In Too Deep (2007 Remaster)</string>
+			<key>Artist</key><string>Genesis</string>
+			<key>Album Artist</key><string>Genesis</string>
+			<key>Composer</key><string>Mike Rutherford, Phil Collins &#38; Tony Banks</string>
+			<key>Album</key><string>Invisible Touch (2007 Remaster)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>10887305</integer>
+			<key>Total Time</key><integer>302840</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>8</integer>
+			<key>Year</key><integer>1986</integer>
+			<key>Date Modified</key><date>2024-06-27T16:04:15Z</date>
+			<key>Date Added</key><date>2024-06-27T16:04:15Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>9</integer>
+			<key>Play Date</key><integer>3814113754</integer>
+			<key>Play Date UTC</key><date>2024-11-11T03:02:34Z</date>
+			<key>Skip Count</key><integer>1</integer>
+			<key>Skip Date</key><date>2024-11-12T21:28:50Z</date>
+			<key>Release Date</key><date>1986-06-01T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Invisible Touch (2007 Remaster)</string>
+			<key>Sort Artist</key><string>Genesis</string>
+			<key>Sort Name</key><string>In Too Deep (2007 Remaster)</string>
+			<key>Persistent ID</key><string>F3F49AAB94DB5D03</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>14138</key>
+		<dict>
+			<key>Track ID</key><integer>14138</integer>
+			<key>Name</key><string>Pretty In Pink (Original Version)</string>
+			<key>Artist</key><string>The Psychedelic Furs</string>
+			<key>Album Artist</key><string>The Psychedelic Furs</string>
+			<key>Composer</key><string>Richard Lofthouse Butler, Timothy Butler, John Ashton, Vincent Davey, Roger Morris &#38; Duncan Kilburn</string>
+			<key>Album</key><string>Talk Talk Talk</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>8520781</integer>
+			<key>Total Time</key><integer>239000</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1981</integer>
+			<key>Date Modified</key><date>2024-07-03T06:20:52Z</date>
+			<key>Date Added</key><date>2024-07-03T06:20:52Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>44</integer>
+			<key>Play Date</key><integer>3832137353</integer>
+			<key>Play Date UTC</key><date>2025-06-07T16:35:53Z</date>
+			<key>Skip Count</key><integer>2</integer>
+			<key>Skip Date</key><date>2024-11-24T22:36:06Z</date>
+			<key>Release Date</key><date>1981-01-01T08:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album Artist</key><string>Psychedelic Furs</string>
+			<key>Sort Artist</key><string>Psychedelic Furs</string>
+			<key>Sort Name</key><string>Pretty In Pink (Original Version)</string>
+			<key>Persistent ID</key><string>5981F256E546921E</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>14180</key>
+		<dict>
+			<key>Track ID</key><integer>14180</integer>
+			<key>Name</key><string>Pale Shelter</string>
+			<key>Artist</key><string>Tears for Fears</string>
+			<key>Album Artist</key><string>Tears for Fears</string>
+			<key>Composer</key><string>Roland Orzabal</string>
+			<key>Album</key><string>The Hurting (Remastered)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>9759720</integer>
+			<key>Total Time</key><integer>273893</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>3</integer>
+			<key>Track Count</key><integer>14</integer>
+			<key>Year</key><integer>1982</integer>
+			<key>Date Modified</key><date>2024-07-17T03:11:55Z</date>
+			<key>Date Added</key><date>2024-07-17T03:11:55Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Play Count</key><integer>10</integer>
+			<key>Play Date</key><integer>3814164770</integer>
+			<key>Play Date UTC</key><date>2024-11-11T17:12:50Z</date>
+			<key>Release Date</key><date>1982-03-01T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Hurting (Remastered)</string>
+			<key>Sort Artist</key><string>Tears for Fears</string>
+			<key>Sort Name</key><string>Pale Shelter</string>
+			<key>Persistent ID</key><string>F3B2BF485C6F8C7B</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>80s</string>
+			<key>Description</key><string></string>
+			<key>Playlist ID</key><integer>47638</integer>
+			<key>Playlist Persistent ID</key><string>5DF9AB33484476B9</string>
+			<key>All Items</key><true/>
+			<key>Smart Info</key>
+			<data>
+			AQEAAwAAAAIAAAAZAAAAAAAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAA==
+			</data>
+			<key>Smart Criteria</key>
+			<data>
+			U0xzdAABAAEAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAQAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGAU0xzdAABAAEAAAACAAAAAQAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAADwAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAABEAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAg
+			AAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYBTTHN0AAEAAQAAAAIAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAABwAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAEQAAAAAAAAHvAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAHxQAAAAAAAAAA
+			AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABYAAAAQAAAAAAAAAAAAAAAAAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAB
+			AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+			</data>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>10766</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>6992</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4134</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4130</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>14180</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>7568</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>7144</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4096</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5754</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>14026</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>14138</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>12186</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5402</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>5742</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>14106</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4772</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>11098</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>13996</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
