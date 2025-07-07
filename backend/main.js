@@ -1,7 +1,7 @@
 require('dotenv').config();
-import express from 'express';
-import session from 'express-session';
-import importRouter from './import.js';
+const express = require('express');
+const session = require('express-session');
+const importRouter = require('./import.js').default;
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use('/import', importRouter);
+app.use(importRouter);
 
 app.listen(4000, () => {
 	console.log('Server running on http://localhost:4000');
