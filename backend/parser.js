@@ -1,3 +1,21 @@
+export function parsePlaylistName(xmlDoc) {
+	const rootDict = xmlDoc.querySelector('plist > dict');
+	const elems = Array.from(rootDict.children);
+
+	const index = elems.findIndex(node => node.tagName === 'key' && node.textContent === 'Playlists');
+	if (index === -1) return null;
+
+	const playlistsArray = elems[index+1];
+	const firstPlaylist = Array.from(playlistsArray.children).find(el => el.tagName === 'dict');
+	if (!firstPlaylist) return null;
+
+	const elements = Array.from(firstPlaylist.children);
+	const nameIndex = elements.findIndex(node => node.tagName === 'key' && node.textContent === 'Name');
+	if (nameIndex === -1) return null;
+
+	return elements[nameIndex+1].textContent;
+}
+
 export function parseTracks(xmlDoc) {
 	const result = {};
 

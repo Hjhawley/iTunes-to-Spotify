@@ -107,9 +107,9 @@ export async function migratePlaylist(
     const uri = await findBestTrack(token, info)
     if (uri) {
       await addTracks(token, playlistId, [uri])
-      console.log(`Added ${info.artist} – ${info.name}`)
+      console.log(`Added ${info.artist} - ${info.name}`)
     } else {
-      console.warn(`Could not find: ${info.artist} – ${info.name}`)
+      console.warn(`Could not find: ${info.artist} - ${info.name}`)
     }
   }
   return playlistId
