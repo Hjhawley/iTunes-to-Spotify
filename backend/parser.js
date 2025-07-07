@@ -1,55 +1,54 @@
-/**
- * Extracts every track entry from the iTunes XML and returns:
- * { [trackId]: { name, artist, album, trackNumber } }
- */
 export function parseTracks(xmlDoc) {
-	const result = {}; // a dict of songs
-	const rootDict = xmlDoc.querySelector('plist > dict'); // help me understand what this does
-	const children = Array.from(rootDict.children); // help me understand what this does
+	const result = {};
 
-	// cleaner functions
+	// select top-level <dict> element under <plist>
+	const rootDict = xmlDoc.querySelector('plist > dict');
+	// convert to child nodes for easier iteration
+	const children = Array.from(rootDict.children);
+
+	/* cleaner functions */
 	function cleanTrack(title) {
-		return title
-		.replace(/\(.*?\)/g, ' ')
-		.replace(/[’']/g, ' ')
-		.replace(/[\/\-]/g, ' ')
-		.trim()
-		.replace(/\s+/g, ' ');
+		title.replace(/\(.*?\)/g, ' '); // Remove anything in parentheses
+		title.replace(/[’']/g, ' '); // Replace quotes with spaces
+		title.replace(/[\/\-]/g, ' '); // Replace / and - with spaces
+		title.trim(); // Trim leading/trailing spaces
+		title.replace(/\s+/g, ' '); // Collapse multiple spaces into one
+		return title;
 	}
 
 	function cleanAlbum(album) {
-		return album
-		.replace(/\b(remastered|deluxe)\b/gi, '')
-		.replace(/\(.*?\)/g, ' ')
-		.replace(/[’']/g, ' ')
-		.replace(/[\/\-]/g, ' ')
-		.trim()
-		.replace(/\s+/g, ' ');
+		album.replace(/\b(remastered|deluxe)\b/gi, '') // Drop these words
+		album.replace(/\(.*?\)/g, ' ');
+		album.replace(/[’']/g, ' ');
+		album.replace(/[\/\-]/g, ' ');
+		album.trim();
+		album.replace(/\s+/g, ' ');
+		return album;
 	}
 
 	function cleanArtist(name) {
-		if (name === 'The The') return name; // weird edge case
-		return name
-		.replace(/^The\s+/i, '')
-		.replace(/&/g, 'and')
-		.trim();
+    if (name === 'The The') return name; // Edge case
+		name.replace(/^The\s+/i, ''); // Strip leading "The "
+		name.replace(/&/g, 'and'); // Convert ampersand to "and"
+		name.trim();
+		return name;
 	}
 
-	// find the <key>Tracks</key> section in the XML
+	// find the tracks
 	for (let i = 0; i < children.length; i++) {
-		if (children[i].tagName === 'key' && children[i].textContent === 'Tracks') {
-			const tracksDict = children[i + 1];
-			const pairs = Array.from(tracksDict.children); // help me understand what this does
-
+		const node = children[i];
+		if (node.tagName === 'key' && node.textContext === 'Tracks') {
+			const tracksDict = children[i+1];
+			const pairs = Array.from(tracksDict.children);
 			for (let j = 0; j < pairs.length; j += 2) {
-				const id = Number(pairs[j].textContent);
+				const id = Number(pairs[j].textContext);
 				const info = Array.from(pairs[j + 1].children);
 				const entry = {};
-
 				for (let k = 0; k < info.length; k += 2) {
-					entry[ info[k].textContent ] = info[k + 1].textContent;
+					const propName = info[k].textContent; // "Name", "Artist"
+					const propValue = info[k + 1].textContent;
+					entry[propName] = propValue;
 				}
-
 				result[id] = {
 					name: cleanTrack(entry.Name || ''),
 					artist: cleanArtist(entry.Artist || ''),
@@ -62,61 +61,3 @@ export function parseTracks(xmlDoc) {
 	}
 	return result;
 }
-
-/**
- * Returns an array of track IDs in the order they appear
- * in the first (or named) playlist.
- */
-export function parsePlaylistOrder(xmlDoc, playlistName = null) {
-	const rootDict = xmlDoc.querySelector('plist > dict');
-	const children = Array.from(rootDict.children);
-
-	for (let i = 0; i < children.length; i++) {
-		if (children[i].tagName === 'key' && children[i].textContent === 'Playlists') {
-			const playlistsArray = children[i + 1];
-			const playlists = Array.from(playlistsArray.children).filter(el => el.tagName === 'dict');
-
-			let targetPlaylist = null;
-			for (const dict of playlists) {
-				const kids = Array.from(dict.children);
-				for (let j = 0; j < kids.length - 1; j++) {
-					if (kids[j].tagName === 'key' &&
-						kids[j].textContent === 'Name' &&
-						(!playlistName || kids[j + 1].textContent === playlistName)) {
-							targetPlaylist = dict;
-							break;
-					}
-				}
-				if (targetPlaylist) break;
-			}
-
-			if (!targetPlaylist && playlists.length > 0) {
-				targetPlaylist = playlists[0];
-			}
-			if (!targetPlaylist) return [];
-
-			const targetChildren = Array.from(targetPlaylist.children);
-			for (let k = 0; k < targetChildren.length - 1; k++) {
-				if (targetChildren[k].tagName === 'key' &&
-					targetChildren[k].textContent === 'Playlist Items') {
-						const itemsArray = targetChildren[k + 1];
-						const items = Array.from(itemsArray.children).filter(el => el.tagName === 'dict');
-						const ids = [];
-
-						for (const itemDict of items) {
-							const itemChildren = Array.from(itemDict.children);
-							for (let m = 0; m < itemChildren.length - 1; m++) {
-								if (itemChildren[m].tagName === 'key' &&
-									itemChildren[m].textContent === 'Track ID' &&
-									itemChildren[m + 1].tagName === 'integer') {
-										ids.push(Number(itemChildren[m + 1].textContent));
-									}
-								}
-							}
-							return ids;
-					}
-				}
-			}
-		}
-		return [];
-	}
