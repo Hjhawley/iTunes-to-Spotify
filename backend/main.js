@@ -19,7 +19,5 @@ app.use((req, _res, next) => {
 	next();
 }); */
 
-// since import.js has: router.post('/import', …)
 app.use(importRouter);
-
 app.listen(8888, () => console.log('Server running on http://localhost:8888'));
