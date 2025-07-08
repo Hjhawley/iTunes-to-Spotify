@@ -1,37 +1,28 @@
-// server.js
+<<<<<<< HEAD
+=======
+import 'dotenv/config';
+import express from 'express';
+import session from 'express-session';
+import importRouter from './import.js';
 
-const express = require("express");
-const axios = require("axios");
 const app = express();
 
-const client_id = "YOUR_CLIENT_ID";
-const client_secret = "YOUR_CLIENT_SECRET";
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		resave: false, // don’t force–save unchanged sessions
+		saveUninitialized: false, // don’t save empty sessions
+	})
+);
 
-app.get("/callback", async (req, res) => {
-  const code = req.query.code || null;
-
-  // Exchange code for access token
-  const tokenResponse = await axios.post(
-    "https://accounts.spotify.com/api/token",
-    null,
-    {
-      params: {
-        grant_type: "authorization_code",
-        code: code,
-        redirect_uri: redirect_uri,
-        client_id: client_id,
-        client_secret: client_secret,
-      },
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    }
-  );
-
-  // tokenResponse.data contains access_token, refresh_token, etc.
-  res.json(tokenResponse.data);
+// DEV stub so req.user.exists
+app.use((req, _res, next) => {
+  req.user = { accessToken: 'FAKE_TOKEN', spotifyId: 'FAKE_USER_ID' };
+  next();
 });
 
-app.listen(8888, () => {
-  console.log("Server running on http://localhost:8888");
-});
+// since import.js has: router.post('/import', …)
+app.use(importRouter);
+
+app.listen(4000, () => console.log('Server running on http://localhost:4000'));
+>>>>>>> origin/main
