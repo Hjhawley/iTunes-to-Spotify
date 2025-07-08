@@ -5,7 +5,7 @@ const generateRandomString = require("./utils");
 
 require("dotenv").config();
 
-const port = process.env.port || 8888;
+const port = process.env.port || 8080;
 
 var app = express();
 
@@ -20,6 +20,10 @@ app.use(
 
 app.use("/auth", authRoutes);
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+app
+  .listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  })
+  .on("error", (err) => {
+    console.error("Server error:", err);
+  });

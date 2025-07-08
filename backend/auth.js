@@ -5,9 +5,9 @@ var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 
-var client_id = process.env.SPOTIFY_CLIENT_ID;
-var client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-var redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+var client_id = `d2b73b9ffc8b40c79aef4890db82237a`;
+var client_secret = `818c0389ed9648f289235ef7e0fcc946`;
+var redirect_uri = `http://localhost:8080/auth/callback`;
 
 const generateRandomString = (length) => {
   return crypto.randomBytes(60).toString("hex").slice(0, length);
@@ -17,12 +17,9 @@ var stateKey = "spotify_auth_state";
 
 var router = express.Router();
 
-router
-  .use(express.static(__dirname + "/public"))
-  .use(cors())
-  .use(cookieParser());
+router.use(cors()).use(cookieParser());
 
-router.get("/auth/login", function (req, res) {
+router.get("/login", function (req, res) {
   var state = generateRandomString(16);
   res.cookie(stateKey, state);
 
@@ -40,7 +37,7 @@ router.get("/auth/login", function (req, res) {
   );
 });
 
-router.get("/auth/callback", function (req, res) {
+router.get("/callback", function (req, res) {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -68,7 +65,7 @@ router.get("/auth/callback", function (req, res) {
         "content-type": "application/x-www-form-urlencoded",
         Authorization:
           "Basic " +
-          new Buffer.from(client_id + ":" + client_secret).toString("base64"),
+          Buffer.from(client_id + ":" + client_secret).toString("base64"),
       },
       json: true,
     };
@@ -109,7 +106,7 @@ router.get("/auth/callback", function (req, res) {
   }
 });
 
-router.get("/auth/refresh_token", function (req, res) {
+router.get("/refresh_token", function (req, res) {
   var refresh_token = req.query.refresh_token;
   var authOptions = {
     url: "https://accounts.spotify.com/api/token",
@@ -117,7 +114,7 @@ router.get("/auth/refresh_token", function (req, res) {
       "content-type": "application/x-www-form-urlencoded",
       Authorization:
         "Basic " +
-        new Buffer.from(client_id + ":" + client_secret).toString("base64"),
+        Buffer.from(client_id + ":" + client_secret).toString("base64"),
     },
     form: {
       grant_type: "refresh_token",
