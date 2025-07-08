@@ -1,10 +1,10 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const session = require("express-session");
 const authRoutes = require("./auth");
 
-dotenv.config();
-const port = 4000;
+require("dotenv").config();
+
+const port = process.env.port || 8888;
 
 var spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 var spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;

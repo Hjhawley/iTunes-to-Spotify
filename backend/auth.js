@@ -8,7 +8,7 @@ var router = express.Router();
 
 var spotify_client_id = process.env.SPOTIFY_CLIENT_ID;
 var spotify_client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-var redirect_uri = "http://127.0.0.1:4000/auth/callback";
+var redirect_uri = "http://localhost:8888/callback";
 
 var generateRandomString = function (length) {
   var text = "";
@@ -23,18 +23,17 @@ var generateRandomString = function (length) {
 
 router.get("/auth/login", function (req, res) {
   var state = generateRandomString(16);
-  var scope = `user-read-private user-read-email`;
-
-  var auth_query_parameters = new URLSearchParams({
-    response_type: "code",
-    client_id: spotify_client_id,
-    scope: scope,
-    redirect_uri: "http://127.0.0.1:4000/auth/callback",
-    state: state,
-  });
+  var scope = `user-read-private user-read-email playlist-read-private playlist-read-collaborative playlist-modify--private playlist-modify-public`;
 
   res.redirect(
-    "https://accounts.spotify.com/authorize?" + auth_query_parameters.toString()
+    "https://accounts.spotify.com/authorize?" +
+      querystring.stringify({
+        response_type: "code",
+        client_id: client_id,
+        scope: scope,
+        redirect_uri: redirect_uri,
+        state: state,
+      })
   );
 });
 
@@ -46,7 +45,7 @@ router.get("/auth/callback", async function (req, res) {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: code,
-      redirect_uri: "http://127.0.0.1:4000/auth/callback",
+      redirect_uri: redirect_uri,
       grant_type: "authorization_code",
     },
     headers: {
@@ -66,7 +65,8 @@ router.get("/auth/callback", async function (req, res) {
     }
   });
 });
-
+// Once the authorization is granted, the authorization server issues an access
+// token, which is used to make API calls on behalf the user or application.
 router.get("/auth/token", (req, res) => {
   res.json({
     access_token: access_token,
