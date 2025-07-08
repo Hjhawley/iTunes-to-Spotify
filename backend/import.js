@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const { JSDOM } = require('jsdom');
+const cookieParser = require('cookie-parser');
 
 // extract track metadata
 const { parseTracks, parsePlaylistName } = require('./parser');
@@ -8,7 +9,21 @@ const { parseTracks, parsePlaylistName } = require('./parser');
 const { createPlaylist, findBestTrack, addTracks } = require('./spotify');
 
 const router = express.Router();
+router.use(cookieParser());
 const upload = multer({ storage: multer.memoryStorage() });
+
+function loadUserFromCookies(req, res, next) {
+  const access_token = req.cookies.access_token;
+  const spotify_id = req.cookies.spotify_id;
+  if (!access_token || !spotify_id) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+  req.user = {
+    accessToken: access_token,
+    spotifyId: spotify_id,
+  };
+  next();
+}
 
 /**
 POST /import
@@ -17,7 +32,7 @@ POST /import
     Creates a Spotify playlist, matches each track, adds them
     Returns log messages
  */
-router.post('/import', upload.single('file'), async (req, res) => {
+router.post('/import', upload.single('file'), loadUserFromCookies, async (req, res) => {
     const logs = [];
     try {
         const token = req.user.accessToken;
