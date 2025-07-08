@@ -16,7 +16,6 @@ const router = express.Router();
 
 router
   .use(express.static(__dirname + "/public"))
-  .use(cors())
   .use(cookieParser());
 
 router.get("/auth/login", function (req, res) {
@@ -87,13 +86,20 @@ router.get("/auth/callback", function (req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect(
-          "/#" +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token,
-            })
-        );
+        res
+          .cookie("access_token", access_token, {
+            httpOnly: true,
+            sameSite: 'lax',
+          })
+          .cookie("refresh_token", refresh_token, {
+            httpOnly: true,
+            sameSite: 'lax',
+          })
+          .cookie("spotify_id", body.id || '', {
+            httpOnly: true,
+            sameSite: 'lax',
+          })
+          .redirect("http://localhost:5173/");
       } else {
         res.redirect(
           "/#" +
@@ -131,6 +137,27 @@ router.get("/auth/refresh_token", function (req, res) {
         access_token: access_token,
         refresh_token: refresh_token,
       });
+    }
+  });
+});
+
+router.get("/auth/whoami", function (req, res) {
+  const access_token = req.cookies.access_token;
+  if (!access_token) {
+    return res.status(401).json({ error: "Not logged in" });
+  }
+
+  const options = {
+    url: "https://api.spotify.com/v1/me",
+    headers: { Authorization: "Bearer " + access_token },
+    json: true,
+  };
+
+  request.get(options, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      res.json({ user: body });
+    } else {
+      res.status(401).json({ error: "Invalid token" });
     }
   });
 });
