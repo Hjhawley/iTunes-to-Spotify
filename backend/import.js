@@ -8,7 +8,21 @@ const { parseTracks, parsePlaylistName } = require("./parser.js");
 const { createPlaylist, findBestTrack, addTracks } = require("./spotify.js");
 
 const router = express.Router();
+router.use(cookieParser());
 const upload = multer({ storage: multer.memoryStorage() });
+
+function loadUserFromCookies(req, res, next) {
+  const access_token = req.cookies.access_token;
+  const spotify_id = req.cookies.spotify_id;
+  if (!access_token || !spotify_id) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+  req.user = {
+    accessToken: access_token,
+    spotifyId: spotify_id,
+  };
+  next();
+}
 
 /**
 POST /import

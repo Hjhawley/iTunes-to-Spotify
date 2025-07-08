@@ -15,10 +15,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  // for use in WSL
-  server: {
-    watch: {
-      usePolling: true
-    },
-  },
 })

@@ -45,12 +45,10 @@ router.get("/callback", function (req, res) {
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  if (state === null || state !== storedState) {
-    res.redirect(
-      "/#" +
-        querystring.stringify({
-          error: "state_mismatch",
-        })
+  if (!state || state !== storedState) {
+    // State mismatch
+    return res.redirect(
+      "/#" + querystring.stringify({ error: "state_mismatch" })
     );
   } else {
     res.clearCookie(stateKey);
@@ -70,10 +68,15 @@ router.get("/callback", function (req, res) {
       json: true,
     };
 
-    request.post(authOptions, function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        const access_token = body.access_token,
-          refresh_token = body.refresh_token;
+  request.post(authOptions, (err, response, tokenBody) => {
+    if (err || response.statusCode !== 200) {
+      return res.redirect(
+        "/#" + querystring.stringify({ error: "invalid_token" })
+      );
+    }
+
+    const access_token  = tokenBody.access_token;
+    const refresh_token = tokenBody.refresh_token;
 
         const options = {
           url: "https://api.spotify.com/v1/me",
@@ -154,9 +157,9 @@ router.get("/auth/whoami", function (req, res) {
     json: true,
   };
 
-  request.get(options, function (error, response, body) {
+  request.get(options, (error, response, body) => {
     if (!error && response.statusCode === 200) {
-      res.json({ user: body });
+      res.json(body);
     } else {
       res.status(401).json({ error: "Invalid token" });
     }
