@@ -1,35 +1,45 @@
+
 <script setup>
 import { ref, onMounted } from 'vue'
+// Import the SplashScreen API and Capacitor core
+import { SplashScreen } from '@capacitor/splash-screen'
+import { Capacitor } from '@capacitor/core'
 
 const user = ref(null)
 const file = ref(null)
 const status = ref([])
 
-// Backend base URL
 const BACKEND_URL = 'http://localhost:4000'
 
-// Redirect to backend login
 function loginWithSpotify() {
 	window.location.href = `${BACKEND_URL}/auth/login`
 }
 
-// Check session on mount
+// Helper to check if we're running natively (iOS/Android)
+function isNative() {
+	return typeof window !== 'undefined' && window.Capacitor && Capacitor.isNativePlatform()
+}
+
 onMounted(async () => {
 	try {
 		const res = await fetch(`${BACKEND_URL}/auth/whoami`, {
 			credentials: 'include'
 		})
-			if (!res.ok) {
+		if (!res.ok) {
 			user.value = null
+			// Hide splash only if native
+			if (isNative()) await SplashScreen.hide()
 			return
 		}
 		user.value = await res.json()
 	} catch {
 		user.value = null
+	} finally {
+		// Hide the splash screen after user check is done (only if native)
+		if (isNative()) await SplashScreen.hide()
 	}
 })
 
-// File selection handler
 function onFileSelect(event) {
 	const chosen = event.target.files?.[0]
 	if (chosen && chosen.name.toLowerCase().endsWith('.xml')) {
@@ -41,7 +51,6 @@ function onFileSelect(event) {
 	}
 }
 
-// Submit XML to backend import endpoint
 async function onSubmit() {
 	if (!file.value || !user.value) return
 	const form = new FormData()
@@ -62,36 +71,3 @@ async function onSubmit() {
 	}
 }
 </script>
-
-<template>
-<div class="container">
-	<h1>iTunes >> Spotify<br/>Playlist Migrator</h1>
-
-	<!-- if not yet authenticated -->
-	<div v-if="!user">
-	<button @click="loginWithSpotify">Login with Spotify</button>
-	</div>
-
-	<!-- once logged in -->
-	<div v-else>
-	<div class="user-info">
-		<img v-if="user.images?.length" :src="user.images[0].url" />
-		<p>Logged in as {{ user.display_name }}</p>
-	</div>
-
-	<p>Upload your iTunes XML playlist:</p>
-	<input
-		type="file"
-		accept=".xml,text/xml"
-		@change="onFileSelect"
-	/>
-
-	<div v-if="file">
-		<button @click="onSubmit">Migrate to Spotify</button>
-		<div class="status-log">
-		<p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
-		</div>
-	</div>
-	</div>
-</div>
-</template>
