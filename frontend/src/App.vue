@@ -89,8 +89,8 @@ async function onSubmit() {
 		<div v-if="file">
 			<button @click="onSubmit">Migrate to Spotify</button>
 			<div class="status-log">
-			<p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
-			</div>
+        <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
+      </div>
 		</div>
 	</div>
 </div>

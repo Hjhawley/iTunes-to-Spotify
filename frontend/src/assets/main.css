@@ -102,3 +102,19 @@ img {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.status-log {
+  width: 100%;
+  max-width: 480px;
+  height: 240px; /* fixed height */
+  margin: 1.5rem auto;
+  padding: 1rem;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  text-align: left;
+  border-radius: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
