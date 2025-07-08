@@ -1,11 +1,13 @@
 export function parsePlaylistName(xmlDoc) {
+	// select top-level <dict> element under <plist>
 	const rootDict = xmlDoc.querySelector('plist > dict');
-	const elems = Array.from(rootDict.children);
+	// convert to child nodes for easier iteration
+	const rootElements = Array.from(rootDict.children);
 
-	const index = elems.findIndex(node => node.tagName === 'key' && node.textContent === 'Playlists');
+	const index = rootElements.findIndex(node => node.tagName === 'key' && node.textContent === 'Playlists');
 	if (index === -1) return null;
 
-	const playlistsArray = elems[index+1];
+	const playlistsArray = rootElements[index+1];
 	const firstPlaylist = Array.from(playlistsArray.children).find(el => el.tagName === 'dict');
 	if (!firstPlaylist) return null;
 
@@ -18,10 +20,7 @@ export function parsePlaylistName(xmlDoc) {
 
 export function parseTracks(xmlDoc) {
 	const result = {};
-
-	// select top-level <dict> element under <plist>
 	const rootDict = xmlDoc.querySelector('plist > dict');
-	// convert to child nodes for easier iteration
 	const rootElements = Array.from(rootDict.children);
 
 	/* cleaner functions */
@@ -79,7 +78,6 @@ export function parseTracks(xmlDoc) {
 	}
 	return result;
 }
-
 
 export function parsePlaylistOrder(xmlDoc, playlistName = null) {
 	const rootDict = xmlDoc.querySelector('plist > dict');
