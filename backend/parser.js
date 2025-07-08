@@ -1,38 +1,55 @@
-export function parseTracks(xmlDoc) {
-	const result = {};
-
+export function parsePlaylistName(xmlDoc) {
 	// select top-level <dict> element under <plist>
 	const rootDict = xmlDoc.querySelector('plist > dict');
 	// convert to child nodes for easier iteration
 	const rootElements = Array.from(rootDict.children);
 
-	/* cleaner functions */
-	function cleanTrack(title) {
-		title = title.replace(/\(.*?\)/g, ' '); // Remove anything in parentheses
-		title = title.replace(/[’']/g, ' '); // Replace quotes with spaces
-		title = title.replace(/[\/\-]/g, ' '); // Replace / and - with spaces
-		title = title.trim(); // Trim leading/trailing spaces
-		title = title.replace(/\s+/g, ' '); // Collapse multiple spaces into one
-		return title;
-	}
+	const index = rootElements.findIndex(node => node.tagName === 'key' && node.textContent === 'Playlists');
+	if (index === -1) return null;
 
-	function cleanAlbum(album) {
-		album = album.replace(/\b(remastered|deluxe)\b/gi, ''); // Drop these words
-		album = album.replace(/\(.*?\)/g, ' ');
-		album = album.replace(/[’']/g, ' ');
-		album = album.replace(/[\/\-]/g, ' ');
-		album = album.trim();
-		album = album.replace(/\s+/g, ' ');
-		return album;
-	}
+	const playlistsArray = rootElements[index+1];
+	const firstPlaylist = Array.from(playlistsArray.children).find(el => el.tagName === 'dict');
+	if (!firstPlaylist) return null;
 
-	function cleanArtist(name) {
-    if (name === 'The The') return name; // Edge case
-		name = name.replace(/^The\s+/i, ''); // Strip leading "The "
-		name = name.replace(/&/g, 'and'); // Convert ampersand to "and"
-		name = name.trim();
-		return name;
-	}
+	const elements = Array.from(firstPlaylist.children);
+	const nameIndex = elements.findIndex(node => node.tagName === 'key' && node.textContent === 'Name');
+	if (nameIndex === -1) return null;
+
+	return elements[nameIndex+1].textContent;
+}
+
+/* cleaner functions */
+export function cleanTrack(title) {
+	title = title.replace(/\(.*?\)/g, ' '); // Remove anything in parentheses
+	title = title.replace(/[’']/g, ' '); // Replace quotes with spaces
+	title = title.replace(/[\/\-]/g, ' '); // Replace / and - with spaces
+	title = title.trim(); // Trim leading/trailing spaces
+	title = title.replace(/\s+/g, ' '); // Collapse multiple spaces into one
+	return title;
+}
+
+export function cleanAlbum(album) {
+	album = album.replace(/\b(remastered|deluxe)\b/gi, ''); // Drop these words
+	album = album.replace(/\(.*?\)/g, ' ');
+	album = album.replace(/[’']/g, ' ');
+	album = album.replace(/[\/\-]/g, ' ');
+	album = album.trim();
+	album = album.replace(/\s+/g, ' ');
+	return album;
+}
+
+export function cleanArtist(name) {
+	if (name === 'The The') return name; // edge case
+	name = name.replace(/^The\s+/i, ''); // Strip leading "The "
+	name = name.replace(/&/g, 'and'); // Convert ampersand to "and"
+	name = name.trim();
+	return name;
+}
+
+export function parseTracks(xmlDoc) {
+	const result = {};
+	const rootDict = xmlDoc.querySelector('plist > dict');
+	const rootElements = Array.from(rootDict.children);
 
 	// find the 'tracks' section
 	for (let i = 0; i < rootElements.length; i++) {
@@ -61,7 +78,6 @@ export function parseTracks(xmlDoc) {
 	}
 	return result;
 }
-
 
 export function parsePlaylistOrder(xmlDoc, playlistName = null) {
 	const rootDict = xmlDoc.querySelector('plist > dict');
