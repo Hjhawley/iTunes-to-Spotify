@@ -34,7 +34,9 @@ const stateKey = "spotify_auth_state";
 const router = express.Router();
 const router = express.Router();
 
-router.use(cors()).use(cookieParser());
+router
+  .use(express.static(__dirname + "/public"))
+  .use(cookieParser());
 
 router.get("/login", function (req, res) {
   var state = generateRandomString(16);
@@ -122,15 +124,15 @@ router.get("/callback", function (req, res) {
         res
           .cookie("access_token", access_token, {
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: 'lax',
           })
           .cookie("refresh_token", refresh_token, {
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: 'lax',
           })
-          .cookie("spotify_id", body.id || "", {
+          .cookie("spotify_id", body.id || '', {
             httpOnly: true,
-            sameSite: "lax",
+            sameSite: 'lax',
           })
           .redirect("http://localhost:5173/");
       } else {
@@ -190,9 +192,9 @@ router.get("/auth/whoami", function (req, res) {
     json: true,
   };
 
-  request.get(options, (error, response, body) => {
+  request.get(options, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      res.json(body);
+      res.json({ user: body });
     } else {
       res.status(401).json({ error: "Invalid token" });
     }
