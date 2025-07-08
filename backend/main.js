@@ -13,11 +13,11 @@ app.use(
 	})
 );
 
-// DEV stub so req.user.exists
+/* // DEV stub so req.user.exists
 app.use((req, _res, next) => {
-  req.user = { accessToken: 'FAKE_TOKEN', spotifyId: 'FAKE_USER_ID' };
-  next();
-});
+	req.user = { accessToken: 'FAKE_TOKEN', spotifyId: 'FAKE_USER_ID' };
+	next();
+}); */
 
 // since import.js has: router.post('/import', …)
 app.use(importRouter);
