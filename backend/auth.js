@@ -4,14 +4,7 @@ const cors = require("cors");
 const querystring = require("querystring");
 const cookieParser = require("cookie-parser");
 
-var generateRandomString = require('./utils');
-const express = require("express");
-const request = require("request");
-const crypto = require("crypto");
-const cors = require("cors");
-const querystring = require("querystring");
-const cookieParser = require("cookie-parser");
-const { generateRandomString } = require('./utils');
+const { generateRandomString } = require("./utils");
 
 var client_id = process.env.SPOTIFY_CLIENT_ID;
 var client_secret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -34,9 +27,7 @@ const stateKey = "spotify_auth_state";
 const router = express.Router();
 const router = express.Router();
 
-router
-  .use(express.static(__dirname + "/public"))
-  .use(cookieParser());
+router.use(express.static(__dirname + "/public")).use(cookieParser());
 
 router.get("/login", function (req, res) {
   var state = generateRandomString(16);
@@ -45,7 +36,7 @@ router.get("/auth/login", function (req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  const scope = 
+  const scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
@@ -60,7 +51,7 @@ router.get("/auth/login", function (req, res) {
 });
 
 router.get("/auth/callback", (req, res) => {
-  const code = req.query.code  || null;
+  const code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
@@ -82,17 +73,17 @@ router.get("/auth/callback", (req, res) => {
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
-      code:         code,
+      code: code,
       redirect_uri: redirect_uri,
-      grant_type:   "authorization_code"
+      grant_type: "authorization_code",
     },
     headers: {
       "content-type": "application/x-www-form-urlencoded",
       Authorization:
         "Basic " +
-        Buffer.from(client_id + ":" + client_secret).toString("base64")
+        Buffer.from(client_id + ":" + client_secret).toString("base64"),
     },
-    json: true
+    json: true,
   };
 
   request.post(authOptions, (err, response, tokenBody) => {
@@ -102,14 +93,14 @@ router.get("/auth/callback", (req, res) => {
       );
     }
 
-    const access_token  = tokenBody.access_token;
+    const access_token = tokenBody.access_token;
     const refresh_token = tokenBody.refresh_token;
 
     // fetch the user profile
     const meOptions = {
-      url:    "https://api.spotify.com/v1/me",
-      headers:{ Authorization: `Bearer ${access_token}` },
-      json:   true
+      url: "https://api.spotify.com/v1/me",
+      headers: { Authorization: `Bearer ${access_token}` },
+      json: true,
     };
 
     request.get(meOptions, (err, response, meBody) => {
@@ -121,9 +112,21 @@ router.get("/auth/callback", (req, res) => {
 
       // set all three cookies on path "/"
       res
-        .cookie("access_token", access_token, { httpOnly: true, sameSite: "lax", path: "/" })
-        .cookie("refresh_token", refresh_token, { httpOnly: true, sameSite: "lax", path: "/" })
-        .cookie("spotify_id", meBody.id, { httpOnly: true, sameSite: "lax", path: "/" })
+        .cookie("access_token", access_token, {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        })
+        .cookie("refresh_token", refresh_token, {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        })
+        .cookie("spotify_id", meBody.id, {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        })
         .redirect("http://localhost:5173/");
     });
   });
@@ -140,6 +143,7 @@ router.get("/auth/refresh_token", function (req, res) {
       "content-type": "application/x-www-form-urlencoded",
       Authorization:
         "Basic " +
+        Buffer.from(client_id + ":" + client_secret).toString("base64"),
         Buffer.from(client_id + ":" + client_secret).toString("base64"),
     },
     form: {
