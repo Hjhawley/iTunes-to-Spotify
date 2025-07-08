@@ -1,13 +1,13 @@
-var express = require("express");
-var request = require("request");
-var crypto = require("crypto");
-var cors = require("cors");
-var querystring = require("querystring");
-var cookieParser = require("cookie-parser");
+const express = require("express");
+const request = require("request");
+const crypto = require("crypto");
+const cors = require("cors");
+const querystring = require("querystring");
+const cookieParser = require("cookie-parser");
 
-var client_id = `d2b73b9ffc8b40c79aef4890db82237a`;
-var client_secret = `818c0389ed9648f289235ef7e0fcc946`;
-var redirect_uri = `http://localhost:8080/auth/callback`;
+const client_id = `d2b73b9ffc8b40c79aef4890db82237a`;
+const client_secret = `818c0389ed9648f289235ef7e0fcc946`;
+const redirect_uri = `http://localhost:8080/auth/callback`;
 
 const generateRandomString = (length) => {
   return crypto.randomBytes(60).toString("hex").slice(0, length);
