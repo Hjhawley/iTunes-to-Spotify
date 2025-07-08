@@ -42,13 +42,19 @@ button:hover {
 }
 
 footer {
-  position: absolute;
-  bottom: 32px;
+  position: fixed;
+  bottom: 64px;
   width: 100%;
   text-align: center;
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.6);
-  padding: 1rem 0;
+  padding: 0.5rem 0;
+  pointer-events: none;
+}
+
+footer a {
+  color: #1cc;
+  pointer-events: visible;
 }
 
 div {
