@@ -18,38 +18,38 @@ export function parsePlaylistName(xmlDoc) {
 	return elements[nameIndex+1].textContent;
 }
 
+/* cleaner functions */
+export function cleanTrack(title) {
+	title = title.replace(/\(.*?\)/g, ' '); // Remove anything in parentheses
+	title = title.replace(/[’']/g, ' '); // Replace quotes with spaces
+	title = title.replace(/[\/\-]/g, ' '); // Replace / and - with spaces
+	title = title.trim(); // Trim leading/trailing spaces
+	title = title.replace(/\s+/g, ' '); // Collapse multiple spaces into one
+	return title;
+}
+
+export function cleanAlbum(album) {
+	album = album.replace(/\b(remastered|deluxe)\b/gi, ''); // Drop these words
+	album = album.replace(/\(.*?\)/g, ' ');
+	album = album.replace(/[’']/g, ' ');
+	album = album.replace(/[\/\-]/g, ' ');
+	album = album.trim();
+	album = album.replace(/\s+/g, ' ');
+	return album;
+}
+
+export function cleanArtist(name) {
+	if (name === 'The The') return name; // edge case
+	name = name.replace(/^The\s+/i, ''); // Strip leading "The "
+	name = name.replace(/&/g, 'and'); // Convert ampersand to "and"
+	name = name.trim();
+	return name;
+}
+
 export function parseTracks(xmlDoc) {
 	const result = {};
 	const rootDict = xmlDoc.querySelector('plist > dict');
 	const rootElements = Array.from(rootDict.children);
-
-	/* cleaner functions */
-	function cleanTrack(title) {
-		title = title.replace(/\(.*?\)/g, ' '); // Remove anything in parentheses
-		title = title.replace(/[’']/g, ' '); // Replace quotes with spaces
-		title = title.replace(/[\/\-]/g, ' '); // Replace / and - with spaces
-		title = title.trim(); // Trim leading/trailing spaces
-		title = title.replace(/\s+/g, ' '); // Collapse multiple spaces into one
-		return title;
-	}
-
-	function cleanAlbum(album) {
-		album = album.replace(/\b(remastered|deluxe)\b/gi, ''); // Drop these words
-		album = album.replace(/\(.*?\)/g, ' ');
-		album = album.replace(/[’']/g, ' ');
-		album = album.replace(/[\/\-]/g, ' ');
-		album = album.trim();
-		album = album.replace(/\s+/g, ' ');
-		return album;
-	}
-
-	function cleanArtist(name) {
-    if (name === 'The The') return name; // Edge case
-		name = name.replace(/^The\s+/i, ''); // Strip leading "The "
-		name = name.replace(/&/g, 'and'); // Convert ampersand to "and"
-		name = name.trim();
-		return name;
-	}
 
 	// find the 'tracks' section
 	for (let i = 0; i < rootElements.length; i++) {

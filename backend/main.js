@@ -1,7 +1,7 @@
-require('dotenv').config();
-const express = require('express');
-const session = require('express-session');
-const importRouter = require('./import.js').default;
+import 'dotenv/config';
+import express from 'express';
+import session from 'express-session';
+import importRouter from './import.js';
 
 const app = express();
 
@@ -13,18 +13,13 @@ app.use(
 	})
 );
 
-/* TESTING */
-// stub out req.user to test /import before auth is wired
-app.use((req, res, next) => {
-	req.user = {
-		accessToken: 'FAKE_TOKEN',
-		spotifyId: 'FAKE_USER_ID',
-	};
-	next();
+// DEV stub so req.user.exists
+app.use((req, _res, next) => {
+  req.user = { accessToken: 'FAKE_TOKEN', spotifyId: 'FAKE_USER_ID' };
+  next();
 });
 
+// since import.js has: router.post('/import', …)
 app.use(importRouter);
 
-app.listen(4000, () => {
-	console.log('Server running on http://localhost:4000');
-});
+app.listen(4000, () => console.log('Server running on http://localhost:4000'));
