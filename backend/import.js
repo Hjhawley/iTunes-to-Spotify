@@ -1,11 +1,11 @@
-import express from 'express';
-import multer from 'multer';
-import { JSDOM } from 'jsdom';
+const express = require('express');
+const multer = require('multer');
+const { JSDOM } = require('jsdom');
 
 // extract track metadata
-import { parseTracks, parsePlaylistName } from './parser.js';
+const { parseTracks, parsePlaylistName } = require('./parser');
 // Spotify API wrappers
-import { createPlaylist, findBestTrack, addTracks } from './spotify.js';
+const { createPlaylist, findBestTrack, addTracks } = require('./spotify');
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -74,4 +74,4 @@ router.post('/import', upload.single('file'), async (req, res) => {
     }
 });
 
-export default router;
+module.exports = router;

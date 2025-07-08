@@ -1,11 +1,11 @@
 // cleaner functions
-import { cleanTrack, cleanAlbum, cleanArtist } from './parser.js'
-import { compareTwoStrings } from 'string-similarity'
+const { cleanTrack, cleanAlbum, cleanArtist } = require('./parser');
+const { compareTwoStrings } = require('string-similarity');
 
-const API = 'https://api.spotify.com/v1'
+const API = 'https://api.spotify.com/v1';
 
 /* Search for a track and return the best match URI, or null. */
-export async function findBestTrack(token, { artist, name, album, trackNumber }) {
+async function findBestTrack(token, { artist, name, album, trackNumber }) {
 	const q1 = `track:${cleanTrack(name)} artist:${artist} album:${cleanAlbum(album)}`
 	let items = await search(token, q1)
 
@@ -63,7 +63,7 @@ async function fetchAlbumTracks(token, albumId) {
 }
 
 /* Create a new playlist for the current user. */
-export async function createPlaylist(token, userId, name) {
+async function createPlaylist(token, userId, name) {
 	const res = await fetch(`${API}/users/${userId}/playlists`, {
 		method: 'POST',
 		headers: {
@@ -76,7 +76,7 @@ export async function createPlaylist(token, userId, name) {
 }
 
 /* Add an array of track URIs to a playlist. */
-export async function addTracks(token, playlistId, uris) {
+async function addTracks(token, playlistId, uris) {
 	await fetch(`${API}/playlists/${playlistId}/tracks`, {
 		method: 'POST',
 		headers: {
@@ -90,7 +90,7 @@ export async function addTracks(token, playlistId, uris) {
 /* given your parsed tracksInfo and playlistOrder,
 creates a Spotify playlist and adds each matching track. */
 
-export async function migratePlaylist(token, userId, playlistName, playlistOrder, tracksInfo) {
+async function migratePlaylist(token, userId, playlistName, playlistOrder, tracksInfo) {
 	const playlistId = await createPlaylist(token, userId, playlistName)
 	for (const trackId of playlistOrder) {
 		const info = tracksInfo[trackId]
@@ -105,3 +105,10 @@ export async function migratePlaylist(token, userId, playlistName, playlistOrder
 	}
 	return playlistId;
 }
+
+module.exports = {
+	findBestTrack,
+	createPlaylist,
+	addTracks,
+	migratePlaylist
+};

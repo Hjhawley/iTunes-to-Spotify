@@ -1,4 +1,4 @@
-export function parsePlaylistName(xmlDoc) {
+function parsePlaylistName(xmlDoc) {
 	// select top-level <dict> element under <plist>
 	const rootDict = xmlDoc.querySelector('plist > dict');
 	// convert to child nodes for easier iteration
@@ -19,7 +19,7 @@ export function parsePlaylistName(xmlDoc) {
 }
 
 /* cleaner functions */
-export function cleanTrack(title) {
+function cleanTrack(title) {
 	title = title.replace(/\(.*?\)/g, ' '); // Remove anything in parentheses
 	title = title.replace(/[’']/g, ' '); // Replace quotes with spaces
 	title = title.replace(/[\/\-]/g, ' '); // Replace / and - with spaces
@@ -28,7 +28,7 @@ export function cleanTrack(title) {
 	return title;
 }
 
-export function cleanAlbum(album) {
+function cleanAlbum(album) {
 	album = album.replace(/\b(remastered|deluxe)\b/gi, ''); // Drop these words
 	album = album.replace(/\(.*?\)/g, ' ');
 	album = album.replace(/[’']/g, ' ');
@@ -38,7 +38,7 @@ export function cleanAlbum(album) {
 	return album;
 }
 
-export function cleanArtist(name) {
+function cleanArtist(name) {
 	if (name === 'The The') return name; // edge case
 	name = name.replace(/^The\s+/i, ''); // Strip leading "The "
 	name = name.replace(/&/g, 'and'); // Convert ampersand to "and"
@@ -46,7 +46,7 @@ export function cleanArtist(name) {
 	return name;
 }
 
-export function parseTracks(xmlDoc) {
+function parseTracks(xmlDoc) {
 	const result = {};
 	const rootDict = xmlDoc.querySelector('plist > dict');
 	const rootElements = Array.from(rootDict.children);
@@ -79,7 +79,7 @@ export function parseTracks(xmlDoc) {
 	return result;
 }
 
-export function parsePlaylistOrder(xmlDoc, playlistName = null) {
+function parsePlaylistOrder(xmlDoc, playlistName = null) {
 	const rootDict = xmlDoc.querySelector('plist > dict');
 	const rootElements = Array.from(rootDict.children);
 
@@ -140,3 +140,12 @@ export function parsePlaylistOrder(xmlDoc, playlistName = null) {
 	// if no playlists found, return an empty array
 	return [];
 }
+
+module.exports = {
+	parsePlaylistName,
+	cleanTrack,
+	cleanAlbum,
+	cleanArtist,
+	parseTracks,
+	parsePlaylistOrder
+};

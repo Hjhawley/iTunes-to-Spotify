@@ -1,17 +1,14 @@
 var express = require("express");
 var request = require("request");
-var crypto = require("crypto");
 var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 
+var generateRandomString = require('./utils');
+
 var client_id = process.env.SPOTIFY_CLIENT_ID;
 var client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 var redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
-
-const generateRandomString = (length) => {
-  return crypto.randomBytes(60).toString("hex").slice(0, length);
-};
 
 var stateKey = "spotify_auth_state";
 
