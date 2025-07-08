@@ -1,18 +1,18 @@
-var express = require("express");
-var request = require("request");
-var cors = require("cors");
-var querystring = require("querystring");
-var cookieParser = require("cookie-parser");
+const express = require("express");
+const request = require("request");
+const cors = require("cors");
+const querystring = require("querystring");
+const cookieParser = require("cookie-parser");
 
-var generateRandomString = require('./utils');
+const { generateRandomString } = require('./utils');
 
-var client_id = process.env.SPOTIFY_CLIENT_ID;
-var client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-var redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
 
-var stateKey = "spotify_auth_state";
+const stateKey = "spotify_auth_state";
 
-var router = express.Router();
+const router = express.Router();
 
 router
   .use(express.static(__dirname + "/public"))
@@ -20,11 +20,11 @@ router
   .use(cookieParser());
 
 router.get("/auth/login", function (req, res) {
-  var state = generateRandomString(16);
+  const state = generateRandomString(16);
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = "user-read-private user-read-email";
+  const scope = "user-read-private user-read-email";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -41,9 +41,9 @@ router.get("/auth/callback", function (req, res) {
   // your application requests refresh and access tokens
   // after checking the state parameter
 
-  var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
+  const code = req.query.code || null;
+  const state = req.query.state || null;
+  const storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (state === null || state !== storedState) {
     res.redirect(
@@ -54,7 +54,7 @@ router.get("/auth/callback", function (req, res) {
     );
   } else {
     res.clearCookie(stateKey);
-    var authOptions = {
+    const authOptions = {
       url: "https://accounts.spotify.com/api/token",
       form: {
         code: code,
@@ -72,10 +72,10 @@ router.get("/auth/callback", function (req, res) {
 
     request.post(authOptions, function (error, response, body) {
       if (!error && response.statusCode === 200) {
-        var access_token = body.access_token,
+        const access_token = body.access_token,
           refresh_token = body.refresh_token;
 
-        var options = {
+        const options = {
           url: "https://api.spotify.com/v1/me",
           headers: { Authorization: "Bearer " + access_token },
           json: true,
@@ -107,8 +107,8 @@ router.get("/auth/callback", function (req, res) {
 });
 
 router.get("/auth/refresh_token", function (req, res) {
-  var refresh_token = req.query.refresh_token;
-  var authOptions = {
+  const refresh_token = req.query.refresh_token;
+  const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     headers: {
       "content-type": "application/x-www-form-urlencoded",
@@ -125,7 +125,7 @@ router.get("/auth/refresh_token", function (req, res) {
 
   request.post(authOptions, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      var access_token = body.access_token,
+      const access_token = body.access_token,
         refresh_token = body.refresh_token;
       res.send({
         access_token: access_token,
