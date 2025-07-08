@@ -97,6 +97,8 @@ async function onSubmit() {
 
 <footer>
 	This web app is not affiliated with Apple or Spotify.<br>
-	Source code available at https://github.com/Hjhawley/iTunes-to-Spotify-webapp
+	Source code available at <a href="https://github.com/Hjhawley/iTunes-to-Spotify-webapp" target="_blank" rel="noopener">
+	https://github.com/Hjhawley/iTunes-to-Spotify-webapp</a>
+
 </footer>
 </template>
