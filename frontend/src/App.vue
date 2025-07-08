@@ -48,17 +48,17 @@ async function onSubmit() {
   form.append("file", file.value);
   status.value.push("Uploading…");
 
-  try {
-    const res = await fetch(`${BACKEND_URL}/import`, {
-      method: "POST",
-      body: form,
-      credentials: "include",
-    });
-    const logs = await res.json();
+  const res = await fetch(`${BACKEND_URL}/import`, {
+    method: "POST",
+    body: form,
+    credentials: "include",
+  });
+  const logs = await res.json();
+
+  if (Array.isArray(logs)) {
     status.value.push(...logs);
-  } catch (err) {
-    console.error(err);
-    status.value.push("Migration failed. Try again.");
+  } else {
+    status.value.push(logs.error || "Migration failed.");
   }
 }
 </script>
