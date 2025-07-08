@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
-import 'dotenv/config';
-import express from 'express';
-import session from 'express-session';
-import importRouter from './import.js';
+// server.js
 
+const express = require("express");
+const axios = require("axios");
 const app = express();
 
 app.use(
@@ -24,5 +21,6 @@ app.use((req, _res, next) => {
 // since import.js has: router.post('/import', …)
 app.use(importRouter);
 
-app.listen(4000, () => console.log('Server running on http://localhost:4000'));
->>>>>>> origin/main
+app.listen(8888, () => {
+  console.log("Server running on http://localhost:8888");
+});
