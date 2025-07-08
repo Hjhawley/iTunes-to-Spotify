@@ -6,7 +6,7 @@ const file = ref(null)
 const status = ref([])
 
 // Backend base URL
-const BACKEND_URL = 'http://localhost:4000'
+const BACKEND_URL = 'http://localhost:8888'
 
 // Redirect to backend login
 function loginWithSpotify() {
