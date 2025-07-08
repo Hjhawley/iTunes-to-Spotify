@@ -59,14 +59,8 @@ router.get("/auth/login", function (req, res) {
   );
 });
 
-router.get("/callback", function (req, res) {
-  // your application requests refresh and access tokens
-  // after checking the state parameter
-
-  const code = req.query.code || null;
-  const state = req.query.state || null;
-  const storedState = req.cookies ? req.cookies[stateKey] : null;
-  const code = req.query.code || null;
+router.get("/auth/callback", (req, res) => {
+  const code = req.query.code  || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
@@ -74,25 +68,32 @@ router.get("/callback", function (req, res) {
     // State mismatch
     return res.redirect(
       "/#" + querystring.stringify({ error: "state_mismatch" })
+  if (!state || state !== storedState) {
+    // State mismatch
+    return res.redirect(
+      "/#" + querystring.stringify({ error: "state_mismatch" })
     );
-  } else {
-    res.clearCookie(stateKey);
-    const authOptions = {
-    const authOptions = {
-      url: "https://accounts.spotify.com/api/token",
-      form: {
-        code: code,
-        redirect_uri: redirect_uri,
-        grant_type: "authorization_code",
-      },
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        Authorization:
-          "Basic " +
-          Buffer.from(client_id + ":" + client_secret).toString("base64"),
-      },
-      json: true,
-    };
+  }
+
+  // State checks out, clear it
+  res.clearCookie(stateKey);
+
+  // Exchange code for tokens
+  const authOptions = {
+    url: "https://accounts.spotify.com/api/token",
+    form: {
+      code:         code,
+      redirect_uri: redirect_uri,
+      grant_type:   "authorization_code"
+    },
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+      Authorization:
+        "Basic " +
+        Buffer.from(client_id + ":" + client_secret).toString("base64")
+    },
+    json: true
+  };
 
   request.post(authOptions, (err, response, tokenBody) => {
     if (err || response.statusCode !== 200) {
@@ -103,48 +104,29 @@ router.get("/callback", function (req, res) {
 
     const access_token  = tokenBody.access_token;
     const refresh_token = tokenBody.refresh_token;
-    request.post(authOptions, function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        const access_token = body.access_token,
-          refresh_token = body.refresh_token;
 
-        const options = {
-        const options = {
-          url: "https://api.spotify.com/v1/me",
-          headers: { Authorization: "Bearer " + access_token },
-          json: true,
-        };
+    // fetch the user profile
+    const meOptions = {
+      url:    "https://api.spotify.com/v1/me",
+      headers:{ Authorization: `Bearer ${access_token}` },
+      json:   true
+    };
 
-        // use the access token to access the Spotify Web API
-        request.get(options, function (error, response, body) {
-          console.log(body);
-        });
-
-        // we can also pass the token to the browser to make requests from there
-        res
-          .cookie("access_token", access_token, {
-            httpOnly: true,
-            sameSite: 'lax',
-          })
-          .cookie("refresh_token", refresh_token, {
-            httpOnly: true,
-            sameSite: 'lax',
-          })
-          .cookie("spotify_id", body.id || '', {
-            httpOnly: true,
-            sameSite: 'lax',
-          })
-          .redirect("http://localhost:5173/");
-      } else {
-        res.redirect(
-          "/#" +
-            querystring.stringify({
-              error: "invalid_token",
-            })
+    request.get(meOptions, (err, response, meBody) => {
+      if (err || response.statusCode !== 200) {
+        return res.redirect(
+          "/#" + querystring.stringify({ error: "profile_error" })
         );
       }
+
+      // set all three cookies on path "/"
+      res
+        .cookie("access_token", access_token, { httpOnly: true, sameSite: "lax", path: "/" })
+        .cookie("refresh_token", refresh_token, { httpOnly: true, sameSite: "lax", path: "/" })
+        .cookie("spotify_id", meBody.id, { httpOnly: true, sameSite: "lax", path: "/" })
+        .redirect("http://localhost:5173/");
     });
-  }
+  });
 });
 
 router.get("/refresh_token", function (req, res) {
@@ -192,9 +174,9 @@ router.get("/auth/whoami", function (req, res) {
     json: true,
   };
 
-  request.get(options, function (error, response, body) {
+  request.get(options, (error, response, body) => {
     if (!error && response.statusCode === 200) {
-      res.json({ user: body });
+      res.json(body);
     } else {
       res.status(401).json({ error: "Invalid token" });
     }
