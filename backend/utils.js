@@ -30,5 +30,5 @@ async function getToken() {
 
 module.exports = {
   generateRandomString,
-  getToken
+  getToken,
 };

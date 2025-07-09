@@ -4,27 +4,25 @@ const cors = require("cors");
 const querystring = require("querystring");
 const cookieParser = require("cookie-parser");
 
-const { generateRandomString } = require('./utils');
+const { generateRandomString } = require("./utils");
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
 
 const stateKey = "spotify_auth_state";
-
 const router = express.Router();
 
-router
-  .use(express.static(__dirname + "/public"))
-  .use(cookieParser());
+// middleware setup
+router.use(express.static(__dirname + "/public")).use(cookieParser());
 
+// initiate spotify OAuth login
 router.get("/auth/login", function (req, res) {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
-
-  // your application requests authorization
-  const scope = 
+  const scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private";
+  // redirect user to spotify authorization URL
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -38,35 +36,35 @@ router.get("/auth/login", function (req, res) {
 });
 
 router.get("/auth/callback", (req, res) => {
-  const code = req.query.code  || null;
+  const code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
   if (!state || state !== storedState) {
-    // State mismatch
+    // state mismatch
     return res.redirect(
       "/#" + querystring.stringify({ error: "state_mismatch" })
     );
   }
 
-  // State checks out, clear it
+  // state checks out, clear it
   res.clearCookie(stateKey);
 
-  // Exchange code for tokens
+  // exchange code for tokens
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
-      code:         code,
+      code: code,
       redirect_uri: redirect_uri,
-      grant_type:   "authorization_code"
+      grant_type: "authorization_code",
     },
     headers: {
       "content-type": "application/x-www-form-urlencoded",
       Authorization:
         "Basic " +
-        Buffer.from(client_id + ":" + client_secret).toString("base64")
+        Buffer.from(client_id + ":" + client_secret).toString("base64"),
     },
-    json: true
+    json: true,
   };
 
   request.post(authOptions, (err, response, tokenBody) => {
@@ -76,14 +74,14 @@ router.get("/auth/callback", (req, res) => {
       );
     }
 
-    const access_token  = tokenBody.access_token;
+    const access_token = tokenBody.access_token;
     const refresh_token = tokenBody.refresh_token;
 
     // fetch the user profile
     const meOptions = {
-      url:    "https://api.spotify.com/v1/me",
-      headers:{ Authorization: `Bearer ${access_token}` },
-      json:   true
+      url: "https://api.spotify.com/v1/me",
+      headers: { Authorization: `Bearer ${access_token}` },
+      json: true,
     };
 
     request.get(meOptions, (err, response, meBody) => {
@@ -95,9 +93,21 @@ router.get("/auth/callback", (req, res) => {
 
       // set all three cookies on path "/"
       res
-        .cookie("access_token", access_token, { httpOnly: true, sameSite: "lax", path: "/" })
-        .cookie("refresh_token", refresh_token, { httpOnly: true, sameSite: "lax", path: "/" })
-        .cookie("spotify_id", meBody.id, { httpOnly: true, sameSite: "lax", path: "/" })
+        .cookie("access_token", access_token, {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        })
+        .cookie("refresh_token", refresh_token, {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        })
+        .cookie("spotify_id", meBody.id, {
+          httpOnly: true,
+          sameSite: "lax",
+          path: "/",
+        })
         .redirect("http://localhost:5173/");
     });
   });
