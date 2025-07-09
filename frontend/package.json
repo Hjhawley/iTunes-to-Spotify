@@ -36,6 +36,8 @@
     "@capacitor/cli": "^7.4.1",
     "@capacitor/core": "^7.4.1",
     "@capacitor/ios": "^7.4.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "string-similarity": "^4.0.4",
     "vue": "^3.5.13"
   },
