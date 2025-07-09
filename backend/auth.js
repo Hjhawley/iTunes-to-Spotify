@@ -35,11 +35,13 @@ router.get("/auth/login", function (req, res) {
   );
 });
 
+// spotify redirect callback - handles token exchange
 router.get("/auth/callback", (req, res) => {
   const code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
+  // validate state to prevent CSRF
   if (!state || state !== storedState) {
     // state mismatch
     return res.redirect(
@@ -50,7 +52,7 @@ router.get("/auth/callback", (req, res) => {
   // state checks out, clear it
   res.clearCookie(stateKey);
 
-  // exchange code for tokens
+  // token exchange request to spotify
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
@@ -91,7 +93,7 @@ router.get("/auth/callback", (req, res) => {
         );
       }
 
-      // set all three cookies on path "/"
+      // store tokens and spotify user ID in cookies
       res
         .cookie("access_token", access_token, {
           httpOnly: true,
@@ -113,6 +115,7 @@ router.get("/auth/callback", (req, res) => {
   });
 });
 
+// refresh access token using refresh token
 router.get("/auth/refresh_token", function (req, res) {
   const refresh_token = req.query.refresh_token;
   const authOptions = {
@@ -142,6 +145,7 @@ router.get("/auth/refresh_token", function (req, res) {
   });
 });
 
+// return current user profile using stored token
 router.get("/auth/whoami", function (req, res) {
   const access_token = req.cookies.access_token;
   if (!access_token) {
