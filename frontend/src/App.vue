@@ -33,7 +33,7 @@ onMounted(async () => {
   }
 });
 
-// File selection handler
+// handle file selection
 function onFileSelect(event) {
   const chosen = event.target.files?.[0];
   if (chosen && chosen.name.toLowerCase().endsWith(".xml")) {
@@ -81,18 +81,25 @@ async function onSubmit() {
       <div class="user-info">
         <img v-if="user.images?.length" :src="user.images[0].url" />
         <p>Logged in as {{ user.display_name }}</p>
+        <button @click="logoutWithSpotify">Log out of Spotify</button>
       </div>
 
-      <p>Upload your iTunes XML playlist:</p>
-      <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
+      <!-- file upload wrapper -->
+      <div class="upload-section">
+        <p>Upload your iTunes XML playlist:</p>
+        <input
+          type="file"
+          accept=".xml,text/xml"
+          @change="onFileSelect"
+        />
+      </div>
 
       <div v-if="file">
-        <button @click="onSubmit">Migrate to Spotify</button>
+        <button @click="onSubmit">Migrate playlist</button>
         <div class="status-log">
           <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
         </div>
       </div>
-      <button @click="logoutWithSpotify">Logout of Spotify</button>
     </div>
   </div>
 
@@ -108,3 +115,4 @@ async function onSubmit() {
     >
   </footer>
 </template>
+
