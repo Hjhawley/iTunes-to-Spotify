@@ -1,27 +1,35 @@
 function parsePlaylistName(xmlDoc) {
-  // select top-level <dict> element under <plist>
   const rootDict = xmlDoc.querySelector("plist > dict");
-  // convert to child nodes for easier iteration
-  const rootElements = Array.from(rootDict.children);
+  const children = Array.from(rootDict.children);
 
-  const index = rootElements.findIndex(
-    (node) => node.tagName === "key" && node.textContent === "Playlists"
-  );
-  if (index === -1) return null;
+  // Find <key>Playlists</key> followed by its <array>
+  for (let i = 0; i < children.length - 1; i++) {
+    if (
+      children[i].tagName === "key" &&
+      children[i].textContent === "Playlists" &&
+      children[i + 1].tagName === "array"
+    ) {
+      const playlistArray = children[i + 1];
+      const firstDict = Array.from(playlistArray.children).find(
+        (el) => el.tagName === "dict"
+      );
 
-  const playlistsArray = rootElements[index + 1];
-  const firstPlaylist = Array.from(playlistsArray.children).find(
-    (el) => el.tagName === "dict"
-  );
-  if (!firstPlaylist) return null;
+      if (!firstDict) return null;
 
-  const elements = Array.from(firstPlaylist.children);
-  const nameIndex = elements.findIndex(
-    (node) => node.tagName === "key" && node.textContent === "Name"
-  );
-  if (nameIndex === -1) return null;
+      const elements = Array.from(firstDict.children);
+      for (let j = 0; j < elements.length - 1; j++) {
+        if (
+          elements[j].tagName === "key" &&
+          elements[j].textContent === "Name" &&
+          elements[j + 1].tagName === "string"
+        ) {
+          return elements[j + 1].textContent;
+        }
+      }
+    }
+  }
 
-  return elements[nameIndex + 1].textContent;
+  return null;
 }
 
 /* cleaner functions */

@@ -16,13 +16,13 @@ const router = express.Router();
 // middleware setup
 router.use(express.static(__dirname + "/public")).use(cookieParser());
 
-// initiate spotify OAuth login
+// initiate Spotify OAuth login
 router.get("/auth/login", function (req, res) {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
   const scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private";
-  // redirect user to spotify authorization URL
+  // redirect user to Spotify authorization URL
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -35,7 +35,7 @@ router.get("/auth/login", function (req, res) {
   );
 });
 
-// spotify redirect callback - handles token exchange
+// Spotify redirect callback - handles token exchange
 router.get("/auth/callback", (req, res) => {
   const code = req.query.code || null;
   const state = req.query.state || null;
@@ -52,7 +52,7 @@ router.get("/auth/callback", (req, res) => {
   // state checks out, clear it
   res.clearCookie(stateKey);
 
-  // token exchange request to spotify
+  // token exchange request to Spotify
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
@@ -93,7 +93,7 @@ router.get("/auth/callback", (req, res) => {
         );
       }
 
-      // store tokens and spotify user ID in cookies
+      // store tokens and Spotify user ID in cookies
       res
         .cookie("access_token", access_token, {
           httpOnly: true,
