@@ -167,4 +167,17 @@ router.get("/auth/whoami", function (req, res) {
   });
 });
 
+// 'Logging out' by just unassigning client_id, state, etc...
+router.get("/auth/logout", function (req, res) {
+  req.cookies.access_token = null;
+  req.cookies.refresh_token = null;
+  req.cookies.spotify_id = null;
+
+  res
+    .clearCookie("access_token")
+    .clearCookie("refresh_token")
+    .clearCookie("spotify_id")
+    .redirect("http://localhost:5173/");
+});
+
 module.exports = router;

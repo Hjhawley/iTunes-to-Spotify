@@ -12,6 +12,10 @@ const BACKEND_URL = "http://localhost:8888";
 function loginWithSpotify() {
   window.location.href = `${BACKEND_URL}/auth/login`;
 }
+// Redirect to backend logout
+function logoutWithSpotify() {
+  window.location.href = `${BACKEND_URL}/auth/logout`;
+}
 
 // Check session on mount
 onMounted(async () => {
@@ -72,33 +76,35 @@ async function onSubmit() {
       <button @click="loginWithSpotify">Login with Spotify</button>
     </div>
 
-	<!-- once logged in -->
-	<div v-else>
-		<div class="user-info">
-			<img v-if="user.images?.length" :src="user.images[0].url" />
-			<p>Logged in as {{ user.display_name }}</p>
-		</div>
-
-		<p>Upload your iTunes XML playlist:</p>
-		<input
-			type="file"
-			accept=".xml,text/xml"
-			@change="onFileSelect"
-		/>
-
-		<div v-if="file">
-			<button @click="onSubmit">Migrate to Spotify</button>
-			<div class="status-log">
-        <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
+    <!-- once logged in -->
+    <div v-else>
+      <div class="user-info">
+        <img v-if="user.images?.length" :src="user.images[0].url" />
+        <p>Logged in as {{ user.display_name }}</p>
       </div>
-		</div>
-	</div>
-</div>
 
-<footer>
-	This web app is not affiliated with Apple or Spotify.<br>
-	Source code available at <a href="https://github.com/Hjhawley/iTunes-to-Spotify-webapp" target="_blank" rel="noopener">
-	https://github.com/Hjhawley/iTunes-to-Spotify-webapp</a>
+      <p>Upload your iTunes XML playlist:</p>
+      <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
 
-</footer>
+      <div v-if="file">
+        <button @click="onSubmit">Migrate to Spotify</button>
+        <div class="status-log">
+          <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
+        </div>
+      </div>
+      <button @click="logoutWithSpotify">Logout of Spotify</button>
+    </div>
+  </div>
+
+  <footer>
+    This web app is not affiliated with Apple or Spotify.<br />
+    Source code available at
+    <a
+      href="https://github.com/Hjhawley/iTunes-to-Spotify-webapp"
+      target="_blank"
+      rel="noopener"
+    >
+      https://github.com/Hjhawley/iTunes-to-Spotify-webapp</a
+    >
+  </footer>
 </template>
