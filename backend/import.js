@@ -10,8 +10,11 @@ const { createPlaylist, findBestTrack, addTracks } = require("./spotify");
 
 const router = express.Router();
 router.use(cookieParser());
+
+// for file upload handling
 const upload = multer({ storage: multer.memoryStorage() });
 
+// middleware: load user info from cookies and attach to req.user
 function loadUserFromCookies(req, res, next) {
   const access_token = req.cookies.access_token;
   const spotify_id = req.cookies.spotify_id;
@@ -25,13 +28,11 @@ function loadUserFromCookies(req, res, next) {
   next();
 }
 
-/**
-POST /import
-    Receives an iTunes XML/JSON file
-    Parses it with parseTracks
+/* POST /import
+    Receives an iTunes playlist in XML format
+    Parses the file and extracts track data
     Creates a Spotify playlist, matches each track, adds them
-    Returns log messages
- */
+    Returns log messages */
 router.post(
   "/import",
   upload.single("file"),
@@ -53,21 +54,22 @@ router.post(
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
       const xmlDoc = dom.window.document;
+
+      // extract tracks
       const trackMap = parseTracks(xmlDoc);
       const tracks = Object.values(trackMap);
       logs.push(`Parsed ${tracks.length} tracks`);
 
-      // create Spotify playlist
+      // create a new Spotify playlist
       const playlistName = parsePlaylistName(xmlDoc) || "iTunes Playlist";
       logs.push(`Migrating Spotify playlist: "${playlistName}"`);
       const playlistId = await createPlaylist(
         token,
-        req.user.spotifyId,
         playlistName
       );
       logs.push(`Playlist created (ID: ${playlistId})`);
 
-      // find best matching track URIs
+      // match each track to a Spotify URI
       const uris = [];
       for (const { artist, name, album, trackNumber } of tracks) {
         logs.push(`Searching Spotify for "${artist} - ${name}"`);
@@ -85,7 +87,7 @@ router.post(
         }
       }
 
-      // add matched URIs to playlist
+      // add matched URIs to the playlist
       if (uris.length) {
         logs.push(`Adding ${uris.length} tracks to playlist`);
         await addTracks(token, playlistId, uris);
