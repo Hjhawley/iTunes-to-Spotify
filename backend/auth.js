@@ -38,6 +38,14 @@ router.get("/auth/login", function (req, res) {
 
 // Spotify redirect callback - handles token exchange
 router.get("/auth/callback", (req, res) => {
+  // Handle Spotify login cancellation or error
+  if (req.query.error) {
+    // Redirect to frontend with error message
+    return res.redirect(
+      "http://localhost:5173/#" +
+        querystring.stringify({ error: req.query.error })
+    );
+  }
   const code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
