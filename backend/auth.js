@@ -22,7 +22,7 @@ router.get("/auth/login", function (req, res) {
   res.cookie(stateKey, state);
   const scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private";
-  // redirect user to Spotify authorization URL
+  // redirect user to Spotify authorization URL, force account selection
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -31,6 +31,7 @@ router.get("/auth/login", function (req, res) {
         scope: scope,
         redirect_uri: redirect_uri,
         state: state,
+        show_dialog: true, // force Spotify to show login dialog
       })
   );
 });
@@ -169,11 +170,14 @@ router.get("/auth/whoami", function (req, res) {
 
 // 'Logging out' by just unassigning client_id, state, etc...
 router.get("/auth/logout", function (req, res) {
-  req.cookies.access_token = null;
-  req.cookies.refresh_token = null;
-  req.cookies.spotify_id = null;
-
+  res.client_id = null;
+  res.client_secret = null;
+  res.state = null;
+  res.access_token = null;
   res
+    .clearCookie("state")
+    .clearCookie("client_id")
+    .clearCookie("client_secret")
     .clearCookie("access_token")
     .clearCookie("refresh_token")
     .clearCookie("spotify_id")
