@@ -100,6 +100,7 @@ router.post(
     } catch (err) {
       console.error(err);
       logs.push(`Error: ${err.message}`);
+      logs.push("Failed to migrate playlist.")
       res.status(500).json(logs);
     }
   }

@@ -4,13 +4,18 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
+  overflow: hidden;
+}
+
+body {
   background: linear-gradient(to right, #103, #143);
   color: white;
+  text-shadow: 2px 4px 10px rgba(0,0,0,1);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   min-height: 100vh;
   overflow: hidden;
   font-family: 'Poppins', sans-serif;
@@ -18,103 +23,101 @@ body {
 
 .container {
   text-align: center;
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 128px;
-}
-
-button {
-  margin-top: 1.5rem;
-  padding: 0.75rem 2rem;
-  font-size: 1.25rem;
-  border-radius: 24px;
-  background: linear-gradient(to right, #70f, #1cc);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.7);
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: linear-gradient(to right, #a5f, #5cc);
-}
-
-footer {
-  position: fixed;
-  bottom: 64px;
-  width: 100%;
-  text-align: center;
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 0.5rem 0;
-  pointer-events: none;
-}
-
-footer a {
-  color: #1cc;
-  pointer-events: visible;
-}
-
-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-input{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  overflow: hidden;
 }
 
 img {
-  width: 128px;
-  height: 128px;
-  border-radius: 25%;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.7);
+  width: 96px;
+  height: 96px;
+  border-radius: 32px;
+  box-shadow: 2px 4px 10px rgba(0,0,0,1);
 }
 
-.choose-file-box {
-  margin-top: 2rem;
-  width: 512px;
-  text-align: center;
-}
-
-.drop-zone {
-  border: 2px solid #aaa;
-  padding: 2rem;
-  border-radius: 8px;
+button {
+  font-size: 1.125rem;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  border: none;
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+  box-shadow: 2px 4px 10px rgba(0,0,0,1);
   cursor: pointer;
-  background: rgba(255,255,255,0.05);
-  transition: 0.1s;
+  color: white;
 }
 
-.drop-zone:hover {
-  background: rgba(255,255,255,0.1);
+button::before,
+button::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  transition: opacity 0.2s ease;
 }
 
-.browse {
+button::before {
+  background: linear-gradient(to right, #70f, #1cc);
+  opacity: 1;
+}
+
+button::after {
+  background: linear-gradient(to right, #a5f, #5cc);
+  opacity: 0;
+}
+
+button:hover::after {
+  opacity: 1;
+}
+
+.file-wrapper input {
+  font-size: 0;
+}
+
+.file-wrapper input::file-selector-button {
+  font-size: 1rem;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  border: none;
+  padding: 0.5rem 0.5rem;
+  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  cursor: pointer;
+}
+
+.file-name {
+  font-weight: bold;
   color: #1cc;
-  text-decoration: underline;
-  cursor: pointer;
+  cursor: default;
 }
 
 .status-log {
   width: 100%;
   max-width: 480px;
   height: 240px;
-  margin: 1.5rem auto;
-  padding: 1rem;
+  margin: 1rem auto;
+  padding: 0;
   box-sizing: border-box;
   text-align: left;
-  border-radius: 8px;
   overflow-y: auto;
   overflow-x: hidden;
   word-break: break-word;
   white-space: pre-wrap;
+}
+
+footer {
+  flex-shrink: 0;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
+  pointer-events: none;
+}
+
+footer a {
+  pointer-events: auto;
+  color: #1cc;
 }
