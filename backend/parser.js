@@ -34,48 +34,30 @@ function parsePlaylistName(xmlDoc) {
 
 /* cleaner functions */
 function cleanTrack(title) {
-  return title
-    // strip out anything in [brackets]
-    .replace(/\[.*?\]/g, "")
-    // selectively strip parentheses only if they have these naughty words
-    .replace(/\(\s*(?:remaster(?:ed)?|deluxe)\b[^)]*\)/gi, "")
-    // remove apostrophes
-    .replace(/[’']/g, "")
-    // normalize slashes & dashes into spaces
-    .replace(/[\/\-]/g, " ")
-    // trim and collapse whitespace
-    .trim()
-    .replace(/\s+/g, " ");
+  title = title.replace(/\(.*?\)/g, " "); // Remove anything in parentheses
+  title = title.replace(/[’']/g, " "); // Replace quotes with spaces
+  title = title.replace(/[\/\-]/g, " "); // Replace / and - with spaces
+  title = title.trim(); // Trim leading/trailing spaces
+  title = title.replace(/\s+/g, " "); // Collapse multiple spaces into one
+  return title;
 }
 
 function cleanAlbum(album) {
-  return album
-    // drop these words but ONLY if they're inside parentheses
-    .replace(/\(\s*(?:remaster(?:ed)?|deluxe)\b[^)]*\)/gi, "")
-    // strip bracketed text
-    .replace(/\[.*?\]/g, "")
-    // remove apostrophes
-    .replace(/[’']/g, "")
-    // normalize slashes & dashes
-    .replace(/[\/\-]/g, " ")
-    // trim and collapse whitespace
-    .trim()
-    .replace(/\s+/g, " ");
+  album = album.replace(/\b(remastered|deluxe)\b/gi, ""); // Drop these words
+  album = album.replace(/\(.*?\)/g, " ");
+  album = album.replace(/[’']/g, " ");
+  album = album.replace(/[\/\-]/g, " ");
+  album = album.trim();
+  album = album.replace(/\s+/g, " ");
+  return album;
 }
 
 function cleanArtist(name) {
-  // annoying edge case
-  if (name === "The The") return name;
-  return name
-    // strip leading "The "
-    .replace(/^the\s+/i, "")
-    // convert "&" to "and"
-    .replace(/&/g, "and")
-    // remove apostrophes
-    .replace(/[’']/g, "")
-    // collapse whitespace
-    .trim()
-    .replace(/\s+/g, " ");
+  if (name === "The The") return name; // edge case
+  name = name.replace(/^The\s+/i, ""); // Strip leading "The "
+  name = name.replace(/&/g, "and"); // Convert ampersand to "and"
+  name = name.trim();
+  return name;
 }
 
 function parseTracks(xmlDoc) {

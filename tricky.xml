@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Major Version</key><integer>1</integer>
+	<key>Minor Version</key><integer>1</integer>
+	<key>Date</key><date>2025-07-10T17:33:31Z</date>
+	<key>Application Version</key><string>12.13.7.1</string>
+	<key>Features</key><integer>5</integer>
+	<key>Show Content Ratings</key><true/>
+	<key>Music Folder</key><string>file://localhost/C:/Users/hjhaw/Music/iTunes/iTunes%20Media/</string>
+	<key>Library Persistent ID</key><string>5D01212205FC460C</string>
+	<key>Tracks</key>
+	<dict>
+		<key>4107</key>
+		<dict>
+			<key>Track ID</key><integer>4107</integer>
+			<key>Name</key><string>Hells Bells</string>
+			<key>Artist</key><string>AC/DC</string>
+			<key>Album Artist</key><string>AC/DC</string>
+			<key>Composer</key><string>Brian Johnson, Angus Young &#38; Malcolm Young</string>
+			<key>Album</key><string>Back In Black</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>11309833</integer>
+			<key>Total Time</key><integer>312815</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>10</integer>
+			<key>Year</key><integer>1980</integer>
+			<key>Date Modified</key><date>2023-09-25T05:38:55Z</date>
+			<key>Date Added</key><date>2023-09-25T05:38:55Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1980-07-25T07:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Back In Black</string>
+			<key>Sort Artist</key><string>AC/DC</string>
+			<key>Sort Name</key><string>Hells Bells</string>
+			<key>Persistent ID</key><string>027CA48509675E42</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>11765</key>
+		<dict>
+			<key>Track ID</key><integer>11765</integer>
+			<key>Name</key><string>It's the End of the World As We Know It (And I Feel Fine)</string>
+			<key>Artist</key><string>R.E.M.</string>
+			<key>Album Artist</key><string>R.E.M.</string>
+			<key>Composer</key><string>William T. Berry, Peter L. Buck, Michael Stipe &#38; Mike Mills</string>
+			<key>Album</key><string>Document</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>9047657</integer>
+			<key>Total Time</key><integer>246760</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>6</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>1987</integer>
+			<key>Date Modified</key><date>2023-09-26T03:39:11Z</date>
+			<key>Date Added</key><date>2023-09-26T03:39:11Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1987-09-01T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Document</string>
+			<key>Sort Artist</key><string>R.E.M.</string>
+			<key>Sort Name</key><string>It's the End of the World As We Know It (And I Feel Fine)</string>
+			<key>Persistent ID</key><string>936A0D5DA97D3216</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>47353</key>
+		<dict>
+			<key>Track ID</key><integer>47353</integer>
+			<key>Name</key><string>This Must Be the Place (Naive Melody)</string>
+			<key>Artist</key><string>Talking Heads</string>
+			<key>Album Artist</key><string>Talking Heads</string>
+			<key>Composer</key><string>Chris Frantz, David Byrne, Jerry Harrison &#38; Tina Weymouth</string>
+			<key>Album</key><string>Speaking In Tongues (Deluxe Version)</string>
+			<key>Genre</key><string>Rock</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>10374725</integer>
+			<key>Total Time</key><integer>296147</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>1983</integer>
+			<key>Date Modified</key><date>2025-07-10T17:20:58Z</date>
+			<key>Date Added</key><date>2025-07-10T17:20:58Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1983-05-31T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Speaking In Tongues (Deluxe Version)</string>
+			<key>Sort Artist</key><string>Talking Heads</string>
+			<key>Sort Name</key><string>This Must Be the Place (Naive Melody)</string>
+			<key>Persistent ID</key><string>279CCD78707C079E</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>47360</key>
+		<dict>
+			<key>Track ID</key><integer>47360</integer>
+			<key>Name</key><string>Sweet Child O' Mine</string>
+			<key>Artist</key><string>Guns N' Roses</string>
+			<key>Album Artist</key><string>Guns N' Roses</string>
+			<key>Composer</key><string>Axl Rose, Jeffrey Isbell, Saul Hudson, Duff McKagan &#38; Steven Adler</string>
+			<key>Album</key><string>Appetite for Destruction</string>
+			<key>Genre</key><string>Hard Rock</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>12649020</integer>
+			<key>Total Time</key><integer>356067</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>9</integer>
+			<key>Track Count</key><integer>12</integer>
+			<key>Year</key><integer>1987</integer>
+			<key>Date Modified</key><date>2025-07-10T17:21:24Z</date>
+			<key>Date Added</key><date>2025-07-10T17:21:24Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>1987-07-21T12:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Appetite for Destruction</string>
+			<key>Sort Artist</key><string>Guns N' Roses</string>
+			<key>Sort Name</key><string>Sweet Child O' Mine</string>
+			<key>Persistent ID</key><string>051393FBC88B6FFF</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>47434</key>
+		<dict>
+			<key>Track ID</key><integer>47434</integer>
+			<key>Name</key><string>Heartbeats</string>
+			<key>Artist</key><string>José González</string>
+			<key>Album Artist</key><string>José González</string>
+			<key>Composer</key><string>José González, Karin Elisabeth Dreijer Andersson, Olof Bjorn Dreijer &#38; Dreijer</string>
+			<key>Album</key><string>Veneer</string>
+			<key>Genre</key><string>Singer/Songwriter</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>5745610</integer>
+			<key>Total Time</key><integer>161680</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>11</integer>
+			<key>Year</key><integer>2003</integer>
+			<key>Date Modified</key><date>2025-07-10T17:32:24Z</date>
+			<key>Date Added</key><date>2025-07-10T17:32:24Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2003-10-29T08:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Veneer</string>
+			<key>Sort Artist</key><string>José González</string>
+			<key>Sort Name</key><string>Heartbeats</string>
+			<key>Persistent ID</key><string>3CDB15A02AC010CB</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>47459</key>
+		<dict>
+			<key>Track ID</key><integer>47459</integer>
+			<key>Name</key><string>Svefn-g-englar (Live)</string>
+			<key>Artist</key><string>Sigur Rós</string>
+			<key>Album Artist</key><string>Sigur Rós</string>
+			<key>Composer</key><string>Birgisson, Gunnarsson, Holm &#38; Sveinsson</string>
+			<key>Album</key><string>Inni (Live)</string>
+			<key>Genre</key><string>Alternative</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>20873187</integer>
+			<key>Total Time</key><integer>612907</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>2</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>9</integer>
+			<key>Year</key><integer>2011</integer>
+			<key>Date Modified</key><date>2025-07-10T17:32:45Z</date>
+			<key>Date Added</key><date>2025-07-10T17:32:45Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2011-11-07T12:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Inni (Live)</string>
+			<key>Sort Artist</key><string>Sigur Rós</string>
+			<key>Sort Name</key><string>Svefn-g-englar (Live)</string>
+			<key>Persistent ID</key><string>04AC7E2B7748B60C</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>47489</key>
+		<dict>
+			<key>Track ID</key><integer>47489</integer>
+			<key>Name</key><string>Pursuit of Happiness (feat. MGMT &#38; Ratatat) [Extended Steve Aoki Remix]</string>
+			<key>Artist</key><string>Kid Cudi</string>
+			<key>Album Artist</key><string>Kid Cudi</string>
+			<key>Composer</key><string>Scott Mescudi, Evan Mast &#38; Mike Stroud</string>
+			<key>Album</key><string>Pursuit of Happiness (feat. MGMT &#38; Ratatat) [Extended Steve Aoki Remix] - Single</string>
+			<key>Genre</key><string>Hip-Hop/Rap</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>13010153</integer>
+			<key>Total Time</key><integer>373627</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>1</integer>
+			<key>Year</key><integer>2010</integer>
+			<key>Date Modified</key><date>2025-07-10T17:33:12Z</date>
+			<key>Date Added</key><date>2025-07-10T17:33:12Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2010-01-01T12:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Pursuit of Happiness (feat. MGMT &#38; Ratatat) [Extended Steve Aoki Remix] - Single</string>
+			<key>Sort Artist</key><string>Kid Cudi</string>
+			<key>Sort Name</key><string>Pursuit of Happiness (feat. MGMT &#38; Ratatat) [Extended Steve Aoki Remix]</string>
+			<key>Persistent ID</key><string>38E195F1CF85BE8C</string>
+			<key>Explicit</key><true/>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+	</dict>
+	<key>Playlists</key>
+	<array>
+		<dict>
+			<key>Name</key><string>test</string>
+			<key>Description</key><string></string>
+			<key>Playlist ID</key><integer>47367</integer>
+			<key>Playlist Persistent ID</key><string>7BC9C227A1E96684</string>
+			<key>All Items</key><true/>
+			<key>Playlist Items</key>
+			<array>
+				<dict>
+					<key>Track ID</key><integer>47353</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>4107</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>47360</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>11765</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>47434</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>47459</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>47489</integer>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
