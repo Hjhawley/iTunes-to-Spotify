@@ -88,9 +88,9 @@ router.post(
             name: track.name,
             artists: track.artists.map((artist) => artist.name).join(", "),
             pic: track.album.images[0].url,
-            duration: `${Math.floor(track.duration_ms / 60000)}:${Math.ceil(
-              (track.duration_ms % 60000) / 1000
-            )}`,
+            duration: `${Math.floor(track.duration_ms / 60000)}:${String(
+              Math.floor((track.duration_ms / 1000) % 60)
+            ).padStart(2, "0")}`,
           }))
         );
       } else {

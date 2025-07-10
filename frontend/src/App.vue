@@ -126,16 +126,20 @@ watch(
       <p>Spotify URIs:</p>
       <ul>
         <li v-for="(track, idx) in uris" :key="idx" class="song_container">
-          <img
-            :src="track.pic"
-            alt="Track image"
-            style="max-width: 100px; max-height: 100px"
-          />
           <div>
-            <p>{{ track.name }}</p>
-            <p style="color: lightslategray">{{ track.artists }}</p>
+            <img
+              :src="track.pic"
+              alt="Track image"
+              style="max-width: 100px; max-height: 100px"
+            />
+            <span>
+              <p>{{ track.name }}</p>
+              <p style="color: lightslategray">{{ track.artists }}</p>
+            </span>
+            <span style="margin-left: 5rem">
+              {{ track.duration }}
+            </span>
           </div>
-          <p style="margin-left: 5rem">{{ track.duration }}</p>
         </li>
       </ul>
       <div v-if="file">
