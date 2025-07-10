@@ -618,11 +618,11 @@
 		<key>14180</key>
 		<dict>
 			<key>Track ID</key><integer>14180</integer>
-			<key>Name</key><string>Pale Shelter</string>
-			<key>Artist</key><string>Tears for Fears</string>
-			<key>Album Artist</key><string>Tears for Fears</string>
+			<key>Name</key><string>asdfasdf (bad track)</string>
+			<key>Artist</key><string>fake artist</string>
+			<key>Album Artist</key><string>fake artist</string>
 			<key>Composer</key><string>Roland Orzabal</string>
-			<key>Album</key><string>The Hurting (Remastered)</string>
+			<key>Album</key><string>asdfasdf</string>
 			<key>Genre</key><string>Music</string>
 			<key>Kind</key><string>Apple Music AAC audio file</string>
 			<key>Size</key><integer>9759720</integer>
@@ -643,8 +643,8 @@
 			<key>Loved</key><true/>
 			<key>Artwork Count</key><integer>1</integer>
 			<key>Sort Album</key><string>Hurting (Remastered)</string>
-			<key>Sort Artist</key><string>Tears for Fears</string>
-			<key>Sort Name</key><string>Pale Shelter</string>
+			<key>Sort Artist</key><string>fake artist</string>
+			<key>Sort Name</key><string>jhfbdshbadj</string>
 			<key>Persistent ID</key><string>F3B2BF485C6F8C7B</string>
 			<key>Track Type</key><string>Remote</string>
 			<key>Apple Music</key><true/>
