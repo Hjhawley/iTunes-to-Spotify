@@ -34,11 +34,16 @@ function parsePlaylistName(xmlDoc) {
 
 /* cleaner functions */
 function cleanTrack(title) {
-  title = title.replace(/\(.*?\)/g, " "); // Remove anything in parentheses
-  title = title.replace(/[’']/g, " "); // Replace quotes with spaces
-  title = title.replace(/[\/\-]/g, " "); // Replace / and - with spaces
-  title = title.trim(); // Trim leading/trailing spaces
-  title = title.replace(/\s+/g, " "); // Collapse multiple spaces into one
+  // Remove anything in parentheses
+  title = title.replace(/\(.*?\)/g, "");
+  // delete apostrophes
+  title = title.replace(/[’']/g, "");
+  // turn slashes and dashes into spaces
+  title = title.replace(/[\/\-]/g, " ");
+  // Trim leading/trailing spaces
+  title = title.trim();
+  // Collapse multiple spaces into one
+  title = title.replace(/\s+/g, " ");
   return title;
 }
 

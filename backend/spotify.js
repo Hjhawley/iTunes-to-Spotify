@@ -4,35 +4,27 @@ const fetch = require("node-fetch");
 const API = "https://api.spotify.com/v1";
 
 /* Search for a track and return the best match URI, or null. */
-async function findBestTrack(token, { artist, name, album, trackNumber }) {
-  const q1 = `track:${cleanTrack(name)} artist:${artist} album:${cleanAlbum(
-    album
-  )}`;
-  let items = await _search(token, q1);
-
+async function findBestTrack(token, { artist, name, album }) {
+  const track = cleanTrack(name);
+  const artistClean = cleanArtist(artist);
+  const albumClean = cleanAlbum(album);
+  // Primary search: track + artist + album
+  let items = await _search(token, `track:${track} artist:${artistClean} album:${albumClean}`);
+  // Fallback: just track + artist
   if (!items.length) {
-    const artist2 = cleanArtist(artist);
-    items = await _search(token, `track:${cleanTrack(name)} artist:${artist2}`);
+    items = await _search(token, `track:${track} artist:${artistClean}`);
   }
-
-  if (!items.length) {
-    const albums = await _searchAlbums(token, artist, cleanAlbum(album));
-    if (albums.length) {
-      const tracks = await _fetchAlbumTracks(token, albums[0].id);
-      return tracks[trackNumber - 1]?.uri ?? null;
-    }
-  }
-
+  // Scoring
   if (items.length) {
-    const query = `${artist} ${cleanTrack(name)}`.toLowerCase();
+    const query = `${artistClean} ${track}`.toLowerCase();
     let best = null;
     let bestScore = 0;
     for (const t of items) {
-      const text = `${t.artists[0].name} ${t.name}`.toLowerCase();
-      const score = compareTwoStrings(query, text) * 100;
+      const candidate = `${cleanArtist(t.artists[0].name)} ${cleanTrack(t.name)}`.toLowerCase();
+      const score = compareTwoStrings(query, candidate) * 100;
       if (
         score > bestScore ||
-        (score === bestScore && t.popularity > best.popularity)
+        (score === bestScore && (!best || t.popularity > best.popularity))
       ) {
         best = t;
         bestScore = score;
@@ -40,7 +32,6 @@ async function findBestTrack(token, { artist, name, album, trackNumber }) {
     }
     return best?.uri ?? null;
   }
-
   return null;
 }
 
