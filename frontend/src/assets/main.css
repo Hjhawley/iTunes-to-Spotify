@@ -4,8 +4,13 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
+  overflow: hidden;
+}
+
+body {
   background: linear-gradient(to right, #103, #143);
   color: white;
   text-shadow: 2px 4px 10px rgba(0,0,0,1);
