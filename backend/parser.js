@@ -34,30 +34,46 @@ function parsePlaylistName(xmlDoc) {
 
 /* cleaner functions */
 function cleanTrack(title) {
-  title = title.replace(/\(.*?\)/g, " "); // Remove anything in parentheses
-  title = title.replace(/[’']/g, " "); // Replace quotes with spaces
-  title = title.replace(/[\/\-]/g, " "); // Replace / and - with spaces
-  title = title.trim(); // Trim leading/trailing spaces
-  title = title.replace(/\s+/g, " "); // Collapse multiple spaces into one
-  return title;
+  return title
+    // strip out anything in [brackets] or (parentheses)
+    .replace(/\[.*?\]|\(.*?\)/g, "")
+    // remove apostrophes
+    .replace(/[’']/g, "")
+    // normalize slashes & dashes into spaces
+    .replace(/[\/\-]/g, " ")
+    // trim and collapse any leftover whitespace
+    .trim()
+    .replace(/\s+/g, " ");
 }
 
 function cleanAlbum(album) {
-  album = album.replace(/\b(remastered|deluxe)\b/gi, ""); // Drop these words
-  album = album.replace(/\(.*?\)/g, " ");
-  album = album.replace(/[’']/g, " ");
-  album = album.replace(/[\/\-]/g, " ");
-  album = album.trim();
-  album = album.replace(/\s+/g, " ");
-  return album;
+  return album
+    // drop these words (case-insensitive)
+    .replace(/\b(remaster(ed)?|deluxe)\b/gi, "")
+    // strip bracketed or parenthetical text
+    .replace(/\[.*?\]|\(.*?\)/g, "")
+    // remove apostrophes
+    .replace(/[’']/g, "")
+    // normalize slashes & dashes
+    .replace(/[\/\-]/g, " ")
+    // trim and collapse whitespace
+    .trim()
+    .replace(/\s+/g, " ");
 }
 
 function cleanArtist(name) {
-  if (name === "The The") return name; // edge case
-  name = name.replace(/^The\s+/i, ""); // Strip leading "The "
-  name = name.replace(/&/g, "and"); // Convert ampersand to "and"
-  name = name.trim();
-  return name;
+  // weird edge case
+  if (name === "The The") return name;
+  return name
+    // strip “The ” from start
+    .replace(/^the\s+/i, "")
+    // convert & to “and”
+    .replace(/&/g, "and")
+    // remove apostrophes
+    .replace(/[’']/g, "")
+    // collapse whitespace
+    .trim()
+    .replace(/\s+/g, " ");
 }
 
 function parseTracks(xmlDoc) {
