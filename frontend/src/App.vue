@@ -5,6 +5,8 @@ const user = ref(null);
 const file = ref(null);       // the uploaded XML
 const log = ref(null);        // the DOM element reference of the status log
 const logMessages = ref([]);  // array of log messages (strings)
+const status = ref([]);
+const uris = ref([]);
 
 // Backend base URL
 const BACKEND_URL = "http://localhost:8888";
@@ -34,11 +36,36 @@ onMounted(async () => {
   }
 });
 
-// handle file selection
-function onFileSelect(event) {
+// File selection handler
+async function onFileSelect(event) {
   const chosen = event.target.files?.[0];
   if (chosen && chosen.name.toLowerCase().endsWith(".xml")) {
     file.value = chosen;
+    // Prepare form data for upload
+    const form = new FormData();
+    form.append("file", chosen);
+    try {
+      const res = await fetch(`${BACKEND_URL}/songs`, {
+        method: "POST",
+        body: form,
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const responseUris = await res.json();
+      if (Array.isArray(responseUris)) {
+        uris.value = responseUris; // Store the actual URIs array
+        status.value.push(`Found ${responseUris.length} Spotify track URIs.`);
+      } else {
+        status.value.push(responseUris.error || "Failed to get URIs.");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      status.value.push(`Error uploading file: ${err.message}`);
+    }
   } else {
     alert("Please choose an iTunes XML file.");
     event.target.value = "";
@@ -94,17 +121,27 @@ watch(
         <p>Logged in as {{ user.display_name }}</p>
         <button @click="logoutWithSpotify">Log out of Spotify</button>
 
-        <div class="upload-section">
-          <p>Upload your iTunes XML playlist:</p>
-          <div class="file-wrapper">
-            <input
-              id="file-input"
-              type="file"
-              accept=".xml,text/xml"
-              @change="onFileSelect"
-            />
+      <p>Upload your iTunes XML playlist:</p>
+      <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
+      <p>Spotify URIs:</p>
+      <ul>
+        <li v-for="(track, idx) in uris" :key="idx" class="song_container">
+          <img
+            :src="track.pic"
+            alt="Track image"
+            style="max-width: 100px; max-height: 100px"
+          />
+          <div>
+            <p>{{ track.name }}</p>
+            <p style="color: lightslategray">{{ track.artists }}</p>
           </div>
-          <p class="file-name" v-if="file">{{ file.name }}</p>
+          <p style="margin-left: 5rem">{{ track.duration }}</p>
+        </li>
+      </ul>
+      <div v-if="file">
+        <button @click="onSubmit">Migrate to Spotify</button>
+        <div class="status-log">
+          <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
         </div>
 
         <button v-if="file" @click="onSubmit">Migrate playlist</button>

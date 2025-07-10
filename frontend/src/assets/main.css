@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -15,9 +16,10 @@ body {
   min-height: 100vh;
   background: linear-gradient(to right, #103, #143);
   color: white;
-  text-shadow: 2px 4px 10px rgba(0,0,0,1);
-  font-family: 'Poppins', sans-serif;
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
+  font-family: "Poppins", sans-serif;
   cursor: default;
+  overflow: hidden;
 }
 
 .container {
@@ -59,9 +61,29 @@ img {
   width: 96px;
   height: 96px;
   border-radius: 32px;
-  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
 }
-
+.song_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2rem;
+}
+.song_container img {
+  margin-right: 1rem;
+  border-radius: 8px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.7);
+}
+.song_container div {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: flex-start;
+}
+.song_container p {
+  margin: 0;
+  font-size: 1rem;
+}
 button {
   font-size: 1.125rem;
   position: relative;
@@ -70,7 +92,7 @@ button {
   border: none;
   border-radius: 2rem;
   padding: 1rem 2rem;
-  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
   cursor: pointer;
   color: white;
 }
@@ -109,7 +131,7 @@ button:hover::after {
   overflow: hidden;
   border: none;
   padding: 0.33rem 0.33rem;
-  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
   cursor: pointer;
 }
 
@@ -121,7 +143,7 @@ footer {
   margin-top: auto;
   padding: 1rem;
   font-size: 0.875rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
   pointer-events: none;
 }
