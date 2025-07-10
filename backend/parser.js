@@ -35,23 +35,25 @@ function parsePlaylistName(xmlDoc) {
 /* cleaner functions */
 function cleanTrack(title) {
   return title
-    // strip out anything in [brackets] or (parentheses)
-    .replace(/\[.*?\]|\(.*?\)/g, "")
+    // strip out anything in [brackets]
+    .replace(/\[.*?\]/g, "")
+    // selectively strip parentheses only if they have these naughty words
+    .replace(/\(\s*(?:remaster(?:ed)?|deluxe)\b[^)]*\)/gi, "")
     // remove apostrophes
     .replace(/[’']/g, "")
     // normalize slashes & dashes into spaces
     .replace(/[\/\-]/g, " ")
-    // trim and collapse any leftover whitespace
+    // trim and collapse whitespace
     .trim()
     .replace(/\s+/g, " ");
 }
 
 function cleanAlbum(album) {
   return album
-    // drop these words (case-insensitive)
-    .replace(/\b(remaster(ed)?|deluxe)\b/gi, "")
-    // strip bracketed or parenthetical text
-    .replace(/\[.*?\]|\(.*?\)/g, "")
+    // drop these words but ONLY if they're inside parentheses
+    .replace(/\(\s*(?:remaster(?:ed)?|deluxe)\b[^)]*\)/gi, "")
+    // strip bracketed text
+    .replace(/\[.*?\]/g, "")
     // remove apostrophes
     .replace(/[’']/g, "")
     // normalize slashes & dashes
@@ -62,12 +64,12 @@ function cleanAlbum(album) {
 }
 
 function cleanArtist(name) {
-  // weird edge case
+  // annoying edge case
   if (name === "The The") return name;
   return name
-    // strip “The ” from start
+    // strip leading "The "
     .replace(/^the\s+/i, "")
-    // convert & to “and”
+    // convert "&" to "and"
     .replace(/&/g, "and")
     // remove apostrophes
     .replace(/[’']/g, "")
