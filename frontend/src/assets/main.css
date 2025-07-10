@@ -8,20 +8,20 @@ body {
   margin: 0;
   background: linear-gradient(to right, #103, #143);
   color: white;
+  text-shadow: 2px 4px 10px rgba(0,0,0,1);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
 }
 
 .container {
   text-align: center;
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 128px;
+  overflow: hidden;
 }
 
 img {
@@ -37,8 +37,8 @@ button {
   z-index: 0;
   overflow: hidden;
   border: none;
-  border-radius: 32px;
-  padding: 0.75rem 2rem;
+  border-radius: 2rem;
+  padding: 1rem 2rem;
   box-shadow: 2px 4px 10px rgba(0,0,0,1);
   cursor: pointer;
   color: white;
@@ -67,12 +67,33 @@ button:hover::after {
   opacity: 1;
 }
 
+.file-wrapper input {
+  font-size: 0;
+}
+
+.file-wrapper input::file-selector-button {
+  font-size: 1rem;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  border: none;
+  padding: 0.5rem 0.5rem;
+  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  cursor: pointer;
+}
+
+.file-name {
+  font-weight: bold;
+  color: #1cc;
+  cursor: default;
+}
+
 .status-log {
   width: 100%;
   max-width: 480px;
   height: 240px;
-  margin: 1.5rem auto;
-  padding: 1rem;
+  margin: 1rem auto;
+  padding: 0;
   box-sizing: border-box;
   text-align: left;
   overflow-y: auto;
@@ -82,17 +103,15 @@ button:hover::after {
 }
 
 footer {
-  position: fixed;
-  bottom: 64px;
-  width: 100%;
-  text-align: center;
+  flex-shrink: 0;
+  padding: 0.5rem;
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.6);
-  padding: 0.5rem 0;
+  color: rgba(255,255,255,0.6);
+  text-align: center;
   pointer-events: none;
 }
 
 footer a {
+  pointer-events: auto;
   color: #1cc;
-  pointer-events: visible;
 }

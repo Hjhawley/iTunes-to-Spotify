@@ -88,8 +88,14 @@ async function onSubmit() {
       <div class="upload-section">
         <p>Upload your iTunes XML playlist:</p>
         <div class="file-wrapper">
-          <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
+          <input
+            id="file-input"
+            type="file"
+            accept=".xml,text/xml"
+            @change="onFileSelect"
+          />
         </div>
+        <p class="file-name" v-if="file">{{ file.name }}</p>
       </div>
 
       <div v-if="file">
