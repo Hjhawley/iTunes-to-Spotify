@@ -87,11 +87,9 @@ async function onSubmit() {
       <!-- file upload wrapper -->
       <div class="upload-section">
         <p>Upload your iTunes XML playlist:</p>
-        <input
-          type="file"
-          accept=".xml,text/xml"
-          @change="onFileSelect"
-        />
+        <div class="file-wrapper">
+          <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
+        </div>
       </div>
 
       <div v-if="file">
@@ -107,12 +105,9 @@ async function onSubmit() {
     This web app is not affiliated with Apple or Spotify.<br />
     Source code available at
     <a
-      href="https://github.com/Hjhawley/iTunes-to-Spotify-webapp"
-      target="_blank"
-      rel="noopener"
-    >
-      https://github.com/Hjhawley/iTunes-to-Spotify-webapp</a
-    >
+      href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">
+      https://github.com/Hjhawley/iTunes-to-Spotify
+    </a>
   </footer>
 </template>
 
