@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, watch, nextTick, onMounted } from "vue";
 
 const user = ref(null);
-const file = ref(null);
-const status = ref([]);
+const file = ref(null);       // the uploaded XML
+const log = ref(null);        // the DOM element reference of the status log
+const logMessages = ref([]);  // array of log messages (strings)
 
 // Backend base URL
 const BACKEND_URL = "http://localhost:8888";
@@ -50,7 +51,7 @@ async function onSubmit() {
   if (!file.value || !user.value) return;
   const form = new FormData();
   form.append("file", file.value);
-  status.value.push("Uploading…");
+  logMessages.value.push("Uploading…");
 
   const res = await fetch(`${BACKEND_URL}/import`, {
     method: "POST",
@@ -60,11 +61,20 @@ async function onSubmit() {
   const logs = await res.json();
 
   if (Array.isArray(logs)) {
-    status.value.push(...logs);
+    logMessages.value.push(...logs);
   } else {
-    status.value.push(logs.error || "Migration failed.");
+    logMessages.value.push(logs.error || "Migration failed.");
   }
 }
+
+watch(
+  () => logMessages.value.length, async () => {
+    await nextTick();
+    if (log.value) {
+      log.value.scrollTop = log.value.scrollHeight;
+    }
+  }
+);
 </script>
 
 <template>
@@ -102,8 +112,8 @@ async function onSubmit() {
     </div>
 
       <!-- status log -->
-      <div class="status-log" v-if="user">
-        <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
+      <div class="status-log" v-if="user" ref="log">
+        <p v-for="(msg, i) in logMessages" :key="i">{{ msg }}</p>
       </div>
   </div>
 
