@@ -69,51 +69,52 @@ async function onSubmit() {
 
 <template>
   <div class="container">
-    <h1>iTunes >> Spotify<br />Playlist Migrator</h1>
+    <!-- main-content: login and buttons -->
+    <div class="main-content">
+      <h1>iTunes &gt;&gt; Spotify<br/>Playlist Migrator</h1>
 
-    <!-- if not yet authenticated -->
-    <div v-if="!user">
-      <button @click="loginWithSpotify">Login with Spotify</button>
-    </div>
+      <!-- not yet authenticated -->
+      <div v-if="!user">
+        <button @click="loginWithSpotify">Login with Spotify</button>
+      </div>
 
-    <!-- once logged in -->
-    <div v-else>
-      <div class="user-info">
+      <!-- once logged in -->
+      <div v-else class="user-info">
         <img v-if="user.images?.length" :src="user.images[0].url" />
         <p>Logged in as {{ user.display_name }}</p>
         <button @click="logoutWithSpotify">Log out of Spotify</button>
-      </div>
 
-      <!-- file upload wrapper -->
-      <div class="upload-section">
-        <p>Upload your iTunes XML playlist:</p>
-        <div class="file-wrapper">
-          <input
-            id="file-input"
-            type="file"
-            accept=".xml,text/xml"
-            @change="onFileSelect"
-          />
+        <div class="upload-section">
+          <p>Upload your iTunes XML playlist:</p>
+          <div class="file-wrapper">
+            <input
+              id="file-input"
+              type="file"
+              accept=".xml,text/xml"
+              @change="onFileSelect"
+            />
+          </div>
+          <p class="file-name" v-if="file">{{ file.name }}</p>
         </div>
-        <p class="file-name" v-if="file">{{ file.name }}</p>
-      </div>
 
-      <div v-if="file">
-        <button @click="onSubmit">Migrate playlist</button>
-        <div class="status-log">
-          <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
-        </div>
+        <button v-if="file" @click="onSubmit">Migrate playlist</button>
       </div>
     </div>
+
+      <!-- status log -->
+      <div class="status-log" v-if="user">
+        <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
+      </div>
   </div>
 
+  <!-- footer -->
   <footer>
-    This web app is not affiliated with Apple or Spotify.<br />
+    This web app is not affiliated with Apple or Spotify.<br/>
     Source code available at
     <a
-      href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">
-      https://github.com/Hjhawley/iTunes-to-Spotify
-    </a>
+      href="https://github.com/Hjhawley/iTunes-to-Spotify"
+      target="_blank"
+      rel="noopener"
+    >github.com/Hjhawley/iTunes-to-Spotify</a>
   </footer>
 </template>
-
