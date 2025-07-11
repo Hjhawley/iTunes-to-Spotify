@@ -42,11 +42,12 @@ body {
 
 .status-log {
   flex: 8;
-  overflow-y: auto;
   text-align: left;
   word-break: break-word;
   white-space: pre-wrap;
   background-color: #0004;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .status-log p {
