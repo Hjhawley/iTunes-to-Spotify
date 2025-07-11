@@ -17,6 +17,7 @@ body {
   color: white;
   text-shadow: 2px 4px 10px rgba(0,0,0,1);
   font-family: 'Poppins', sans-serif;
+  cursor: default;
 }
 
 .container {
@@ -41,11 +42,16 @@ body {
 
 .status-log {
   flex: 8;
+  overflow-y: auto;
   text-align: left;
   word-break: break-word;
   white-space: pre-wrap;
   background-color: #0004;
-  padding: 8px;
+}
+
+.status-log p {
+  margin: 12px;
+  cursor: text;
 }
 
 img {
@@ -101,15 +107,13 @@ button:hover::after {
   z-index: 0;
   overflow: hidden;
   border: none;
-  padding: 0.5rem 0.5rem;
+  padding: 0.33rem 0.33rem;
   box-shadow: 2px 4px 10px rgba(0,0,0,1);
   cursor: pointer;
 }
 
 .file-name {
-  font-weight: bold;
   color: #1cc;
-  cursor: default;
 }
 
 footer {
