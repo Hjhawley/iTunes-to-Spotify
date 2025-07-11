@@ -64,10 +64,20 @@ img {
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
 }
 .song_container {
-  display: flex;
-  flex-direction: row;
-  justify-items: left;
   margin-top: 2rem;
+  list-style: none;
+}
+
+.song_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.left_section {
+  display: flex;
+  align-items: center;
 }
 .song_container img {
   margin-right: 1rem;
@@ -83,6 +93,12 @@ img {
 .song_container p {
   margin: 0;
   font-size: 1rem;
+}
+
+.duration {
+  white-space: nowrap;
+  padding-left: 1rem;
+  font-weight: 500;
 }
 button {
   font-size: 1.125rem;

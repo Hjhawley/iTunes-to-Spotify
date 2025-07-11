@@ -123,20 +123,21 @@ watch(
 
       <p>Upload your iTunes XML playlist:</p>
       <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
-      <p>Spotify URIs:</p>
       <ul>
         <li v-for="(track, idx) in uris" :key="idx" class="song_container">
-          <div>
-            <img
-              :src="track.pic"
-              alt="Track image"
-              style="max-width: 100px; max-height: 100px"
-            />
-            <span>
-              <p>{{ track.name }}</p>
-              <p style="color: lightslategray">{{ track.artists }}</p>
-            </span>
-            <span style="margin-left: 5rem">
+          <div class="song_content">
+            <div class="left_selection">
+              <img
+                :src="track.pic"
+                alt="Track image"
+                style="max-width: 100px; max-height: 100px"
+              />
+              <span>
+                <p>{{ track.name }}</p>
+                <p style="color: lightslategray">{{ track.artists }}</p>
+              </span>
+            </div>
+            <span class="duration">
               {{ track.duration }}
             </span>
           </div>
