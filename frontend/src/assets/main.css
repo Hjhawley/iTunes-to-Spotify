@@ -7,7 +7,6 @@
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
 }
 
 body {
@@ -17,7 +16,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: hidden;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -27,7 +25,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
 }
 
 img {
@@ -110,7 +107,7 @@ button:hover::after {
 
 footer {
   flex-shrink: 0;
-  padding: 0.5rem;
+  padding: 1rem;
   font-size: 0.875rem;
   color: rgba(255,255,255,0.6);
   text-align: center;
