@@ -143,14 +143,7 @@ watch(
           </div>
         </li>
       </ul>
-      <div v-if="file">
-        <button @click="onSubmit">Migrate to Spotify</button>
-        <div class="status-log">
-          <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
-        </div>
-
-        <button v-if="file" @click="onSubmit">Migrate playlist</button>
-      </div>
+      <button v-if="file" @click="onSubmit">Migrate playlist</button>
     </div>
 
     <!-- status log -->
