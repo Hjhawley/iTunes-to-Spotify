@@ -133,9 +133,16 @@ watch(
       <p>Upload your iTunes XML playlist:</p>
       <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
       <ul>
+        <h1>{{ playlistName }}</h1>
         <li v-for="(track, idx) in tracks" :key="idx" class="song_container">
           <div class="song_content">
             <div class="left_selection">
+              <img
+                @click="tracks.splice(idx, 1)"
+                src="@/assets/remove.svg"
+                alt="Remove"
+                style="width: 24px; height: 24px"
+              />
               <img
                 :src="track.pic"
                 alt="Track image"
@@ -153,12 +160,10 @@ watch(
         </li>
       </ul>
       <div v-if="file">
-        <button @click="onSubmit">Migrate to Spotify</button>
+        <button v-if="file" @click="onSubmit">Migrate to Spotify</button>
         <div class="status-log">
           <p v-for="(msg, i) in status" :key="i">{{ msg }}</p>
         </div>
-
-        <button v-if="file" @click="onSubmit">Migrate playlist</button>
       </div>
     </div>
 
