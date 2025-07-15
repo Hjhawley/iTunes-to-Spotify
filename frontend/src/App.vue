@@ -158,29 +158,28 @@ watch(
 
         <button v-if="file" @click="onSubmit">Migrate playlist</button>
       </div>
-
-      <!-- status log -->
-      <div class="status-log" v-if="user" ref="log">
-        <div v-for="(entry,i) in logEntries" :key="i" class="log-entry">
-          <p v-if="entry.text">{{ entry.text }}</p>
-          <img
-            v-if="entry.pic"
-            :src="entry.pic"
-            alt="album art"
-            class="log-image"
-          />
-        </div>
+    </div>
+    <!-- status log -->
+    <div class="status-log" v-if="user" ref="log">
+      <div v-for="(entry,i) in logEntries" :key="i" class="log-entry">
+        <p v-if="entry.text">{{ entry.text }}</p>
+        <img
+          v-if="entry.pic"
+          :src="entry.pic"
+          alt="album art"
+          class="log-image"
+        />
       </div>
     </div>
-
-    <footer>
-      This web app is not affiliated with Apple or Spotify.<br/>
-      Source code available at
-      <a
-        href="https://github.com/Hjhawley/iTunes-to-Spotify"
-        target="_blank"
-        rel="noopener"
-      >github.com/Hjhawley/iTunes-to-Spotify</a>
-    </footer>
   </div>
+
+  <footer>
+    This web app is not affiliated with Apple or Spotify.<br/>
+    Source code available at
+    <a
+      href="https://github.com/Hjhawley/iTunes-to-Spotify"
+      target="_blank"
+      rel="noopener"
+    >github.com/Hjhawley/iTunes-to-Spotify</a>
+  </footer>
 </template>

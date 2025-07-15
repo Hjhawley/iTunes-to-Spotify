@@ -155,7 +155,7 @@ router.post(
           uris.push(uri);
           logs.push(`Matched!`);
         } else {
-          logs.push(`No match for ${artist} - ${name}`);
+          logs.push(`No match found.`);
         }
       }
 
