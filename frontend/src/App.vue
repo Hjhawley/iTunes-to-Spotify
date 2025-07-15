@@ -26,54 +26,53 @@ onMounted(async () => {
     const res = await fetch(`${BACKEND_URL}/auth/whoami`, {
       credentials: "include",
     });
-    if (!res.ok) {
-      user.value = null;
-      return;
-    }
-    user.value = await res.json();
+    if (res.ok) user.value = await res.json();
+    else user.value = null;
   } catch {
     user.value = null;
   }
 });
 
-// handle file selection
+// Handle file select & preview fetch
 async function onFileSelect(event) {
-  const chosen = event.target.files?.[0]
-  if (chosen && chosen.name.toLowerCase().endsWith(".xml")) {
-    file.value = chosen
-    // fetch the track URIs
-    const form = new FormData()
-    form.append("file", chosen)
-    try {
-      const res = await fetch(`${BACKEND_URL}/songs`, {
-        method: "POST",
-        body: form,
-        credentials: "include",
-      })
-      if (!res.ok) throw new Error(`HTTP status ${res.status}`)
-      const data = await res.json()
-      if (Array.isArray(data)) {
-        uris.value = data
-        status.value = [`Found ${data.length} tracks`]
-      } else {
-        status.value = [data.error || "Failed to load tracks"]
-      }
-    } catch (err) {
-      console.error(err)
-      status.value = [`Error: ${err.message}`]
+  const chosen = event.target.files?.[0];
+  if (!chosen || !chosen.name.toLowerCase().endsWith(".xml")) {
+    alert("Please choose an iTunes XML file.");
+    event.target.value = "";
+    file.value = null;
+    return;
+  }
+  file.value = chosen;
+  const form = new FormData();
+  form.append("file", chosen);
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/songs`, {
+      method: "POST",
+      body: form,
+      credentials: "include",
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (Array.isArray(data)) {
+      uris.value = data;
+      status.value = [`Found ${data.length} tracks`];
+    } else {
+      status.value = [data.error || "Failed to load tracks"];
     }
-  } else {
-    alert("Please choose an iTunes XML file.")
-    event.target.value = ""
-    file.value = null
+  } catch (err) {
+    console.error(err);
+    status.value = [`Error: ${err.message}`];
   }
 }
 
-// Submit XML to backend import endpoint
+// Perform import, build a logEntries array
 async function onSubmit() {
   if (!file.value || !user.value) return;
+
   const form = new FormData();
   form.append("file", file.value);
+
   logEntries.value.push({ text: "Uploading…" });
 
   const res = await fetch(`${BACKEND_URL}/import`, {
@@ -84,36 +83,45 @@ async function onSubmit() {
   const logs = await res.json();
 
   if (Array.isArray(logs)) {
+    let lastSearch = null;
+
     logs.forEach(raw => {
-    const entry = { text: raw };
+      const entry = { text: raw };
 
-    if (raw.startsWith("Matched!")) {
-      const trackKey = raw.slice(8);
-      const match = uris.value.find(t => {
-        const artistStr = Array.isArray(t.artists)
-          ? t.artists.join(", ")
-          : t.artists;
-        return `${artistStr} - ${t.name}` === trackKey;
-      });
-
-      if (match?.pic) {
-        entry.pic = match.pic; // attach pic to same log line
+      // Capture the "artist" string
+      if (raw.startsWith("Searching Spotify for")) {
+        const m = raw.match(/"(.+)"/);
+        if (m) lastSearch = m[1];
       }
-    }
 
-    logEntries.value.push(entry);
-  });
-} else {
-    logEntries.value.push( {text: logs.error || "Migration failed." });
+      // Attach the pic for lastSearch
+      if (raw === "Matched!" && lastSearch) {
+        const match = uris.value.find(t => {
+          const artists = Array.isArray(t.artists)
+            ? t.artists.join(", ")
+            : t.artists;
+          return `${artists} - ${t.name}` === lastSearch;
+        });
+        if (match?.pic) {
+          entry.pic = match.pic;
+        }
+      }
+
+      logEntries.value.push(entry);
+    });
+  } else {
+    logEntries.value.push({
+      text: logs.error || "Migration failed."
+    });
   }
 }
 
+// Auto scroll
 watch(
-  () => logEntries.value.length, async () => {
+  () => logEntries.value.length,
+  async () => {
     await nextTick();
-    if (log.value) {
-      log.value.scrollTop = log.value.scrollHeight;
-    }
+    if (log.value) log.value.scrollTop = log.value.scrollHeight;
   }
 );
 </script>
@@ -150,25 +158,29 @@ watch(
 
         <button v-if="file" @click="onSubmit">Migrate playlist</button>
       </div>
-    </div>
 
       <!-- status log -->
       <div class="status-log" v-if="user" ref="log">
-        <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
+        <div v-for="(entry,i) in logEntries" :key="i" class="log-entry">
           <p v-if="entry.text">{{ entry.text }}</p>
-          <img v-if="entry.pic" :src="entry.pic" class="log-image" />
-        </div>
+          <img
+            v-if="entry.pic"
+            :src="entry.pic"
+            alt="album art"
+            class="log-image"
+          />
         </div>
       </div>
+    </div>
 
-  <!-- footer -->
-  <footer>
-    This web app is not affiliated with Apple or Spotify.<br/>
-    Source code available at
-    <a
-      href="https://github.com/Hjhawley/iTunes-to-Spotify"
-      target="_blank"
-      rel="noopener"
-    >github.com/Hjhawley/iTunes-to-Spotify</a>
-  </footer>
+    <footer>
+      This web app is not affiliated with Apple or Spotify.<br/>
+      Source code available at
+      <a
+        href="https://github.com/Hjhawley/iTunes-to-Spotify"
+        target="_blank"
+        rel="noopener"
+      >github.com/Hjhawley/iTunes-to-Spotify</a>
+    </footer>
+  </div>
 </template>
