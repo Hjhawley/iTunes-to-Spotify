@@ -6,7 +6,8 @@ const file = ref(null); // the uploaded XML
 const log = ref(null); // the DOM element reference of the status log
 const logMessages = ref([]); // array of log messages (strings)
 const status = ref([]);
-const uris = ref([]);
+const tracks = ref([]);
+const playlistName = ref("");
 
 // Backend base URL
 const BACKEND_URL = "http://localhost:8888";
@@ -55,12 +56,14 @@ async function onFileSelect(event) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
 
-      const responseUris = await res.json();
-      if (Array.isArray(responseUris)) {
-        uris.value = responseUris; // Store the actual URIs array
-        status.value.push(`Found ${responseUris.length} Spotify track URIs.`);
+      const data = await res.json();
+      playlistName.value = data.playlistName;
+      console.log(playlistName.value);
+      if (Array.isArray(data.tracks)) {
+        tracks.value = data.tracks; // Store the full track objects
+        status.value.push(`Found ${data.tracks.length} Spotify tracks.`);
       } else {
-        status.value.push(responseUris.error || "Failed to get URIs.");
+        status.value.push(data?.error || "Failed to get tracks.");
       }
     } catch (err) {
       console.error("Upload error:", err);
@@ -82,7 +85,13 @@ async function onSubmit() {
 
   const res = await fetch(`${BACKEND_URL}/import`, {
     method: "POST",
-    body: form,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      uris: tracks.value.map((track) => track.uri),
+      playlistName: playlistName.value,
+    }),
     credentials: "include",
   });
   const logs = await res.json();
@@ -124,7 +133,7 @@ watch(
       <p>Upload your iTunes XML playlist:</p>
       <input type="file" accept=".xml,text/xml" @change="onFileSelect" />
       <ul>
-        <li v-for="(track, idx) in uris" :key="idx" class="song_container">
+        <li v-for="(track, idx) in tracks" :key="idx" class="song_container">
           <div class="song_content">
             <div class="left_selection">
               <img

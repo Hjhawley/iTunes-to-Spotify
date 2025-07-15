@@ -83,16 +83,19 @@ router.post(
           }
         );
         const body = await results.json();
-        res.send(
-          body.tracks.map((track) => ({
+        const playlistName = parsePlaylistName(xmlDoc) || "iTunes Playlist";
+        res.send({
+          playlistName,
+          tracks: body.tracks.map((track) => ({
             name: track.name,
             artists: track.artists.map((artist) => artist.name).join(", "),
             pic: track.album.images[0].url,
             duration: `${Math.floor(track.duration_ms / 60000)}:${String(
               Math.floor((track.duration_ms / 1000) % 60)
             ).padStart(2, "0")}`,
-          }))
-        );
+            uri: track.uri,
+          })),
+        });
       } else {
         res.send([]);
       }
@@ -108,74 +111,39 @@ router.post(
     Parses the file and extracts track data
     Creates a Spotify playlist, matches each track, adds them
     Returns log messages */
-router.post(
-  "/import",
-  upload.single("file"),
-  loadUserFromCookies,
-  async (req, res) => {
-    const logs = [];
-    try {
-      const token = req.user.accessToken;
-      if (!token) {
-        return res.status(401).json({ error: "Not authenticated" });
-      }
-      if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
-      logs.push(`Received file: ${req.file.originalname}`);
-
-      // parse XML buffer into a DOM
-      logs.push("Parsing iTunes playlist...");
-      const raw = req.file.buffer.toString("utf-8");
-      const dom = new JSDOM(raw, { contentType: "text/xml" });
-      const xmlDoc = dom.window.document;
-
-      // extract tracks
-      const trackMap = parseTracks(xmlDoc);
-      const tracks = Object.values(trackMap);
-      logs.push(`Parsed ${tracks.length} tracks`);
-
-      // create a new Spotify playlist
-      const playlistName = parsePlaylistName(xmlDoc) || "iTunes Playlist";
-      logs.push(`Migrating Spotify playlist: "${playlistName}"`);
-      const playlistId = await createPlaylist(token, playlistName);
-      logs.push(`Playlist created (ID: ${playlistId})`);
-
-      // match each track to a Spotify URI
-      const uris = [];
-      for (const { artist, name, album, trackNumber } of tracks) {
-        logs.push(`Searching Spotify for "${artist} - ${name}"`);
-        const uri = await findBestTrack(token, {
-          artist,
-          name,
-          album,
-          trackNumber,
-        });
-        if (uri) {
-          uris.push(uri);
-          logs.push(`Matched ${artist} - ${name}`);
-        } else {
-          logs.push(`No match for ${artist} - ${name}`);
-        }
-      }
-
-      // add matched URIs to the playlist
-      if (uris.length) {
-        logs.push(`Adding ${uris.length} tracks to playlist`);
-        await addTracks(token, playlistId, uris);
-        logs.push("Tracks successfully added");
-      } else {
-        logs.push("No tracks to add");
-      }
-
-      res.json(logs);
-    } catch (err) {
-      console.error(err);
-      logs.push(`Error: ${err.message}`);
-      logs.push("Failed to migrate playlist.")
-      res.status(500).json(logs);
+router.post("/import", loadUserFromCookies, async (req, res) => {
+  const logs = [];
+  try {
+    const token = req.user.accessToken;
+    if (!token) {
+      return res.status(401).json({ error: "Not authenticated" });
     }
+
+    // extract tracks
+    logs.push(`Parsed ${req.body.length} tracks`);
+
+    // create a new Spotify playlist
+    const playlistName = req.body.playlistName || "iTunes Playlist";
+    logs.push(`Migrating Spotify playlist: "${playlistName}"`);
+    const playlistId = await createPlaylist(token, playlistName);
+    logs.push(`Playlist created (ID: ${playlistId})`);
+
+    // add matched URIs to the playlist
+    if (req.body.uris && req.body.uris.length) {
+      logs.push(`Adding ${req.body.uris.length} tracks to playlist`);
+      await addTracks(token, playlistId, req.body.uris);
+      logs.push("Tracks successfully added");
+    } else {
+      logs.push("No tracks to add");
+    }
+
+    res.json(logs);
+  } catch (err) {
+    console.error(err);
+    logs.push(`Error: ${err.message}`);
+    logs.push("Failed to migrate playlist.");
+    res.status(500).json(logs);
   }
-);
+});
 
 module.exports = router;
