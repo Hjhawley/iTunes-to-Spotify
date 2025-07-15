@@ -153,7 +153,7 @@ router.post(
         });
         if (uri) {
           uris.push(uri);
-          logs.push(`Matched ${artist} - ${name}`);
+          logs.push(`Matched!`);
         } else {
           logs.push(`No match for ${artist} - ${name}`);
         }
