@@ -5,27 +5,26 @@ const API = "https://api.spotify.com/v1";
 
 /* Search for a track and return the best match URI, or null. */
 async function findBestTrack(token, { artist, name, album }) {
-  const track = cleanTrack(name);
-  const artistClean = cleanArtist(artist);
-  const albumClean = cleanAlbum(album);
-  // Primary search: track + artist + album
-  let items = await _search(token, `track:${track} artist:${artistClean} album:${albumClean}`);
-  // Fallback: just track + artist
+  const cleanedTrack = cleanTrack(name);
+  const cleanedArtist = cleanArtist(artist);
+  const cleanedAlbum  = cleanAlbum(album);
+
+  // Plain‑text search of “[Artist] [Track]”
+  let items = await _search(token, `${cleanedArtist} ${cleanedTrack}`);
+
+  // Fallback: include album name for an extra hint
   if (!items.length) {
-    items = await _search(token, `track:${track} artist:${artistClean}`);
+    items = await _search(token, `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`);
   }
-  // Scoring
+
+  // Tie‑breaker
   if (items.length) {
-    const query = `${artistClean} ${track}`.toLowerCase();
-    let best = null;
-    let bestScore = 0;
+    const query = `${cleanedArtist} ${cleanedTrack}`.toLowerCase();
+    let best = null, bestScore = 0;
     for (const t of items) {
       const candidate = `${cleanArtist(t.artists[0].name)} ${cleanTrack(t.name)}`.toLowerCase();
       const score = compareTwoStrings(query, candidate) * 100;
-      if (
-        score > bestScore ||
-        (score === bestScore && (!best || t.popularity > best.popularity))
-      ) {
+      if (score > bestScore || (score === bestScore && t.popularity > (best?.popularity||0))) {
         best = t;
         bestScore = score;
       }
@@ -44,17 +43,6 @@ async function _search(token, q) {
   );
   const body = await res.json();
   return body.tracks?.items ?? [];
-}
-
-async function _searchAlbums(token, artist, album) {
-  const res = await fetch(
-    `${API}/search?type=album&q=${encodeURIComponent(
-      `artist:${artist} album:${album}`
-    )}`,
-    { headers: { Authorization: `Bearer ${token}` } }
-  );
-  const body = await res.json();
-  return body.albums?.items ?? [];
 }
 
 async function getTrackById(token, id) {
