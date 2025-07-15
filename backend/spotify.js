@@ -9,20 +9,20 @@ async function findBestTrack(token, { artist, name, album }) {
   const cleanedArtist = cleanArtist(artist);
   const cleanedAlbum  = cleanAlbum(album);
 
-  // Plain‑text search of “[Artist] [Track]”
-  let items = await _search(token, `${cleanedArtist} ${cleanedTrack}`);
+  // Plain‑text search of “[Artist] [Track] [Album]”
+  let items = await _search(token, `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`);
 
-  // Fallback: include album name for an extra hint
+  // Fallback: try without the album
   if (!items.length) {
-    items = await _search(token, `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`);
+    items = await _search(token, `${cleanedArtist} ${cleanedTrack}`);
   }
 
   // Tie‑breaker
   if (items.length) {
-    const query = `${cleanedArtist} ${cleanedTrack}`.toLowerCase();
+    const query = `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`.toLowerCase();
     let best = null, bestScore = 0;
     for (const t of items) {
-      const candidate = `${cleanArtist(t.artists[0].name)} ${cleanTrack(t.name)}`.toLowerCase();
+      const candidate = `${cleanArtist(t.artists[0].name)} ${cleanTrack(t.name)} ${cleanAlbum(t.album.name)}`.toLowerCase();
       const score = compareTwoStrings(query, candidate) * 100;
       if (score > bestScore || (score === bestScore && t.popularity > (best?.popularity||0))) {
         best = t;

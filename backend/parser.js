@@ -42,24 +42,21 @@ function cleanTrack(title) {
   title = title.trim();
   // Collapse multiple spaces into one
   title = title.replace(/\s+/g, " ");
+  // Strip leading "The "
+  title = title.replace(/^The\s+/i, "");
   return title;
 }
 
 function cleanAlbum(album) {
-  album = album.replace(/\b(remastered|deluxe)\b/gi, ""); // Drop these words
-  album = album.replace(/\(.*?\)/g, " ");
-  album = album.replace(/[’']/g, " ");
-  album = album.replace(/[\/\-]/g, " ");
-  album = album.trim();
-  album = album.replace(/\s+/g, " ");
+  album = album.replace(/\b(remastered|deluxe|edition)\b/gi, ""); // Drop these words
+  album = cleanTrack(album);
   return album;
 }
 
 function cleanArtist(name) {
   if (name === "The The") return name; // edge case
-  name = name.replace(/^The\s+/i, ""); // Strip leading "The "
   name = name.replace(/&/g, "and"); // Convert ampersand to "and"
-  name = name.trim();
+  name = cleanTrack(name);
   return name;
 }
 
