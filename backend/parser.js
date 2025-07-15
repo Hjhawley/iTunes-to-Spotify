@@ -36,6 +36,8 @@ function parsePlaylistName(xmlDoc) {
 function cleanTrack(title) {
   // Remove anything in parentheses
   title = title.replace(/\(.*?\)/g, "");
+  // Remove square brackets
+  title = title.replace(/[\[\]]/g, "");
   // delete apostrophes
   title = title.replace(/[’']/g, "");
   // turn slashes and dashes into spaces
