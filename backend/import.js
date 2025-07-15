@@ -166,7 +166,7 @@ router.post(
       if (uris.length) {
         logs.push({ text: `Adding ${uris.length} tracks to playlist` });
         await addTracks(token, playlistId, uris);
-        logs.push({ text: "Tracks successfully added" });
+        logs.push({ text: "Tracks successfully added!" });
       } else {
         logs.push({ text: "No tracks to add" });
       }

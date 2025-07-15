@@ -4,7 +4,7 @@
 <dict>
 	<key>Major Version</key><integer>1</integer>
 	<key>Minor Version</key><integer>1</integer>
-	<key>Date</key><date>2025-07-15T17:25:09Z</date>
+	<key>Date</key><date>2025-07-15T17:57:37Z</date>
 	<key>Application Version</key><string>12.13.7.1</string>
 	<key>Features</key><integer>5</integer>
 	<key>Show Content Ratings</key><true/>
@@ -12,6 +12,43 @@
 	<key>Library Persistent ID</key><string>5D01212205FC460C</string>
 	<key>Tracks</key>
 	<dict>
+		<key>3884</key>
+		<dict>
+			<key>Track ID</key><integer>3884</integer>
+			<key>Name</key><string>Heavenly Father</string>
+			<key>Artist</key><string>Bon Iver</string>
+			<key>Album Artist</key><string>Various Artists</string>
+			<key>Composer</key><string>Justin Vernon</string>
+			<key>Album</key><string>Wish I Was Here (Music From the Motion Picture)</string>
+			<key>Genre</key><string>Music</string>
+			<key>Kind</key><string>Purchased AAC audio file</string>
+			<key>Size</key><integer>8717446</integer>
+			<key>Total Time</key><integer>243920</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>12</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2020-01-20T00:35:06Z</date>
+			<key>Date Added</key><date>2020-01-20T00:35:06Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Comments</key><string>White</string>
+			<key>Play Count</key><integer>5</integer>
+			<key>Play Date</key><integer>3783780614</integer>
+			<key>Play Date UTC</key><date>2023-11-26T01:10:14Z</date>
+			<key>Release Date</key><date>2014-07-11T12:00:00Z</date>
+			<key>Loved</key><true/>
+			<key>Compilation</key><true/>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Wish I Was Here (Music From the Motion Picture)</string>
+			<key>Sort Artist</key><string>Bon Iver</string>
+			<key>Sort Composer</key><string>Justin Vernon</string>
+			<key>Sort Name</key><string>Heavenly Father</string>
+			<key>Persistent ID</key><string>967E69933FD5A991</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Purchased</key><true/>
+		</dict>
 		<key>3894</key>
 		<dict>
 			<key>Track ID</key><integer>3894</integer>
@@ -367,6 +404,9 @@
 				</dict>
 				<dict>
 					<key>Track ID</key><integer>12234</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>3884</integer>
 				</dict>
 			</array>
 			<key>Loved</key><true/>

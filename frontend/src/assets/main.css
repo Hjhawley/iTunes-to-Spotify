@@ -48,11 +48,7 @@ body {
   background-color: #0004;
   overflow-y: auto;
   scroll-behavior: smooth;
-}
-
-.status-log p {
-  margin: 12px;
-  cursor: text;
+  padding: 1rem;
 }
 
 img {
@@ -65,7 +61,9 @@ img {
 .log-entry {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+  padding: 0.5rem;
+  cursor: text;
 }
 
 .log-image {
@@ -75,6 +73,10 @@ img {
   border-radius: 2rem;
   box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
 }
+
+.log-error { color: #e74c3c; }
+
+.log-success { color: #7e6; }
 
 .song_container {
   margin-top: 2rem;
@@ -86,35 +88,6 @@ img {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-}
-
-.left_section {
-  display: flex;
-  align-items: center;
-}
-
-.song_container img {
-  margin-right: 1rem;
-  border-radius: 8px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.7);
-}
-
-.song_container div {
-  display: flex;
-  flex-direction: row;
-  justify-items: left;
-  text-align: left;
-}
-
-.song_container p {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.duration {
-  white-space: nowrap;
-  padding-left: 1rem;
-  font-weight: 500;
 }
 
 button {
@@ -172,6 +145,11 @@ button:hover::after {
   color: #1cc;
 }
 
+a {
+  pointer-events: auto;
+  color: #1cc;
+}
+
 footer {
   margin-top: auto;
   padding: 1rem;
@@ -179,9 +157,4 @@ footer {
   color: rgba(255,255,255,0.6);
   text-align: center;
   pointer-events: none;
-}
-
-footer a {
-  pointer-events: auto;
-  color: #1cc;
 }
