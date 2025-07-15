@@ -57,12 +57,12 @@ async function _searchAlbums(token, artist, album) {
   return body.albums?.items ?? [];
 }
 
-async function _fetchAlbumTracks(token, albumId) {
-  const res = await fetch(`${API}/albums/${albumId}/tracks`, {
-    headers: { Authorization: `Bearer ${token}` },
+async function getTrackById(token, id) {
+  const res = await fetch(`${API}/tracks/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
   });
-  const body = await res.json();
-  return body.items ?? [];
+  if (!res.ok) throw new Error("Failed fetching track details");
+  return await res.json();
 }
 
 /* Create a new playlist for the current user. */
@@ -105,6 +105,7 @@ async function addTracks(token, playlistId, uris) {
 
 module.exports = {
   findBestTrack,
+  getTrackById,
   createPlaylist,
   addTracks,
 };

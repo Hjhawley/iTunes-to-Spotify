@@ -83,30 +83,9 @@ async function onSubmit() {
   const logs = await res.json();
 
   if (Array.isArray(logs)) {
-    let lastSearch = null;
-
     logs.forEach(raw => {
-      const entry = { text: raw };
-
-      // Capture the "artist" string
-      if (raw.startsWith("Searching Spotify for")) {
-        const m = raw.match(/"(.+)"/);
-        if (m) lastSearch = m[1];
-      }
-
-      // Attach the pic for lastSearch
-      if (raw === "Matched!" && lastSearch) {
-        const match = uris.value.find(t => {
-          const artists = Array.isArray(t.artists)
-            ? t.artists.join(", ")
-            : t.artists;
-          return `${artists} - ${t.name}` === lastSearch;
-        });
-        if (match?.pic) {
-          entry.pic = match.pic;
-        }
-      }
-
+      const entry = { text: raw.text };
+      if (raw.pic) entry.pic = raw.pic;
       logEntries.value.push(entry);
     });
   } else {

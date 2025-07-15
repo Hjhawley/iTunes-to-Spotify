@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 // extract track metadata
 const { parseTracks, parsePlaylistName } = require("./parser");
 // Spotify API wrappers
-const { createPlaylist, findBestTrack, addTracks } = require("./spotify");
+const { createPlaylist, getTrackById, findBestTrack, addTracks } = require("./spotify");
 
 const router = express.Router();
 router.use(cookieParser());
@@ -47,10 +47,10 @@ router.post(
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
       }
-      logs.push(`Received file: ${req.file.originalname}`);
+      logs.push({ text: `Received file: ${req.file.originalname}` });
 
       // parse XML buffer into a DOM
-      logs.push("Parsing iTunes playlist...");
+      logs.push({ text: "Parsing iTunes playlist..." });
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
       const xmlDoc = dom.window.document;
@@ -58,7 +58,7 @@ router.post(
       // extract tracks
       const trackMap = parseTracks(xmlDoc);
       const tracks = Object.values(trackMap);
-      logs.push(`Parsed ${tracks.length} tracks`);
+      logs.push({ text: `Parsed ${tracks.length} tracks` });
 
       // match each track to a Spotify URI
       const uris = [];
@@ -72,7 +72,7 @@ router.post(
         if (uri) {
           uris.push(uri.slice(14)); // remove "spotify:track:"
         } else {
-          logs.push(`No match for ${artist} - ${name}`);
+          logs.push({ text: `No match for ${artist} - ${name}` });
         }
       }
       if (uris.length > 0) {
@@ -122,10 +122,10 @@ router.post(
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded" });
       }
-      logs.push(`Received file: ${req.file.originalname}`);
+      logs.push({ text: `Received file: ${req.file.originalname}` });
 
       // parse XML buffer into a DOM
-      logs.push("Parsing iTunes playlist...");
+      logs.push({ text: "Parsing iTunes playlist..." });
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
       const xmlDoc = dom.window.document;
@@ -133,18 +133,18 @@ router.post(
       // extract tracks
       const trackMap = parseTracks(xmlDoc);
       const tracks = Object.values(trackMap);
-      logs.push(`Parsed ${tracks.length} tracks`);
+      logs.push({ text: `Parsed ${tracks.length} tracks` });
 
       // create a new Spotify playlist
       const playlistName = parsePlaylistName(xmlDoc) || "iTunes Playlist";
-      logs.push(`Migrating Spotify playlist: "${playlistName}"`);
+      logs.push({ text: `Migrating Spotify playlist: "${playlistName}"` });
       const playlistId = await createPlaylist(token, playlistName);
-      logs.push(`Playlist created (ID: ${playlistId})`);
+      logs.push({ text: `Playlist created (ID: ${playlistId})` });
 
       // match each track to a Spotify URI
       const uris = [];
       for (const { artist, name, album, trackNumber } of tracks) {
-        logs.push(`Searching Spotify for "${artist} - ${name}"`);
+        logs.push({ text: `Searching Spotify for "${artist} - ${name}"` });
         const uri = await findBestTrack(token, {
           artist,
           name,
@@ -152,27 +152,30 @@ router.post(
           trackNumber,
         });
         if (uri) {
+          const trackId = uri.split(":").pop();
+          const trackInfo = await getTrackById(token, trackId);
+          const pic = trackInfo.album.images[0]?.url;
           uris.push(uri);
-          logs.push(`Matched!`);
+          logs.push({ text: "Matched!", pic });
         } else {
-          logs.push(`No match found.`);
+          logs.push({ text: "No match found." });
         }
       }
 
       // add matched URIs to the playlist
       if (uris.length) {
-        logs.push(`Adding ${uris.length} tracks to playlist`);
+        logs.push({ text: `Adding ${uris.length} tracks to playlist` });
         await addTracks(token, playlistId, uris);
-        logs.push("Tracks successfully added");
+        logs.push({ text: "Tracks successfully added" });
       } else {
-        logs.push("No tracks to add");
+        logs.push({ text: "No tracks to add" });
       }
 
       res.json(logs);
     } catch (err) {
       console.error(err);
-      logs.push(`Error: ${err.message}`);
-      logs.push("Failed to migrate playlist.")
+      logs.push({ text: `Error: ${err.message}` });
+      logs.push({ text: "Failed to migrate playlist." });
       res.status(500).json(logs);
     }
   }
