@@ -63,7 +63,7 @@ router.post(
       // match each track to a Spotify URI
       const uris = [];
       for (const { artist, name, album, trackNumber } of tracks) {
-        const uri = await findBestTrack(token, {
+        const { uri, score } = await findBestTrack(token, {
           artist,
           name,
           album,
@@ -145,7 +145,7 @@ router.post(
       const uris = [];
       for (const { artist, name, album, trackNumber } of tracks) {
         logs.push({ text: `Searching Spotify for "${artist} - ${name}"` });
-        const uri = await findBestTrack(token, {
+        const { uri, score } = await findBestTrack(token, {
           artist,
           name,
           album,
@@ -156,7 +156,7 @@ router.post(
           const trackInfo = await getTrackById(token, trackId);
           const pic = trackInfo.album.images[0]?.url;
           uris.push(uri);
-          logs.push({ text: "Matched!", pic });
+          logs.push({ text: "Matched!", pic, score });
         } else {
           logs.push({ text: "No match found." });
         }

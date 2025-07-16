@@ -29,9 +29,12 @@ async function findBestTrack(token, { artist, name, album }) {
         bestScore = score;
       }
     }
-    return best?.uri ?? null;
+    return {
+      uri: best?.uri ?? null, 
+      score: Math.round(bestScore),
+    }
   }
-  return null;
+  return { uri: null, score: 0 };
 }
 
 async function _search(token, q) {

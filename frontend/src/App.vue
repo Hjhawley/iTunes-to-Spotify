@@ -71,7 +71,7 @@ async function onSubmit() {
 
   if (Array.isArray(logs)) {
     logs.forEach(raw => {
-      logEntries.value.push({ text: raw.text, pic: raw.pic });
+      logEntries.value.push({ text: raw.text, pic: raw.pic, score: raw.score });
     });
   } else {
     logEntries.value.push({ text: logs.error || "Migration failed." });
@@ -142,7 +142,12 @@ watch(
             </span>
           </template>
           <template v-else>
-            <span :class="logClass(entry.text)">{{ entry.text }}</span>
+            <span :class="logClass(entry.text)">
+              {{ entry.text }}
+              <template v-if="entry.score != null">
+                ({{ entry.score }}%)
+              </template>
+            </span>
           </template>
           <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
         </div>
