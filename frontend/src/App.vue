@@ -160,6 +160,7 @@ watch(
     <!-- status log -->
     <div class="status-log" v-if="user" ref="log">
       <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
+        <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
         <template v-if="isPlaylistCreated(entry.text)">
           <span>
             Playlist created (ID:
@@ -176,7 +177,6 @@ watch(
             </template>
           </span>
         </template>
-        <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
       </div>
     </div>
   </div>
