@@ -123,13 +123,13 @@ button:hover::after {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.5rem;
+  padding: 0.25rem;
   cursor: text;
 }
 
 .log-image {
   width: 120px;
-  height: 48px;
+  height: 60px;
   object-fit: cover;
   border-radius: 2rem;
   box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
