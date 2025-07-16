@@ -2,11 +2,13 @@ const express = require("express");
 const multer = require("multer");
 const { JSDOM } = require("jsdom");
 const cookieParser = require("cookie-parser");
-
-// extract track metadata
+const { Readable } = require("stream");
 const { parseTracks, parsePlaylistName } = require("./parser");
-// Spotify API wrappers
-const { createPlaylist, getTrackById, findBestTrack, addTracks } = require("./spotify");
+const {
+  createPlaylist,
+  findBestTrack,
+  addTracks
+} = require("./spotify");
 
 const router = express.Router();
 router.use(cookieParser());
@@ -21,172 +23,99 @@ function loadUserFromCookies(req, res, next) {
   if (!access_token || !spotify_id) {
     return res.status(401).json({ error: "Not authenticated" });
   }
-  req.user = {
-    accessToken: access_token,
-    spotifyId: spotify_id,
-  };
+  req.user = { accessToken: access_token, spotifyId: spotify_id };
   next();
 }
 
-/* POST /songs
-   Receives an iTunes playlist in XML format
-   Parses the file and extracts track data
-   Matches each track to a Spotify URI
-    Returns the import page */
 router.post(
-  "/songs",
+  "/import-stream",
   upload.single("file"),
   loadUserFromCookies,
   async (req, res) => {
-    const logs = [];
+    // 1) Switch to SSE
+    res.set({
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    });
+    const send = (obj) => {
+      res.write(`data: ${JSON.stringify(obj)}\n\n`);
+    };
+
     try {
       const token = req.user.accessToken;
-      if (!token) {
-        return res.status(401).json({ error: "Not authenticated" });
-      }
-      if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
-      logs.push({ text: `Received file: ${req.file.originalname}` });
+      if (!token) throw new Error("Not authenticated");
+      if (!req.file) throw new Error("No file uploaded");
 
-      // parse XML buffer into a DOM
-      logs.push({ text: "Parsing iTunes playlist..." });
+      send({ text: `Received file: ${req.file.originalname}` });
+      send({ text: "Parsing iTunes playlist…" });
+
+      // 2) Parse entire XML
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
-      const xmlDoc = dom.window.document;
+      const tracks = Object.values(parseTracks(dom.window.document));
+      send({ text: `Parsed ${tracks.length} tracks` });
 
-      // extract tracks
-      const trackMap = parseTracks(xmlDoc);
-      const tracks = Object.values(trackMap);
-      logs.push({ text: `Parsed ${tracks.length} tracks` });
+      // 3) Create Spotify playlist immediately
+      const playlistName =
+        parsePlaylistName(dom.window.document) || "iTunes Playlist";
+      send({ text: `Creating Spotify playlist “${playlistName}”…` });
+      const playlistId = await createPlaylist(token, playlistName);
+      send({ text: `Playlist created (ID: ${playlistId})` });
 
-      // match each track to a Spotify URI
-      const uris = [];
-      for (const { artist, name, album, trackNumber } of tracks) {
+      // 4) Loop: match → buffer → add in batches
+      const BATCH_SIZE = 50;
+      let buffer = [];
+
+      for (let i = 0; i < tracks.length; i++) {
+        const { artist, name, album, trackNumber } = tracks[i];
+        send({
+          text: `(${i + 1}/${tracks.length}) Searching: ${artist} – ${name}`,
+        });
+
         const { uri, score } = await findBestTrack(token, {
           artist,
           name,
           album,
           trackNumber,
         });
-        if (uri) {
-          uris.push(uri.slice(14)); // remove "spotify:track:"
-        } else {
-          logs.push({ text: `No match for ${artist} - ${name}` });
-        }
-      }
-      if (uris.length > 0) {
-        const results = await fetch(
-          `https://api.spotify.com/v1/tracks?ids=${uris.join(",")}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        const body = await results.json();
-        res.send(
-          body.tracks.map((track) => ({
-            name: track.name,
-            artists: track.artists.map((artist) => artist.name).join(", "),
-            pic: track.album.images[0].url,
-            duration: `${Math.floor(track.duration_ms / 60000)}:${String(
-              Math.floor((track.duration_ms / 1000) % 60)
-            ).padStart(2, "0")}`,
-          }))
-        );
-      } else {
-        res.send([]);
-      }
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
-);
 
-/* POST /import
-    Receives an iTunes playlist in XML format
-    Parses the file and extracts track data
-    Creates a Spotify playlist, matches each track, adds them
-    Returns log messages */
-router.post(
-  "/import",
-  upload.single("file"),
-  loadUserFromCookies,
-  async (req, res) => {
-    const logs = [];
-    try {
-      const token = req.user.accessToken;
-      if (!token) {
-        return res.status(401).json({ error: "Not authenticated" });
-      }
-      if (!req.file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
-      logs.push({ text: `Received file: ${req.file.originalname}` });
+        // normalize to [0..100]
+        const confidence =
+          typeof score === "number" && score <= 1
+            ? Math.round(score * 100)
+            : score || 0;
 
-      // parse XML buffer into a DOM
-      logs.push({ text: "Parsing iTunes playlist..." });
-      const raw = req.file.buffer.toString("utf-8");
-      const dom = new JSDOM(raw, { contentType: "text/xml" });
-      const xmlDoc = dom.window.document;
-
-      // extract tracks
-      const trackMap = parseTracks(xmlDoc);
-      const tracks = Object.values(trackMap);
-      logs.push({ text: `Parsed ${tracks.length} tracks` });
-
-      // create a new Spotify playlist
-      const playlistName = parsePlaylistName(xmlDoc) || "iTunes Playlist";
-      logs.push({ text: `Migrating Spotify playlist: "${playlistName}"` });
-      const playlistId = await createPlaylist(token, playlistName);
-      logs.push({ text: `Playlist created (ID: ${playlistId})` });
-
-      // match each track to a Spotify URI
-      const uris = [];
-      for (const { artist, name, album, trackNumber } of tracks) {
-        logs.push({ text: `Searching Spotify for "${artist} - ${name}"` });
-        const { uri, score } = await findBestTrack(token, { artist, name, album, trackNumber });
-
-        // normalize score to percentage
-        const confidence = (typeof score === 'number' && score <= 1) 
-          ? Math.round(score * 100) 
-          : score;
-
-        // apply 50% confidence cutoff
         if (uri && confidence >= 50) {
-          const trackId = uri.split(":").pop();
-          const trackInfo = await getTrackById(token, trackId);
-          const pic = trackInfo.album.images[0]?.url;
-
-          uris.push(uri);
-          logs.push({ 
-            text: `Matched!`, 
-            pic, 
-            score: confidence,
-          });
+          buffer.push(uri);
+          send({ text: `→ Matched! (${confidence}%)` });
         } else {
-          logs.push({ 
-            text: `No match found.`, 
-            score: null, 
-          });
+          send({ text: `→ No match. (${confidence}%)` });
+        }
+
+        // flush when we hit batch size
+        if (buffer.length >= BATCH_SIZE) {
+          send({ text: `Adding ${buffer.length} tracks…` });
+          await addTracks(token, playlistId, buffer);
+          send({ text: `Added ${buffer.length}!` });
+          buffer = [];
         }
       }
 
-      // add matched URIs to the playlist
-      if (uris.length) {
-        logs.push({ text: `Adding ${uris.length} tracks to playlist` });
-        await addTracks(token, playlistId, uris);
-        logs.push({ text: "Tracks successfully added!" });
-      } else {
-        logs.push({ text: "No tracks to add" });
+      // flush any leftovers
+      if (buffer.length) {
+        send({ text: `Adding final ${buffer.length} tracks…` });
+        await addTracks(token, playlistId, buffer);
+        send({ text: `Added ${buffer.length}!` });
       }
 
-      res.json(logs);
+      send({ text: "Playlist successfully migrated!" });
+      res.end();
     } catch (err) {
       console.error(err);
-      logs.push({ text: `Error: ${err.message}` });
-      logs.push({ text: "Failed to migrate playlist." });
-      res.status(500).json(logs);
+      send({ text: `Error: ${err.message}` });
+      send({ text: "Failed to migrate playlist." });
+      res.end();
     }
   }
 );

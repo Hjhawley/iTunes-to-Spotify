@@ -3,10 +3,10 @@ import { ref, watch, nextTick, onMounted } from "vue";
 
 const user = ref(null);
 const file = ref(null);       // the uploaded XML
-const uris = ref([]);         // holds the array of track objects
+const uris = ref([]);         // holds the array of track objects (unused in SSE flow)
 const status = ref([]);       // optional: messages about how many tracks found or errors
 const log = ref(null);        // the DOM element reference of the status log
-const logEntries = ref([]);   // array of { text?: string; pic?: string }
+const logEntries = ref([]);   // array of { text?: string; pic?: string; score?: number }
 
 // Backend base URL
 const BACKEND_URL = "http://localhost:8888";
@@ -59,23 +59,51 @@ async function onFileSelect(event) {
   }
 }
 
-// Perform import, build a logEntries array
 async function onSubmit() {
   if (!file.value || !user.value) return;
+
+  logEntries.value = [{ text: "Starting import…" }];
+
+  // 1) Upload & open the response stream
   const form = new FormData();
   form.append("file", file.value);
 
-  logEntries.value.push({ text: "Uploading…" });
-  const res = await fetch(`${BACKEND_URL}/import`, { method: "POST", body: form, credentials: "include" });
-  const logs = await res.json();
-
-  if (Array.isArray(logs)) {
-    logs.forEach(raw => {
-      logEntries.value.push({ text: raw.text, pic: raw.pic, score: raw.score });
-    });
-  } else {
-    logEntries.value.push({ text: logs.error || "Migration failed." });
+  const res = await fetch(`${BACKEND_URL}/import-stream`, {
+    method: "POST",
+    body: form,
+    credentials: "include",
+  });
+  if (!res.ok) {
+    logEntries.value.push({ text: `HTTP ${res.status} - could not start import.` });
+    return;
   }
+
+  // 2) Read the body as a stream
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+  let buf = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buf += decoder.decode(value, { stream: true });
+    // SSE frames are delimited by "\n\n"
+    const parts = buf.split("\n\n");
+    buf = parts.pop(); // leftover for next chunk
+
+    for (const chunk of parts) {
+      if (!chunk.startsWith("data:")) continue;
+      const json = chunk.replace(/^data:\s*/, "");
+      try {
+        logEntries.value.push(JSON.parse(json));
+      } catch (e) {
+        console.warn("Malformed SSE chunk:", chunk);
+      }
+    }
+  }
+
+  logEntries.value.push({ text: "Stream closed." });
 }
 
 // Helpers for log rendering
@@ -88,8 +116,8 @@ function extractPlaylistId(text) {
   return m ? m[1] : null;
 }
 function logClass(text) {
-  if (text.startsWith("Error:") || text === "No match found.") return 'log-error';
-  if (text.startsWith("Tracks successfully added!")) return 'log-success';
+  if (text.startsWith("Error:") || text.startsWith("No match")) return 'log-error';
+  if (text === "Playlist successfully migrated!") return 'log-success';
   return '';
 }
 
@@ -115,7 +143,7 @@ watch(
 
       <!-- once logged in -->
       <div v-else class="user-info">
-        <img v-if="user.images?.length" :src="user.images[0].url">
+        <img v-if="user.images?.length" :src="user.images[0].url" alt="User avatar">
         <p>Logged in as {{ user.display_name }}</p>
         <button @click="logoutWithSpotify">Log out</button>
 
@@ -131,32 +159,32 @@ watch(
       </div>
     </div>
 
-      <div class="status-log" v-if="user" ref="log">
-        <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
-          <template v-if="isPlaylistCreated(entry.text)">
-            <span>
-              Playlist created (ID:
-              <a :href="`https://open.spotify.com/playlist/${extractPlaylistId(entry.text)}`" target="_blank" rel="noopener">
-                {{ extractPlaylistId(entry.text) }}
-              </a>)
-            </span>
-          </template>
-          <template v-else>
-            <span :class="logClass(entry.text)">
-              {{ entry.text }}
-              <template v-if="entry.score != null">
-                ({{ entry.score }}%)
-              </template>
-            </span>
-          </template>
-          <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
-        </div>
+    <!-- status log -->
+    <div class="status-log" v-if="user" ref="log">
+      <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
+        <template v-if="isPlaylistCreated(entry.text)">
+          <span>
+            Playlist created (ID:
+            <a :href="`https://open.spotify.com/playlist/${extractPlaylistId(entry.text)}`" target="_blank" rel="noopener">
+              {{ extractPlaylistId(entry.text) }}
+            </a>)
+          </span>
+        </template>
+        <template v-else>
+          <span :class="logClass(entry.text)">
+            {{ entry.text }}
+            <template v-if="entry.score != null">
+              ({{ entry.score }}%)
+            </template>
+          </span>
+        </template>
+        <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
       </div>
     </div>
+  </div>
 
-    <footer>
-      This web app is not affiliated with Apple or Spotify.<br>
-      <a href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">github.com/Hjhawley/iTunes-to-Spotify</a>
-    </footer>
-
+  <footer>
+    This web app is not affiliated with Apple or Spotify.<br>
+    <a href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">github.com/Hjhawley/iTunes-to-Spotify</a>
+  </footer>
 </template>
