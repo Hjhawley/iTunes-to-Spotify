@@ -40,15 +40,9 @@ body {
   text-align: center;
 }
 
-.status-log {
-  flex: 8;
-  text-align: left;
-  word-break: break-word;
-  white-space: pre-wrap;
-  background-color: #0004;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  padding: 1rem;
+a {
+  pointer-events: auto;
+  color: #1cc;
 }
 
 img {
@@ -58,46 +52,14 @@ img {
   box-shadow: 2px 4px 10px rgba(0,0,0,1);
 }
 
-.log-entry {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem;
-  cursor: text;
-}
-
-.log-image {
-  width: 120px;
-  height: 48px;
-  object-fit: cover;
-  border-radius: 2rem;
-  box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
-}
-
-.log-error { color: #e74c3c; }
-
-.log-success { color: #7e6; }
-
-.song_container {
-  margin-top: 2rem;
-  list-style: none;
-}
-
-.song_content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
 button {
   font-size: 1.125rem;
   position: relative;
   z-index: 0;
   overflow: hidden;
   border: none;
+  padding: .8rem 1.2rem;
   border-radius: 2rem;
-  padding: 1rem 2rem;
   box-shadow: 2px 4px 10px rgba(0,0,0,1);
   cursor: pointer;
   color: white;
@@ -136,7 +98,8 @@ button:hover::after {
   z-index: 0;
   overflow: hidden;
   border: none;
-  padding: 0.33rem 0.33rem;
+  padding: .5rem .75rem;
+  border-radius: 2rem;
   box-shadow: 2px 4px 10px rgba(0,0,0,1);
   cursor: pointer;
 }
@@ -145,9 +108,47 @@ button:hover::after {
   color: #1cc;
 }
 
-a {
-  pointer-events: auto;
-  color: #1cc;
+.status-log {
+  flex: 8;
+  text-align: left;
+  word-break: break-word;
+  white-space: pre-wrap;
+  background-color: #0004;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 1rem;
+}
+
+.log-entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem;
+  cursor: text;
+}
+
+.log-image {
+  width: 120px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 2rem;
+  box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
+}
+
+.log-error { color: #e74c3c; }
+
+.log-success { color: #7e6; }
+
+.song_container {
+  margin-top: 2rem;
+  list-style: none;
+}
+
+.song_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 footer {
