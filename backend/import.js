@@ -145,20 +145,30 @@ router.post(
       const uris = [];
       for (const { artist, name, album, trackNumber } of tracks) {
         logs.push({ text: `Searching Spotify for "${artist} - ${name}"` });
-        const { uri, score } = await findBestTrack(token, {
-          artist,
-          name,
-          album,
-          trackNumber,
-        });
-        if (uri) {
+        const { uri, score } = await findBestTrack(token, { artist, name, album, trackNumber });
+
+        // normalize score to percentage
+        const confidence = (typeof score === 'number' && score <= 1) 
+          ? Math.round(score * 100) 
+          : score;
+
+        // apply 50% confidence cutoff
+        if (uri && confidence >= 50) {
           const trackId = uri.split(":").pop();
           const trackInfo = await getTrackById(token, trackId);
           const pic = trackInfo.album.images[0]?.url;
+
           uris.push(uri);
-          logs.push({ text: "Matched!", pic, score });
+          logs.push({ 
+            text: `Matched!`, 
+            pic, 
+            score: confidence,
+          });
         } else {
-          logs.push({ text: "No match found." });
+          logs.push({ 
+            text: `No match found.`, 
+            score: null, 
+          });
         }
       }
 

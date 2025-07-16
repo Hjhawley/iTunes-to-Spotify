@@ -42,7 +42,7 @@ body {
 
 a {
   pointer-events: auto;
-  color: #1cc;
+  color: #2ff;
 }
 
 img {
@@ -105,7 +105,7 @@ button:hover::after {
 }
 
 .file-name {
-  color: #1cc;
+  color: #2ff;
 }
 
 .status-log {
@@ -135,7 +135,7 @@ button:hover::after {
   box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
 }
 
-.log-error { color: #e74c3c; }
+.log-error { color: #f65; }
 
 .log-success { color: #7e6; }
 
