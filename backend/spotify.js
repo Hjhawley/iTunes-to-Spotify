@@ -7,10 +7,13 @@ const API = "https://api.spotify.com/v1";
 async function findBestTrack(token, { artist, name, album }) {
   const cleanedTrack = cleanTrack(name);
   const cleanedArtist = cleanArtist(artist);
-  const cleanedAlbum  = cleanAlbum(album);
+  const cleanedAlbum = cleanAlbum(album);
 
   // Plain‑text search of “[Artist] [Track] [Album]”
-  let items = await _search(token, `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`);
+  let items = await _search(
+    token,
+    `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`
+  );
 
   // Fallback: try without the album
   if (!items.length) {
@@ -19,20 +22,27 @@ async function findBestTrack(token, { artist, name, album }) {
 
   // Tie‑breaker
   if (items.length) {
-    const query = `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`.toLowerCase();
-    let best = null, bestScore = 0;
+    const query =
+      `${cleanedArtist} ${cleanedTrack} ${cleanedAlbum}`.toLowerCase();
+    let best = null,
+      bestScore = 0;
     for (const t of items) {
-      const candidate = `${cleanArtist(t.artists[0].name)} ${cleanTrack(t.name)} ${cleanAlbum(t.album.name)}`.toLowerCase();
+      const candidate = `${cleanArtist(t.artists[0].name)} ${cleanTrack(
+        t.name
+      )} ${cleanAlbum(t.album.name)}`.toLowerCase();
       const score = compareTwoStrings(query, candidate) * 100;
-      if (score > bestScore || (score === bestScore && t.popularity > (best?.popularity||0))) {
+      if (
+        score > bestScore ||
+        (score === bestScore && t.popularity > (best?.popularity || 0))
+      ) {
         best = t;
         bestScore = score;
       }
     }
     return {
-      uri: best?.uri ?? null, 
+      uri: best?.uri ?? null,
       score: Math.round(bestScore),
-    }
+    };
   }
   return { uri: null, score: 0 };
 }
@@ -50,7 +60,7 @@ async function _search(token, q) {
 
 async function getTrackById(token, id) {
   const res = await fetch(`${API}/tracks/${id}`, {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) throw new Error("Failed fetching track details");
   return await res.json();

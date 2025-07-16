@@ -8,7 +8,7 @@ const {
   findBestTrack,
   getTrackById,
   createPlaylist,
-  addTracks
+  addTracks,
 } = require("./spotify");
 
 const router = express.Router();
@@ -88,23 +88,23 @@ router.post(
             : score || 0;
 
         if (uri && confidence >= 50) {
-        // look up the album art
-        const trackId = uri.split(":").pop();
-        const trackInfo = await getTrackById(token, trackId);
-        const pic = trackInfo.album.images[0]?.url;
+          // look up the album art
+          const trackId = uri.split(":").pop();
+          const trackInfo = await getTrackById(token, trackId);
+          const pic = trackInfo.album.images[0]?.url;
 
-        buffer.push(uri);
-        send({
-          text: `Matched!`,
-          pic,
-          score: confidence,
-        });
-      } else {
-        send({
-          text: `No match found.`,
-          score: null,
-        });
-      }
+          buffer.push(uri);
+          send({
+            text: `Matched!`,
+            pic,
+            score: confidence,
+          });
+        } else {
+          send({
+            text: `No match found.`,
+            score: null,
+          });
+        }
 
         // flush when we hit batch size
         if (buffer.length >= BATCH_SIZE) {

@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -15,8 +16,8 @@ body {
   min-height: 100vh;
   background: linear-gradient(to right, #103, #143);
   color: white;
-  text-shadow: 2px 4px 10px rgba(0,0,0,1);
-  font-family: 'Poppins', sans-serif;
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
+  font-family: "Poppins", sans-serif;
   cursor: default;
 }
 
@@ -49,7 +50,7 @@ img {
   width: 96px;
   height: 96px;
   border-radius: 32px;
-  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
 }
 
 button {
@@ -58,9 +59,9 @@ button {
   z-index: 0;
   overflow: hidden;
   border: none;
-  padding: .8rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   border-radius: 2rem;
-  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
   cursor: pointer;
   color: white;
 }
@@ -98,9 +99,9 @@ button:hover::after {
   z-index: 0;
   overflow: hidden;
   border: none;
-  padding: .5rem .75rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 2rem;
-  box-shadow: 2px 4px 10px rgba(0,0,0,1);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
   cursor: pointer;
 }
 
@@ -132,13 +133,17 @@ button:hover::after {
   height: 64px;
   object-fit: cover;
   border-radius: 1rem;
-  box-shadow: 1px 2px 6px rgba(0,0,0,0.5);
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }
 
-.log-error { color: #f65; }
+.log-error {
+  color: #f65;
+}
 
-.log-success { color: #7e6; }
+.log-success {
+  color: #7e6;
+}
 
 .song_container {
   margin-top: 2rem;
@@ -156,7 +161,7 @@ footer {
   margin-top: auto;
   padding: 1rem;
   font-size: 0.875rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
   pointer-events: none;
 }
