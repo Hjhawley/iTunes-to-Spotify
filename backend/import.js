@@ -5,8 +5,9 @@ const cookieParser = require("cookie-parser");
 const { Readable } = require("stream");
 const { parseTracks, parsePlaylistName } = require("./parser");
 const {
-  createPlaylist,
   findBestTrack,
+  getTrackById,
+  createPlaylist,
   addTracks
 } = require("./spotify");
 
@@ -32,7 +33,7 @@ router.post(
   upload.single("file"),
   loadUserFromCookies,
   async (req, res) => {
-    // 1) Switch to SSE
+    // Switch to SSE
     res.set({
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
@@ -48,22 +49,22 @@ router.post(
       if (!req.file) throw new Error("No file uploaded");
 
       send({ text: `Received file: ${req.file.originalname}` });
-      send({ text: "Parsing iTunes playlist…" });
+      send({ text: "Parsing iTunes playlist..." });
 
-      // 2) Parse entire XML
+      // Parse entire XML
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
       const tracks = Object.values(parseTracks(dom.window.document));
       send({ text: `Parsed ${tracks.length} tracks` });
 
-      // 3) Create Spotify playlist immediately
+      // Create Spotify playlist immediately
       const playlistName =
         parsePlaylistName(dom.window.document) || "iTunes Playlist";
-      send({ text: `Creating Spotify playlist “${playlistName}”…` });
+      send({ text: `Creating Spotify playlist “${playlistName}”...` });
       const playlistId = await createPlaylist(token, playlistName);
       send({ text: `Playlist created (ID: ${playlistId})` });
 
-      // 4) Loop: match → buffer → add in batches
+      // Loop: match → buffer → add in batches
       const BATCH_SIZE = 50;
       let buffer = [];
 
@@ -87,26 +88,37 @@ router.post(
             : score || 0;
 
         if (uri && confidence >= 50) {
-          buffer.push(uri);
-          send({ text: `→ Matched! (${confidence}%)` });
-        } else {
-          send({ text: `→ No match. (${confidence}%)` });
-        }
+        // look up the album art
+        const trackId = uri.split(":").pop();
+        const trackInfo = await getTrackById(token, trackId);
+        const pic = trackInfo.album.images[0]?.url;
+
+        buffer.push(uri);
+        send({
+          text: `Matched!`,
+          pic,
+          score: confidence,
+        });
+      } else {
+        send({
+          text: `No match found.`,
+          score: null,
+        });
+      }
 
         // flush when we hit batch size
         if (buffer.length >= BATCH_SIZE) {
-          send({ text: `Adding ${buffer.length} tracks…` });
+          send({ text: `Adding ${buffer.length} tracks...` });
           await addTracks(token, playlistId, buffer);
-          send({ text: `Added ${buffer.length}!` });
+          send({ text: `Continuing...` });
           buffer = [];
         }
       }
 
       // flush any leftovers
       if (buffer.length) {
-        send({ text: `Adding final ${buffer.length} tracks…` });
+        send({ text: `Adding ${buffer.length} tracks...` });
         await addTracks(token, playlistId, buffer);
-        send({ text: `Added ${buffer.length}!` });
       }
 
       send({ text: "Playlist successfully migrated!" });

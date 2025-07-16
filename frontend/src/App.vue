@@ -102,8 +102,6 @@ async function onSubmit() {
       }
     }
   }
-
-  logEntries.value.push({ text: "Stream closed." });
 }
 
 // Helpers for log rendering
