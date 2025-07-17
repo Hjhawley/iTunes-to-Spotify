@@ -2,13 +2,14 @@
 
 * {
   font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
 }
 
 html, body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
-
 
 body {
   display: flex;
@@ -16,55 +17,51 @@ body {
   min-height: 100vh;
   background: linear-gradient(to right, #103, #143);
   color: white;
-  text-shadow: 2px 4px 10px rgba(0,0,0,1);
   font-family: 'Poppins', sans-serif;
   cursor: default;
   font-weight: 200;
   text-shadow:
-  0 0 8px #fff
-  0 0 15px #a0f
-  2px 4px 10px rgba(0,0,0,1); 
+    0 0 8px #fff,
+    0 0 15px #a0f,
+    2px 4px 10px rgba(0,0,0,1);
 }
-/*glow text element thing */
-    .glow-text {
-      font-weight: 900;
-      font-size: 2.5rem;
-      transition: text-shadow 0.3s ease;
-      /* Normal state: no glow, just a little shadow */
-      text-shadow:
-        2px 4px 10px rgba(0,0,0,0.8);
-      cursor: pointer;
-      margin: 2rem auto;
-      display: inline-block;
-    }
 
-    .glow-text:hover {
-      /* Subtle glow on hover */
-      text-shadow:
-        0 0 8px #fff,
-        0 0 16px #0ff,
-        2px 4px 10px rgba(0,0,0,0.8);
-    }
+/* Glow text element */
+.glow-text {
+  font-weight: 900;
+  font-size: 2.5rem;
+  transition: text-shadow 0.3s ease;
+  text-shadow: 2px 4px 10px rgba(0,0,0,0.8);
+  cursor: pointer;
+  margin: 2rem auto;
+  display: inline-block;
+}
 
+.glow-text:hover {
+  text-shadow:
+    0 0 8px #fff,
+    0 0 16px #0ff,
+    2px 4px 10px rgba(0,0,0,0.8);
+}
 
-
-/* updated to look more pretty */
+/* Main container */
 .container {
- min-height: 100vh;           /* Full viewport height */
+  min-height: 100vh;
   display: flex;
-  justify-content: center;     /* Center horizontally */
-  align-items: center;         /* Center vertically */
-  padding: 16px;               /* Padding for mobile */
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
   box-sizing: border-box;
-
 }
+
 .box-container {
-  display: felx;
+  display: flex; /* fixed typo: felx -> flex */
   justify-content: flex-start;
   align-items: flex-start;
   margin: 0;
   padding: 0;
 }
+
 .main-content {
   flex: 13;
   display: flex;
@@ -72,6 +69,7 @@ body {
   align-items: center;
   text-align: center;
 }
+
 .container, .main-content {
   margin: 0;
   padding: 0;
@@ -112,7 +110,6 @@ img {
 }
 
 .log-error { color: #e74c3c; }
-
 .log-success { color: #7e6; }
 
 .song_container {
@@ -194,4 +191,40 @@ footer {
   color: rgba(255,255,255,0.6);
   text-align: center;
   pointer-events: none;
+}
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 600px) {
+  .container, .box-container, .main-content {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100vw;
+    max-width: 100vw;
+    padding: 8px;
+  }
+  .status-log {
+    max-height: 30vh;
+    min-height: 80px;
+    font-size: 0.95rem;
+    padding: 0.5rem;
+  }
+  .song_content {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  img, .log-image {
+    width: 64px;
+    height: 64px;
+    border-radius: 1rem;
+  }
+  .glow-text {
+    font-size: 1.5rem;
+    margin: 1rem auto;
+  }
+  button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
 }
