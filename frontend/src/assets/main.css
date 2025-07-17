@@ -57,6 +57,11 @@ body {
   padding: 0;
 }
 
+.container.centered {
+  justify-content: center;
+  align-items: center;
+}
+
 .main-content {
   flex: 13;
   display: flex;
@@ -179,6 +184,41 @@ button:hover::after {
   color: #1cc;
 }
 
+.status-log {
+  flex: 13;
+  border-radius: 2rem;
+  font-size: 1rem;
+  text-align: left;
+  background-color: #0004;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  padding: 1rem;
+}
+
+.log-entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.25rem;
+  cursor: text;
+}
+
+.log-image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.log-error {
+  color: #f65;
+}
+
+.log-success {
+  color: #7e6;
+}
 a {
   pointer-events: auto;
   color: #1cc;
