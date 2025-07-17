@@ -107,7 +107,7 @@ async function onSubmit() {
       // count successful matches
       if (entry.score != null) {
         matchCount++;
-      }
+}
 
       // append percentage on final message
       if (entry.text === "Playlist successfully migrated!") {
@@ -150,57 +150,71 @@ watch(
   <div class="container" :class="{ centered: !user }">
     <!-- main-content: login and buttons -->
     <div class="main-content">
-      <h1>iTunes &gt;&gt; Spotify<br>Playlist Migrator</h1>
-
-      <!-- if not logged in -->
-      <div v-if="!user">
-        <button @click="loginWithSpotify">Log in with Spotify</button>
-      </div>
-
-      <!-- once logged in -->
-      <div v-else class="user-info">
-        <img v-if="user.images?.length" :src="user.images[0].url" alt="User avatar">
-        <p>Logged in as {{ user.display_name }}</p>
-        <button @click="logoutWithSpotify">Log out of Spotify</button>
-
-        <div class="upload-section">
-          <p>Upload your iTunes XML playlist:</p>
-          <div class="file-wrapper">
-            <input id="file-input" type="file" accept=".xml,text/xml" @change="onFileSelect">
-          </div>
-          <p class="file-name" v-if="file">{{ file.name }}</p>
+      <h1>
+        <span class="glow-text">iTunes Spotify<br>Playlist Migrator</span>
+      </h1>
+      <template v-if="!user">
+        <div>
+          <button @click="loginWithSpotify">Login with Spotify</button>
         </div>
+      </template>
+      <template v-else>
+        <div class="user-info">
+          <img v-if="user.images?.length" :src="user.images[0].url" alt="User avatar">
+          <p>Logged in as {{ user.display_name }}</p>
+          <button @click="logoutWithSpotify">Log out of Spotify</button>
 
-        <button v-if="file" @click="onSubmit">Migrate playlist</button>
-      </div>
+          <div class="upload-section">
+            <p>Upload your iTunes XML playlist:</p>
+            <div class="file-wrapper">
+              <input id="file-input" type="file" accept=".xml,text/xml" @change="onFileSelect">
+            </div>
+            <p class="file-name" v-if="file">{{ file.name }}</p>
+          </div>
+
+          <button v-if="file" @click="onSubmit">Migrate playlist</button>
+        </div>
+      </template>
+
+<!-- Box container example -->
+<div class="box-container">
+  <div class="box">
+    <h2 class="box-title">Your Box Title</h2>
+    <div class="box-content">
+      <!-- Add your content here -->
+      <p>This is a box container. Place any content you want inside.</p>
+    </div>
+  </div>
+</div>
     </div>
 
     <!-- status log -->
-    <div class="status-log" v-if="user" ref="log">
-      <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
+      <div class="status-log" v-if="user" ref="log">
+        <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
         <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
-        <template v-if="isPlaylistCreated(entry.text)">
-          <span>
-            Playlist created (ID:
-            <a :href="`https://open.spotify.com/playlist/${extractPlaylistId(entry.text)}`" target="_blank" rel="noopener">
-              {{ extractPlaylistId(entry.text) }}
-            </a>)
-          </span>
-        </template>
-        <template v-else>
-          <span :class="logClass(entry.text)">
-            {{ entry.text }}
-            <template v-if="entry.score != null">
-              ({{ entry.score }}%)
-            </template>
-          </span>
-        </template>
+          <template v-if="isPlaylistCreated(entry.text)">
+            <span>
+              Playlist created (ID:
+              <a :href="`https://open.spotify.com/playlist/${extractPlaylistId(entry.text)}`" target="_blank" rel="noopener">
+                {{ extractPlaylistId(entry.text) }}
+              </a>)
+            </span>
+          </template>
+          <template v-else>
+            <span :class="logClass(entry.text)">
+              {{ entry.text }}
+              <template v-if="entry.score != null">
+                ({{ entry.score }}%)
+              </template>
+            </span>
+            <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
+          </template>
+        </div>
       </div>
     </div>
-  </div>
 
-  <footer>
-    This web app is not affiliated with Apple or Spotify.<br>
-    <a href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">github.com/Hjhawley/iTunes-to-Spotify</a>
-  </footer>
+    <footer>
+      This web app is not affiliated with Apple or Spotify.<br>
+      <a href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">github.com/Hjhawley/iTunes-to-Spotify</a>
+    </footer>
 </template>
