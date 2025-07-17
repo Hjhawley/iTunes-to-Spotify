@@ -144,7 +144,9 @@ router.post(
       for (let i = 0; i < tracks.length; i++) {
         const { artist, name, album, trackNumber } = tracks[i];
         send({
-          text: `(${i + 1}/${tracks.length}) Searching: ${artist} - ${name} - ${album}`,
+          text: `(${i + 1}/${
+            tracks.length
+          }) Searching: ${artist} - ${name} - ${album}`,
         });
 
         const { uri, score } = await findBestTrack(token, {
