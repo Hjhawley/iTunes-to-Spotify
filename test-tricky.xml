@@ -4,7 +4,7 @@
 <dict>
 	<key>Major Version</key><integer>1</integer>
 	<key>Minor Version</key><integer>1</integer>
-	<key>Date</key><date>2025-07-16T16:14:51Z</date>
+	<key>Date</key><date>2025-07-17T16:59:47Z</date>
 	<key>Application Version</key><string>12.13.7.1</string>
 	<key>Features</key><integer>5</integer>
 	<key>Show Content Ratings</key><true/>
@@ -120,40 +120,6 @@
 			<key>Track Type</key><string>Remote</string>
 			<key>Apple Music</key><true/>
 		</dict>
-		<key>5620</key>
-		<dict>
-			<key>Track ID</key><integer>5620</integer>
-			<key>Name</key><string>Keep On Laughin'</string>
-			<key>Artist</key><string>Ric Ocasek</string>
-			<key>Album Artist</key><string>Ric Ocasek</string>
-			<key>Composer</key><string>Ric Ocasek</string>
-			<key>Album</key><string>This Side of Paradise</string>
-			<key>Genre</key><string>Music</string>
-			<key>Kind</key><string>Apple Music AAC audio file</string>
-			<key>Size</key><integer>9889652</integer>
-			<key>Total Time</key><integer>276600</integer>
-			<key>Disc Number</key><integer>1</integer>
-			<key>Disc Count</key><integer>1</integer>
-			<key>Track Number</key><integer>1</integer>
-			<key>Track Count</key><integer>10</integer>
-			<key>Year</key><integer>1986</integer>
-			<key>Date Modified</key><date>2023-09-25T05:59:55Z</date>
-			<key>Date Added</key><date>2023-09-25T05:59:55Z</date>
-			<key>Bit Rate</key><integer>256</integer>
-			<key>Sample Rate</key><integer>44100</integer>
-			<key>Play Count</key><integer>2</integer>
-			<key>Play Date</key><integer>3780379050</integer>
-			<key>Play Date UTC</key><date>2023-10-17T15:17:30Z</date>
-			<key>Release Date</key><date>1986-01-01T12:00:00Z</date>
-			<key>Loved</key><true/>
-			<key>Artwork Count</key><integer>1</integer>
-			<key>Sort Album</key><string>This Side of Paradise</string>
-			<key>Sort Artist</key><string>Ric Ocasek</string>
-			<key>Sort Name</key><string>Keep On Laughin'</string>
-			<key>Persistent ID</key><string>2A29DFFCC4197AF0</string>
-			<key>Track Type</key><string>Remote</string>
-			<key>Apple Music</key><true/>
-		</dict>
 		<key>5630</key>
 		<dict>
 			<key>Track ID</key><integer>5630</integer>
@@ -265,11 +231,11 @@
 		<key>9282</key>
 		<dict>
 			<key>Track ID</key><integer>9282</integer>
-			<key>Name</key><string>qq owvrnrwv qwoepqo</string>
-			<key>Artist</key><string>The owvrnrwv qq</string>
-			<key>Album Artist</key><string>The owvrnrwv qq</string>
+			<key>Name</key><string>Little Black Submarines</string>
+			<key>Artist</key><string>The Black Keys</string>
+			<key>Album Artist</key><string>The Black Keys</string>
 			<key>Composer</key><string>Brian Burton, Dan Auerbach &#38; Patrick Carney</string>
-			<key>Album</key><string>vmnbvmn</string>
+			<key>Album</key><string>El Camino</string>
 			<key>Genre</key><string>Music</string>
 			<key>Kind</key><string>Apple Music AAC audio file</string>
 			<key>Size</key><integer>9673471</integer>
@@ -289,47 +255,11 @@
 			<key>Release Date</key><date>2011-12-06T08:00:00Z</date>
 			<key>Loved</key><true/>
 			<key>Artwork Count</key><integer>1</integer>
-			<key>Sort Album</key><string>vmnbvmn</string>
-			<key>Sort Album Artist</key><string>owvrnrwv Keys</string>
-			<key>Sort Artist</key><string>owvrnrwv qq</string>
-			<key>Sort Name</key><string>Little owvrnrwv qwoepqo</string>
+			<key>Sort Album</key><string>El Camino</string>
+			<key>Sort Album Artist</key><string>Black Keys</string>
+			<key>Sort Artist</key><string>Black Keys</string>
+			<key>Sort Name</key><string>Little Black Submarines</string>
 			<key>Persistent ID</key><string>A0B30B8C520FA61C</string>
-			<key>Track Type</key><string>Remote</string>
-			<key>Apple Music</key><true/>
-		</dict>
-		<key>9298</key>
-		<dict>
-			<key>Track ID</key><integer>9298</integer>
-			<key>Name</key><string>Linger</string>
-			<key>Artist</key><string>The Cranberries</string>
-			<key>Album Artist</key><string>The Cranberries</string>
-			<key>Composer</key><string>Dolores O'Riordan &#38; Noel Hogan</string>
-			<key>Album</key><string>Everybody Else Is Doing It, So Why Can't We?</string>
-			<key>Genre</key><string>Music</string>
-			<key>Kind</key><string>Apple Music AAC audio file</string>
-			<key>Size</key><integer>10351243</integer>
-			<key>Total Time</key><integer>274707</integer>
-			<key>Disc Number</key><integer>1</integer>
-			<key>Disc Count</key><integer>1</integer>
-			<key>Track Number</key><integer>7</integer>
-			<key>Track Count</key><integer>12</integer>
-			<key>Year</key><integer>1993</integer>
-			<key>Date Modified</key><date>2023-09-26T02:15:20Z</date>
-			<key>Date Added</key><date>2023-09-26T02:15:20Z</date>
-			<key>Bit Rate</key><integer>256</integer>
-			<key>Sample Rate</key><integer>44100</integer>
-			<key>Comments</key><string>Green</string>
-			<key>Play Count</key><integer>3</integer>
-			<key>Play Date</key><integer>3817639994</integer>
-			<key>Play Date UTC</key><date>2024-12-21T22:33:14Z</date>
-			<key>Release Date</key><date>1993-02-15T08:00:00Z</date>
-			<key>Loved</key><true/>
-			<key>Artwork Count</key><integer>1</integer>
-			<key>Sort Album</key><string>Everybody Else Is Doing It, So Why Can't We?</string>
-			<key>Sort Album Artist</key><string>Cranberries</string>
-			<key>Sort Artist</key><string>Cranberries</string>
-			<key>Sort Name</key><string>Linger</string>
-			<key>Persistent ID</key><string>2F9405A838503270</string>
 			<key>Track Type</key><string>Remote</string>
 			<key>Apple Music</key><true/>
 		</dict>
@@ -367,14 +297,75 @@
 			<key>Track Type</key><string>Remote</string>
 			<key>Apple Music</key><true/>
 		</dict>
+		<key>49309</key>
+		<dict>
+			<key>Track ID</key><integer>49309</integer>
+			<key>Name</key><string>Just Give Me a Reason (feat. Nate Ruess)</string>
+			<key>Artist</key><string>P!nk</string>
+			<key>Album Artist</key><string>P!nk</string>
+			<key>Composer</key><string>P!nk, Nate Ruess &#38; Jeff Bhasker</string>
+			<key>Album</key><string>The Truth About Love</string>
+			<key>Genre</key><string>Pop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>8538238</integer>
+			<key>Total Time</key><integer>242721</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>4</integer>
+			<key>Track Count</key><integer>15</integer>
+			<key>Year</key><integer>2012</integer>
+			<key>Date Modified</key><date>2025-07-17T16:58:42Z</date>
+			<key>Date Added</key><date>2025-07-17T16:58:42Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2012-09-14T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Truth About Love</string>
+			<key>Sort Artist</key><string>P!nk</string>
+			<key>Sort Name</key><string>Just Give Me a Reason (feat. Nate Ruess)</string>
+			<key>Persistent ID</key><string>BF3640B61768F3CB</string>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
+		<key>49340</key>
+		<dict>
+			<key>Track ID</key><integer>49340</integer>
+			<key>Name</key><string>Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) [Remix]</string>
+			<key>Artist</key><string>Ty Dolla $ign</string>
+			<key>Album Artist</key><string>Ty Dolla $ign</string>
+			<key>Composer</key><string>Mustard, Lemmie Crockem, Mike Free, Ty Dolla $ign &#38; Wiz Khalifa</string>
+			<key>Album</key><string>Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) [Remix] - Single</string>
+			<key>Genre</key><string>Hip-Hop</string>
+			<key>Kind</key><string>Apple Music AAC audio file</string>
+			<key>Size</key><integer>8853674</integer>
+			<key>Total Time</key><integer>242983</integer>
+			<key>Disc Number</key><integer>1</integer>
+			<key>Disc Count</key><integer>1</integer>
+			<key>Track Number</key><integer>1</integer>
+			<key>Track Count</key><integer>1</integer>
+			<key>Year</key><integer>2014</integer>
+			<key>Date Modified</key><date>2025-07-17T16:59:23Z</date>
+			<key>Date Added</key><date>2025-07-17T16:59:23Z</date>
+			<key>Bit Rate</key><integer>256</integer>
+			<key>Sample Rate</key><integer>44100</integer>
+			<key>Release Date</key><date>2014-06-10T07:00:00Z</date>
+			<key>Artwork Count</key><integer>1</integer>
+			<key>Sort Album</key><string>Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) [Remix] - Single</string>
+			<key>Sort Artist</key><string>Ty Dolla $ign</string>
+			<key>Sort Name</key><string>Or Nah (feat. The Weeknd, Wiz Khalifa and DJ Mustard) [Remix]</string>
+			<key>Persistent ID</key><string>8F408231FC400BB1</string>
+			<key>Explicit</key><true/>
+			<key>Track Type</key><string>Remote</string>
+			<key>Apple Music</key><true/>
+		</dict>
 	</dict>
 	<key>Playlists</key>
 	<array>
 		<dict>
-			<key>Name</key><string>tricky</string>
+			<key>Name</key><string>Tricky</string>
 			<key>Description</key><string></string>
-			<key>Playlist ID</key><integer>48065</integer>
-			<key>Playlist Persistent ID</key><string>0CC8988CF3DDF3ED</string>
+			<key>Playlist ID</key><integer>48145</integer>
+			<key>Playlist Persistent ID</key><string>E8E3E0FA9A4C7A3A</string>
 			<key>All Items</key><true/>
 			<key>Playlist Items</key>
 			<array>
@@ -383,9 +374,6 @@
 				</dict>
 				<dict>
 					<key>Track ID</key><integer>5042</integer>
-				</dict>
-				<dict>
-					<key>Track ID</key><integer>5620</integer>
 				</dict>
 				<dict>
 					<key>Track ID</key><integer>5630</integer>
@@ -397,9 +385,6 @@
 					<key>Track ID</key><integer>5840</integer>
 				</dict>
 				<dict>
-					<key>Track ID</key><integer>9298</integer>
-				</dict>
-				<dict>
 					<key>Track ID</key><integer>12234</integer>
 				</dict>
 				<dict>
@@ -407,6 +392,12 @@
 				</dict>
 				<dict>
 					<key>Track ID</key><integer>9282</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>49309</integer>
+				</dict>
+				<dict>
+					<key>Track ID</key><integer>49340</integer>
 				</dict>
 			</array>
 			<key>Loved</key><true/>

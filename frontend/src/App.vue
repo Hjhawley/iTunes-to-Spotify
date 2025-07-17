@@ -64,7 +64,9 @@ async function onSubmit() {
 
   logEntries.value = [{ text: "Starting import…" }];
 
-  // 1) Upload & open the response stream
+  let matchCount = 0;
+  let totalCount = 0;
+
   const form = new FormData();
   form.append("file", file.value);
 
@@ -78,7 +80,7 @@ async function onSubmit() {
     return;
   }
 
-  // 2) Read the body as a stream
+  // Read the body as a stream
   const reader = res.body.getReader();
   const decoder = new TextDecoder("utf-8");
   let buf = "";
@@ -94,17 +96,32 @@ async function onSubmit() {
 
     for (const chunk of parts) {
       if (!chunk.startsWith("data:")) continue;
-      const json = chunk.replace(/^data:\s*/, "");
-      try {
-        logEntries.value.push(JSON.parse(json));
-      } catch (e) {
-        console.warn("Malformed SSE chunk:", chunk);
+      const entry = JSON.parse(chunk.replace(/^data:\s*/, ""));
+
+      // capture original playlist size
+      if (entry.text?.startsWith("Parsed ")) {
+        const m = entry.text.match(/^Parsed\s+(\d+)\s+tracks/);
+        if (m) totalCount = parseInt(m[1], 10);
       }
+
+      // count successful matches
+      if (entry.score != null) {
+        matchCount++;
+      }
+
+      // append percentage on final message
+      if (entry.text === "Playlist successfully migrated!") {
+        const pct = totalCount > 0
+          ? Math.round((matchCount / totalCount) * 100)
+          : 0;
+        entry.text += ` ${pct}% success rate.`;
+      }
+
+      logEntries.value.push(entry);
     }
   }
 }
 
-// Helpers for log rendering
 const playlistRe = /Playlist created \(ID: (\w+)\)/;
 function isPlaylistCreated(text) {
   return playlistRe.test(text);
@@ -114,9 +131,9 @@ function extractPlaylistId(text) {
   return m ? m[1] : null;
 }
 function logClass(text) {
-  if (text.startsWith("Error:") || text.startsWith("No match")) return 'log-error';
-  if (text === "Playlist successfully migrated!") return 'log-success';
-  return '';
+  if (text.startsWith("Error:") || text.startsWith("No match")) return "log-error";
+  if (text.startsWith("Playlist successfully migrated!")) return "log-success";
+  return "";
 }
 
 // Auto scroll

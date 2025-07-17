@@ -34,6 +34,11 @@ function parsePlaylistName(xmlDoc) {
 
 /* cleaner functions */
 function cleanTrack(title) {
+  // Remove naughty phrases
+  title = title.replace(
+    /\s*[\(\[]?\s*(?:LP Version|Single Version|Mono Version|Stereo Version|Remastered Version|Remaster)\s*[\)\]]?\s*/gi,
+    ""
+  );
   // Remove ’ ' , . ! ? [] ()
   title = title.replace(/[’',.!?\[\]\(\)]/g, "");
   // turn slashes and dashes into spaces
@@ -44,19 +49,24 @@ function cleanTrack(title) {
   title = title.replace(/\s+/g, " ");
   // Strip leading "The "
   title = title.replace(/^The\s+/i, "");
+  // Convert "&" to "and"
+  title = title.replace(/&/g, "and");
   return title;
 }
 
 function cleanAlbum(album) {
-  album = album.replace(/\b(remastered|deluxe|edition)\b/gi, ""); // Drop these words
+  album = album.replace(/\b(remastered|deluxe|edition|version)\b/gi, ""); // Drop naughty words
   album = cleanTrack(album);
   return album;
 }
 
 function cleanArtist(name) {
-  if (name === "The The") return name; // edge case
-  name = name.replace(/&/g, "and"); // Convert ampersand to "and"
-  name = cleanTrack(name);
+  // edge case
+  if (name === "The The") return name;
+  // Strip leading "The "
+  name = name.replace(/^The\s+/i, "");
+  // Convert "&" to "and"
+  name = name.replace(/&/g, "and");
   return name;
 }
 
