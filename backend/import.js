@@ -42,7 +42,6 @@ router.post(
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
       const tracks = Object.values(parseTracks(dom.window.document));
-      console.log(tracks);
 
       // Get playlist name
       const playlistName =
@@ -80,12 +79,6 @@ router.post(
           const pic = trackInfo.album.images[0]?.url;
 
           // Log the found track URI and album art
-          console.log(
-            `Matched: ${uri} (Confidence: ${score}) for ${name} by ${artist}`
-          );
-          if (pic) {
-            console.log(`Album Art: ${pic}`);
-          }
 
           // Add to the list of found tracks
           foundTracks.push({
