@@ -29,6 +29,86 @@ function loadUserFromCookies(req, res, next) {
 }
 
 router.post(
+  "/import",
+  upload.single("file"),
+  loadUserFromCookies,
+  async (req, res) => {
+    try {
+      const token = req.user.accessToken;
+      if (!token) throw new Error("Not authenticated");
+      if (!req.file) throw new Error("No file uploaded");
+
+      // Parse entire XML
+      const raw = req.file.buffer.toString("utf-8");
+      const dom = new JSDOM(raw, { contentType: "text/xml" });
+      const tracks = Object.values(parseTracks(dom.window.document));
+      console.log(tracks);
+
+      // Get playlist name
+      const playlistName =
+        parsePlaylistName(dom.window.document) || "iTunes Playlist";
+
+      const foundTracks = [];
+
+      for (let i = 0; i < tracks.length; i++) {
+        const { artist, name, album, trackNumber } = tracks[i];
+
+        const { uri, score } = await findBestTrack(token, {
+          artist,
+          name,
+          album,
+          trackNumber,
+        });
+
+        // Only add tracks that were found and have a reasonable confidence score
+        if (uri && score >= 0.5) {
+          trackFound = await fetch(
+            `https://api.spotify.com/v1/tracks/${uri.split("ck:").pop()}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (!trackFound.ok) {
+            console.error(
+              `Failed to fetch track info for ${uri}: ${trackFound.statusText}`
+            );
+            continue;
+          }
+          const trackInfo = await trackFound.json();
+          const pic = trackInfo.album.images[0]?.url;
+
+          // Log the found track URI and album art
+          console.log(
+            `Matched: ${uri} (Confidence: ${score}) for ${name} by ${artist}`
+          );
+          if (pic) {
+            console.log(`Album Art: ${pic}`);
+          }
+
+          // Add to the list of found tracks
+          foundTracks.push({
+            uri,
+            name: trackInfo.name,
+            artist: trackInfo.artists[0]?.name,
+            album: trackInfo.album.name,
+            pic,
+          });
+        }
+      }
+      res.json({
+        tracks: foundTracks,
+        name: playlistName,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
+
+router.post(
   "/import-stream",
   upload.single("file"),
   loadUserFromCookies,
