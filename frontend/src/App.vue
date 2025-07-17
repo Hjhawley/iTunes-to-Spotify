@@ -66,7 +66,6 @@ async function onFileSelect(event) {
     const data = await res.json();
     if (data.tracks && data.name) {
       uris.value = data.tracks;
-      console.log(`Here are the uris:`, uris.value);
       playlistName.value = data.name || "iTunes Playlist";
     } else {
       status.value = [data.error || "Failed to load tracks"];
@@ -199,7 +198,7 @@ watch(
           <button class="close-btn" @click="closeModal">&times;</button>
         </div>
         <div class="modal-body">
-          <p v-if="!uris.length">No tracks found in the playlist.</p>
+          <div v-if="!uris.length" class="loader"></div>
           <div v-else class="track-list">
             <div v-for="(track, index) in uris" :key="index" class="track-item">
               <div
