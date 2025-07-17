@@ -2,11 +2,13 @@
 import { ref, watch, nextTick, onMounted } from "vue";
 
 const user = ref(null);
-const file = ref(null);       // the uploaded XML
-const uris = ref([]);         // holds the array of track objects (unused in SSE flow)
-const status = ref([]);       // optional: messages about how many tracks found or errors
-const log = ref(null);        // the DOM element reference of the status log
-const logEntries = ref([]);   // array of { text?: string; pic?: string; score?: number }
+const file = ref(null); // the uploaded XML
+const uris = ref([]); // holds the array of track objects (unused in SSE flow)
+const status = ref([]); // optional: messages about how many tracks found or errors
+const log = ref(null); // the DOM element reference of the status log
+const logEntries = ref([]); // array of { text?: string; pic?: string; score?: number }
+const playlistName = ref("");
+const showModal = ref(false);
 
 // Backend base URL
 const BACKEND_URL = "http://localhost:8888";
@@ -20,10 +22,21 @@ function logoutWithSpotify() {
   window.location.href = `${BACKEND_URL}/auth/logout`;
 }
 
+// Open/close modal
+function openPlaylistModal() {
+  showModal.value = true;
+}
+
+function closeModal() {
+  showModal.value = false;
+}
+
 // Check session on mount
 onMounted(async () => {
   try {
-    const res = await fetch(`${BACKEND_URL}/auth/whoami`, { credentials: "include" });
+    const res = await fetch(`${BACKEND_URL}/auth/whoami`, {
+      credentials: "include",
+    });
     user.value = res.ok ? await res.json() : null;
   } catch {
     user.value = null;
@@ -44,12 +57,17 @@ async function onFileSelect(event) {
   form.append("file", chosen);
 
   try {
-    const res = await fetch(`${BACKEND_URL}/songs`, { method: "POST", body: form, credentials: "include" });
+    const res = await fetch(`${BACKEND_URL}/import`, {
+      method: "POST",
+      body: form,
+      credentials: "include",
+    });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    if (Array.isArray(data)) {
-      uris.value = data;
-      status.value = [`Found ${data.length} tracks`];
+    if (data.tracks && data.name) {
+      uris.value = data.tracks;
+      console.log(`Here are the uris:`, uris.value);
+      playlistName.value = data.name || "iTunes Playlist";
     } else {
       status.value = [data.error || "Failed to load tracks"];
     }
@@ -76,7 +94,9 @@ async function onSubmit() {
     credentials: "include",
   });
   if (!res.ok) {
-    logEntries.value.push({ text: `HTTP ${res.status} - could not start import.` });
+    logEntries.value.push({
+      text: `HTTP ${res.status} - could not start import.`,
+    });
     return;
   }
 
@@ -107,13 +127,12 @@ async function onSubmit() {
       // count successful matches
       if (entry.score != null) {
         matchCount++;
-}
+      }
 
       // append percentage on final message
       if (entry.text === "Playlist successfully migrated!") {
-        const pct = totalCount > 0
-          ? Math.round((matchCount / totalCount) * 100)
-          : 0;
+        const pct =
+          totalCount > 0 ? Math.round((matchCount / totalCount) * 100) : 0;
         entry.text += ` ${pct}% success rate.`;
       }
 
@@ -131,8 +150,9 @@ function extractPlaylistId(text) {
   return m ? m[1] : null;
 }
 function logClass(text) {
-  if (text.startsWith("Error:") || text.startsWith("No match")) return "log-error";
-  if (text.startsWith("Playlist successfully migrated!")) return "log-success";
+  if (text.startsWith("Error:") || text.startsWith("No match"))
+    return "log-error";
+  if (text === "Playlist successfully migrated!") return "log-success";
   return "";
 }
 
@@ -151,7 +171,7 @@ watch(
     <!-- main-content: login and buttons -->
     <div class="main-content">
       <h1>
-        <span class="glow-text">iTunes Spotify<br>Playlist Migrator</span>
+        <span class="glow-text">iTunes Spotify<br />Playlist Migrator</span>
       </h1>
       <template v-if="!user">
         <div>
@@ -160,50 +180,114 @@ watch(
       </template>
       <template v-else>
         <div class="user-info">
-          <img v-if="user.images?.length" :src="user.images[0].url" alt="User avatar">
+          <img
+            v-if="user.images?.length"
+            :src="user.images[0].url"
+            alt="User avatar"
+          />
           <p>Logged in as {{ user.display_name }}</p>
           <button @click="logoutWithSpotify">Log out of Spotify</button>
 
           <div class="upload-section">
             <p>Upload your iTunes XML playlist:</p>
             <div class="file-wrapper">
-              <input id="file-input" type="file" accept=".xml,text/xml" @change="onFileSelect">
+              <input
+                id="file-input"
+                type="file"
+                accept=".xml,text/xml"
+                @change="onFileSelect"
+              />
             </div>
             <p class="file-name" v-if="file">{{ file.name }}</p>
           </div>
+          <div>
+            <button v-if="file" @click="openPlaylistModal">
+              View playlist
+            </button>
 
-          <button v-if="file" @click="onSubmit">Migrate playlist</button>
+            <button v-if="file" @click="onSubmit">Migrate playlist</button>
+          </div>
         </div>
       </template>
     </div>
 
-    <!-- status log -->
-      <div class="status-log" v-if="user" ref="log">
-        <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
-        <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
-          <template v-if="isPlaylistCreated(entry.text)">
-            <span>
-              Playlist created (ID:
-              <a :href="`https://open.spotify.com/playlist/${extractPlaylistId(entry.text)}`" target="_blank" rel="noopener">
-                {{ extractPlaylistId(entry.text) }}
-              </a>)
-            </span>
-          </template>
-          <template v-else>
-            <span :class="logClass(entry.text)">
-              {{ entry.text }}
-              <template v-if="entry.score != null">
-                ({{ entry.score }}%)
-              </template>
-            </span>
-            <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image">
-          </template>
+    <!-- Playlist Modal -->
+    <div v-if="showModal" class="modal-overlay" @click="closeModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h2>{{ playlistName || "Playlist Preview" }}</h2>
+          <button class="close-btn" @click="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p v-if="!uris.length">No tracks found in the playlist.</p>
+          <div v-else class="track-list">
+            <div v-for="(track, index) in uris" :key="index" class="track-item">
+              <div
+                style="flex: 1; display: flex; flex-direction: row; gap: 10px"
+              >
+                <img
+                  :src="track.pic"
+                  class="track-pic"
+                  style="border-radius: 10%"
+                />
+                <div class="track-info">
+                  <strong>{{ track.name || "Unknown Track" }}</strong>
+                  <span class="artist">{{
+                    track.artist || "Unknown Artist"
+                  }}</span>
+                  <span class="album" v-if="track.album">{{
+                    track.album
+                  }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <footer>
-      This web app is not affiliated with Apple or Spotify.<br>
-      <a href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank" rel="noopener">github.com/Hjhawley/iTunes-to-Spotify</a>
-    </footer>
+    <!-- status log -->
+    <div class="status-log" v-if="user" ref="log">
+      <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
+        <img
+          v-if="entry.pic"
+          :src="entry.pic"
+          alt="album art"
+          class="log-image"
+        />
+        <template v-if="isPlaylistCreated(entry.text)">
+          <span>
+            Playlist created (ID:
+            <a
+              :href="`https://open.spotify.com/playlist/${extractPlaylistId(
+                entry.text
+              )}`"
+              target="_blank"
+              rel="noopener"
+            >
+              {{ extractPlaylistId(entry.text) }} </a
+            >)
+          </span>
+        </template>
+        <template v-else>
+          <span :class="logClass(entry.text)">
+            {{ entry.text }}
+            <template v-if="entry.score != null">
+              ({{ entry.score }}%)
+            </template>
+          </span>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    This web app is not affiliated with Apple or Spotify.<br />
+    <a
+      href="https://github.com/Hjhawley/iTunes-to-Spotify"
+      target="_blank"
+      rel="noopener"
+      >github.com/Hjhawley/iTunes-to-Spotify</a
+    >
+  </footer>
 </template>
