@@ -76,6 +76,12 @@ async function onFileSelect(event) {
   }
 }
 
+function reset() {
+  playlistName.value = "";
+  uris.value = [];
+  file.value = null;
+}
+
 async function onSubmit() {
   if (!file.value || !user.value) return;
 
@@ -136,6 +142,14 @@ async function onSubmit() {
       }
 
       logEntries.value.push(entry);
+
+      // Reset the form if migration was successful
+      if (entry.text?.startsWith("Playlist successfully migrated!")) {
+        // Optional: Add a small delay so user can see the success message
+        setTimeout(() => {
+          reset();
+        }, 2000);
+      }
     }
   }
 }
@@ -304,7 +318,7 @@ watch(
               target="_blank"
               rel="noopener"
             >
-              {{ extractPlaylistId(entry.text) }} </a
+              {{ extractPlaylistId(entry.text) }}</a
             >)
           </span>
         </template>
