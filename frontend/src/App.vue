@@ -222,7 +222,6 @@ watch(
 
 <template>
   <div class="container" :class="{ centered: !user }">
-  <div class="container" :class="{ centered: !user }">
     <!-- main-content: login and buttons -->
     <div class="main-content">
       <h1>iTunes &gt;&gt; Spotify<br />Playlist Migrator</h1>
@@ -242,27 +241,24 @@ watch(
         <p>Logged in as {{ user.display_name }}</p>
         <button @click="logoutWithSpotify">Log out of Spotify</button>
 
-          <div class="upload-section">
-            <p>Upload your iTunes XML playlist:</p>
-            <div class="file-wrapper">
-              <input
-                id="file-input"
-                type="file"
-                accept=".xml,text/xml"
-                @change="onFileSelect"
-              />
-            </div>
-            <p class="file-name" v-if="file">{{ file.name }}</p>
+        <div class="upload-section">
+          <p>Upload your iTunes XML playlist:</p>
+          <div class="file-wrapper">
+            <input
+              id="file-input"
+              type="file"
+              accept=".xml,text/xml"
+              @change="onFileSelect"
+            />
           </div>
-          <div>
-            <button v-if="file" @click="openPlaylistModal">
-              View playlist
-            </button>
-
-            <button v-if="file" @click="onSubmit">Migrate playlist</button>
-          </div>
+          <p class="file-name" v-if="file">{{ file.name }}</p>
         </div>
-      </template>
+        <div>
+          <button v-if="file" @click="openPlaylistModal">View playlist</button>
+
+          <button v-if="file" @click="onSubmit">Migrate playlist</button>
+        </div>
+      </div>
     </div>
 
     <!-- Playlist Modal -->
