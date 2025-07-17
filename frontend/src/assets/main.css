@@ -33,6 +33,11 @@ body {
   box-sizing: border-box;
 }
 
+.container.centered {
+  justify-content: center;
+  align-items: center;
+}
+
 .main-content {
   flex: 7;
   display: flex;
@@ -143,18 +148,6 @@ button:hover::after {
 
 .log-success {
   color: #7e6;
-}
-
-.song_container {
-  margin-top: 2rem;
-  list-style: none;
-}
-
-.song_content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
 }
 
 footer {
