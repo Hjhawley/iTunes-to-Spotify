@@ -130,20 +130,21 @@ watch(
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" :class="{ centered: !user }">
     <!-- main-content: login and buttons -->
     <div class="main-content">
       <h1>iTunes &gt;&gt; Spotify<br>Playlist Migrator</h1>
 
+      <!-- if not logged in -->
       <div v-if="!user">
-        <button @click="loginWithSpotify">Login with Spotify</button>
+        <button @click="loginWithSpotify">Log in with Spotify</button>
       </div>
 
       <!-- once logged in -->
       <div v-else class="user-info">
         <img v-if="user.images?.length" :src="user.images[0].url" alt="User avatar">
         <p>Logged in as {{ user.display_name }}</p>
-        <button @click="logoutWithSpotify">Log out</button>
+        <button @click="logoutWithSpotify">Log out of Spotify</button>
 
         <div class="upload-section">
           <p>Upload your iTunes XML playlist:</p>
