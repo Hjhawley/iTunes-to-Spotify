@@ -155,6 +155,43 @@ function logClass(text) {
   return "";
 }
 
+window.onscroll = function () {
+  myFunction();
+};
+
+function myFunction() {
+  // Get the modal body element
+  const modalBody = document.querySelector(".modal-body");
+  const progressBar = document.getElementById("myBar");
+  if (!modalBody || !progressBar) return;
+
+  const scrollTop = modalBody.scrollTop;
+  const scrollHeight = modalBody.scrollHeight - modalBody.clientHeight;
+  const scrolled = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  progressBar.style.width = scrolled + "%";
+}
+
+// Attach scroll event to modal body when modal is shown
+watch(showModal, (val) => {
+  if (val) {
+    nextTick(() => {
+      const modalBody = document.querySelector(".modal-body");
+      if (modalBody) {
+        modalBody.addEventListener("scroll", myFunction);
+        // Initialize progress bar
+        myFunction();
+      }
+    });
+  } else {
+    const modalBody = document.querySelector(".modal-body");
+    if (modalBody) {
+      modalBody.removeEventListener("scroll", myFunction);
+    }
+    const progressBar = document.getElementById("myBar");
+    if (progressBar) progressBar.style.width = "0%";
+  }
+});
+
 // Auto scroll
 watch(
   () => logEntries.value.length,
@@ -216,6 +253,9 @@ watch(
         <div class="modal-header">
           <h2>{{ playlistName || "Playlist Preview" }}</h2>
           <button class="close-btn" @click="closeModal">&times;</button>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" id="myBar"></div>
         </div>
         <div class="modal-body">
           <div v-if="!uris.length" class="loader"></div>
