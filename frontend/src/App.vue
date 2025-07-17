@@ -175,17 +175,6 @@ watch(
           <button v-if="file" @click="onSubmit">Migrate playlist</button>
         </div>
       </template>
-
-<!-- Box container example -->
-<div class="box-container">
-  <div class="box">
-    <h2 class="box-title">Your Box Title</h2>
-    <div class="box-content">
-      <!-- Add your content here -->
-      <p>This is a box container. Place any content you want inside.</p>
-    </div>
-  </div>
-</div>
     </div>
 
     <!-- status log -->
