@@ -153,6 +153,10 @@ function logClass(text) {
     return "log-error";
   if (text === "Playlist successfully migrated!") return "log-success";
   return "";
+  if (text.startsWith("Error:") || text.startsWith("No match"))
+    return "log-error";
+  if (text.startsWith("Playlist successfully migrated!")) return "log-success";
+  return "";
 }
 
 window.onscroll = function () {
