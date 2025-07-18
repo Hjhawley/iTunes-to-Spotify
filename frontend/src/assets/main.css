@@ -229,7 +229,7 @@ footer {
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #666;
+  color: white;
   padding: 0;
   width: 30px;
   height: 30px;
@@ -239,7 +239,7 @@ footer {
 }
 
 .close-btn:hover {
-  color: #333;
+  color: black;
 }
 
 .modal-body {
@@ -263,9 +263,9 @@ footer {
 
 .track-item {
   padding: 12px;
-  border: 1px solid #000000;
+  border: 1px solid #000;
   border-radius: 6px;
-  background-color: #1b6452;
+  background-color: #011;
 }
 
 .track-info {
