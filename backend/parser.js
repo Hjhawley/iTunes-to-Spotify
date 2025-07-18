@@ -55,7 +55,8 @@ function cleanTrack(title) {
 }
 
 function cleanAlbum(album) {
-  album = album.replace(/\b(remastered|deluxe|edition|version)\b/gi, ""); // Drop naughty words
+  // Drop naughty words
+  album = album.replace(/\b(legacy|anniversary|expanded|remastered|deluxe|edition|version)\b/gi, "");
   album = cleanTrack(album);
   return album;
 }
