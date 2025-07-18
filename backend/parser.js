@@ -36,7 +36,7 @@ function parsePlaylistName(xmlDoc) {
 function cleanTrack(title) {
   // Remove naughty phrases
   title = title.replace(
-    /\s*[\(\[]?\s*(?:LP Version|Single Version|Original Version|Mono Version|Stereo Version|Remastered Version|Remastered|Remaster)\s*[\)\]]?\s*/gi,
+    /\s*[\(\[]?\s*(?:LP Version|Single Version|Original Version|Mono Version|Stereo Version|Remastered Version|Remastered|Remaster|Bonus Track)\s*[\)\]]?\s*/gi,
     ""
   );
   // Remove ’ ' , . ! ? [] ()
@@ -56,7 +56,7 @@ function cleanTrack(title) {
 
 function cleanAlbum(album) {
   // Drop naughty words
-  album = album.replace(/\b(legacy|anniversary|expanded|remastered|deluxe|edition|version)\b/gi, "");
+  album = album.replace(/\b(legacy|anniversary|expanded|remastered|super deluxe|deluxe|bonus|tracks|track|edition|version)\b/gi, "");
   album = cleanTrack(album);
   return album;
 }

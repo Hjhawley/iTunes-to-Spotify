@@ -232,10 +232,12 @@ watch(
 
       <!-- once logged in -->
       <div v-else class="user-info">
-        <img
-          :src="user.images?.[0]?.url || defaultAvatar"
-          alt="User avatar"
-        />
+        <a href="https://open.spotify.com/" target="_blank" rel="noopener">
+          <img
+            :src="user.images?.[0]?.url || defaultAvatar"
+            alt="User avatar"
+          />
+        </a>
         <p>Logged in as {{ user.display_name }}</p>
         <button @click="logoutWithSpotify">Log out of Spotify</button>
 
