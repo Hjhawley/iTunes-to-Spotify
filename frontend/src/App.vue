@@ -1,5 +1,7 @@
 <script setup>
 import { ref, watch, nextTick, onMounted } from "vue";
+const defaultAvatar = new URL('./assets/pic.jpg', import.meta.url).href;
+console.log("defaultAvatar →", defaultAvatar);
 
 const user = ref(null);
 const file = ref(null); // the uploaded XML
@@ -38,6 +40,8 @@ onMounted(async () => {
       credentials: "include",
     });
     user.value = res.ok ? await res.json() : null;
+    /* // test: no profile pic
+    if (user.value) user.value.images = []; */
   } catch {
     user.value = null;
   }
@@ -163,13 +167,8 @@ function extractPlaylistId(text) {
   return m ? m[1] : null;
 }
 function logClass(text) {
-  if (text.startsWith("Error:") || text.startsWith("No match"))
-    return "log-error";
+  if (text.startsWith("Error:") || text.startsWith("No match")) return "log-error";
   if (text === "Playlist successfully migrated!") return "log-success";
-  return "";
-  if (text.startsWith("Error:") || text.startsWith("No match"))
-    return "log-error";
-  if (text.startsWith("Playlist successfully migrated!")) return "log-success";
   return "";
 }
 
@@ -234,8 +233,7 @@ watch(
       <!-- once logged in -->
       <div v-else class="user-info">
         <img
-          v-if="user.images?.length"
-          :src="user.images[0].url"
+          :src="user.images?.[0]?.url || defaultAvatar"
           alt="User avatar"
         />
         <p>Logged in as {{ user.display_name }}</p>
