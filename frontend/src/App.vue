@@ -4,11 +4,12 @@ const defaultAvatar = new URL('./assets/pic.jpg', import.meta.url).href;
 console.log("defaultAvatar →", defaultAvatar);
 
 const user = ref(null);
-const file = ref(null); // the uploaded XML
-const uris = ref([]); // holds the array of track objects (unused in SSE flow)
-const status = ref([]); // optional: messages about how many tracks found or errors
-const log = ref(null); // the DOM element reference of the status log
-const logEntries = ref([]); // array of { text?: string; pic?: string; score?: number }
+const file = ref(null);       // the uploaded XML
+const fileInput = ref(null);  // so we can reupload files
+const uris = ref([]);         // holds the array of track objects
+const status = ref([]);       // messages about how many tracks found or errors
+const log = ref(null);        // the DOM element reference of the status log
+const logEntries = ref([]);   // array of { text?: string; pic?: string; score?: number }
 const playlistName = ref("");
 const showModal = ref(false);
 
@@ -84,6 +85,8 @@ function reset() {
   playlistName.value = "";
   uris.value = [];
   file.value = null;
+  // clear the DOM input so selecting the same file fires change again
+  if (fileInput.value) fileInput.value.value = "";
 }
 
 async function onSubmit() {
@@ -245,6 +248,7 @@ watch(
           <p>Upload your iTunes XML playlist:</p>
           <div class="file-wrapper">
             <input
+              ref="fileInput"
               id="file-input"
               type="file"
               accept=".xml,text/xml"
