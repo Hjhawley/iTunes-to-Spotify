@@ -254,7 +254,7 @@ watch(
           <p class="file-name" v-if="file">{{ file.name }}</p>
         </div>
         <div>
-          <button v-if="file" @click="openPlaylistModal">View playlist</button>
+          <button v-if="file" @click="openPlaylistModal">Preview playlist</button>
 
           <button v-if="file" @click="onSubmit">Migrate playlist</button>
         </div>
