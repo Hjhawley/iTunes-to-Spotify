@@ -236,10 +236,7 @@ watch(
       <!-- once logged in -->
       <div v-else class="user-info">
         <a href="https://open.spotify.com/" target="_blank" rel="noopener">
-          <img
-            :src="user.images?.[0]?.url || defaultAvatar"
-            alt="User avatar"
-          />
+          <img :src="user.images?.[0]?.url || defaultAvatar" alt="User avatar" />
         </a>
         <p>Logged in as {{ user.display_name }}</p>
         <button @click="logoutWithSpotify">Log out of Spotify</button>
@@ -247,13 +244,7 @@ watch(
         <div class="upload-section">
           <p>Upload your iTunes XML playlist:</p>
           <div class="file-wrapper">
-            <input
-              ref="fileInput"
-              id="file-input"
-              type="file"
-              accept=".xml,text/xml"
-              @change="onFileSelect"
-            />
+            <input ref="fileInput" id="file-input" type="file" accept=".xml,text/xml" @change="onFileSelect" />
           </div>
           <p class="file-name" v-if="file">{{ file.name }}</p>
         </div>
@@ -279,14 +270,8 @@ watch(
           <div v-if="!uris.length" class="loader"></div>
           <div v-else class="track-list">
             <div v-for="(track, index) in uris" :key="index" class="track-item">
-              <div
-                style="flex: 1; display: flex; flex-direction: row; gap: 10px"
-              >
-                <img
-                  :src="track.pic"
-                  class="track-pic"
-                  style="border-radius: 10%"
-                />
+              <div style="flex: 1; display: flex; flex-direction: row; gap: 10px">
+                <img :src="track.pic" class="track-pic" style="border-radius: 10%" />
                 <div class="track-info">
                   <strong>{{ track.name || "Unknown Track" }}</strong>
                   <span class="artist">{{
@@ -306,24 +291,14 @@ watch(
     <!-- status log -->
     <div class="status-log" v-if="user" ref="log">
       <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
-        <img
-          v-if="entry.pic"
-          :src="entry.pic"
-          alt="album art"
-          class="log-image"
-        />
+        <img v-if="entry.pic" :src="entry.pic" alt="album art" class="log-image" />
         <template v-if="isPlaylistCreated(entry.text)">
           <span>
             Playlist created (ID:
-            <a
-              :href="`https://open.spotify.com/playlist/${extractPlaylistId(
-                entry.text
-              )}`"
-              target="_blank"
-              rel="noopener"
-            >
-              {{ extractPlaylistId(entry.text) }}</a
-            >)
+            <a :href="`https://open.spotify.com/playlist/${extractPlaylistId(
+              entry.text
+            )}`" target="_blank" rel="noopener">
+              {{ extractPlaylistId(entry.text) }}</a>)
           </span>
         </template>
         <template v-else>
@@ -340,11 +315,7 @@ watch(
 
   <footer>
     This web app is not affiliated with Apple or Spotify.<br />
-    <a
-      href="https://github.com/Hjhawley/iTunes-to-Spotify"
-      target="_blank"
-      rel="noopener"
-      >github.com/Hjhawley/iTunes-to-Spotify</a
-    >
+    <a href="https://github.com/Hjhawley/iTunes-to-Spotify" target="_blank"
+      rel="noopener">github.com/Hjhawley/iTunes-to-Spotify</a>
   </footer>
 </template>

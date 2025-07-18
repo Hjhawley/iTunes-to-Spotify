@@ -56,7 +56,10 @@ function cleanTrack(title) {
 
 function cleanAlbum(album) {
   // Drop naughty words
-  album = album.replace(/\b(legacy|anniversary|expanded|remastered|super deluxe|deluxe|bonus|tracks|track|edition|version)\b/gi, "");
+  album = album.replace(
+    /\b(legacy|anniversary|expanded|remastered|super deluxe|deluxe|bonus|tracks|track|edition|version)\b/gi,
+    ""
+  );
   album = cleanTrack(album);
   return album;
 }
