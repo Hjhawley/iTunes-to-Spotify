@@ -36,7 +36,7 @@ function parsePlaylistName(xmlDoc) {
 function cleanTrack(title) {
   // Remove naughty phrases
   title = title.replace(
-    /\s*[\(\[]?\s*(?:LP Version|Single Version|Mono Version|Stereo Version|Remastered Version|Remaster)\s*[\)\]]?\s*/gi,
+    /\s*[\(\[]?\s*(?:LP Version|Single Version|Original Version|Mono Version|Stereo Version|Remastered Version|Remastered|Remaster)\s*[\)\]]?\s*/gi,
     ""
   );
   // Remove ’ ' , . ! ? [] ()
