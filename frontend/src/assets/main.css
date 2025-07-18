@@ -260,6 +260,7 @@ footer {
   width: 600px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: animatetop 0.4s;
 }
 
 .modal-header {
@@ -411,5 +412,17 @@ footer {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@keyframes animatetop {
+  from {
+    top: -300px;
+    left: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    left: 0;
+    opacity: 1;
   }
 }
