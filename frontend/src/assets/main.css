@@ -150,6 +150,7 @@ button:hover::after {
 .log-image {
   width: 64px;
   height: 64px;
+  margin-bottom: 1rem;
   object-fit: cover;
   border-radius: 1rem;
   box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);

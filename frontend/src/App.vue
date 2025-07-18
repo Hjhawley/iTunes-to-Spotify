@@ -148,11 +148,11 @@ async function onSubmit() {
       logEntries.value.push(entry);
 
       // Reset the form if migration was successful
-      if (entry.text?.startsWith("Playlist successfully migrated!")) {
+      if (entry.text?.startsWith("Playlist successfully migrated")) {
         // Optional: Add a small delay so user can see the success message
         setTimeout(() => {
           reset();
-        }, 2000);
+        }, 100);
       }
     }
   }
@@ -168,7 +168,7 @@ function extractPlaylistId(text) {
 }
 function logClass(text) {
   if (text.startsWith("Error:") || text.startsWith("No match")) return "log-error";
-  if (text === "Playlist successfully migrated!") return "log-success";
+  if (text.startsWith("Playlist successfully migrated")) return "log-success";
   return "";
 }
 
