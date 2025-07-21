@@ -9,7 +9,16 @@ const app = express();
 const PORT = process.env.PORT || 8888;
 
 // middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+  "http://localhost:5173", // dev
+  "https://hjhawley.github.io", // prod
+];
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

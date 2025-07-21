@@ -8,7 +8,8 @@ const { generateRandomString } = require("./utils");
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirect_uri = process.env.SPOTIFY_REDIRECT_URI;
+const spotify_redirect = process.env.SPOTIFY_REDIRECT_URI;
+const frontend_redirect = process.env.FRONTEND_REDIRECT_URI
 
 const stateKey = "spotify_auth_state";
 const router = express.Router();
@@ -29,7 +30,7 @@ router.get("/auth/login", function (req, res) {
         response_type: "code",
         client_id: client_id,
         scope: scope,
-        redirect_uri: redirect_uri,
+        redirect_uri: spotify_redirect,
         state: state,
         show_dialog: true, // force Spotify to show login dialog
       })
@@ -42,7 +43,7 @@ router.get("/auth/callback", (req, res) => {
   if (req.query.error) {
     // Redirect to frontend with error message
     return res.redirect(
-      "http://localhost:5173/#" +
+      `${frontend_redirect}` +
         querystring.stringify({ error: req.query.error })
     );
   }
@@ -66,7 +67,7 @@ router.get("/auth/callback", (req, res) => {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code: code,
-      redirect_uri: redirect_uri,
+      redirect_uri: spotify_redirect,
       grant_type: "authorization_code",
     },
     headers: {
@@ -119,7 +120,7 @@ router.get("/auth/callback", (req, res) => {
           sameSite: "lax",
           path: "/",
         })
-        .redirect("http://localhost:5173/");
+        .redirect(`${frontend_redirect}`);
     });
   });
 });
@@ -189,7 +190,7 @@ router.get("/auth/logout", function (req, res) {
     .clearCookie("access_token")
     .clearCookie("refresh_token")
     .clearCookie("spotify_id")
-    .redirect("http://localhost:5173/");
+    .redirect(`${frontend_redirect}`);
 });
 
 module.exports = router;

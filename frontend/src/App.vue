@@ -14,7 +14,7 @@ const playlistName = ref("");
 const showModal = ref(false);
 
 // Backend base URL
-const BACKEND_URL = "http://localhost:8888";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Redirect to backend login
 function loginWithSpotify() {

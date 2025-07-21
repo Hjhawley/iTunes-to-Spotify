@@ -13,7 +13,7 @@
     "vite": "^7.0.3"
   },
   "scripts": {
-    "server": "node main.js",
+    "server": "node server.js",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
