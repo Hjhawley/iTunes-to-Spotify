@@ -14,6 +14,9 @@ const frontend_redirect = process.env.FRONTEND_REDIRECT_URI
 const stateKey = "spotify_auth_state";
 const router = express.Router();
 
+// check if the app is deployed
+const isProd = process.env.NODE_ENV === "production";
+
 // middleware setup
 router.use(express.static(__dirname + "/public")).use(cookieParser());
 
@@ -105,22 +108,25 @@ router.get("/auth/callback", (req, res) => {
 
       // store tokens and Spotify user ID in cookies
       res
-        .cookie("access_token", access_token, {
-          httpOnly: true,
-          sameSite: "lax",
-          path: "/",
-        })
-        .cookie("refresh_token", refresh_token, {
-          httpOnly: true,
-          sameSite: "lax",
-          path: "/",
-        })
-        .cookie("spotify_id", meBody.id, {
-          httpOnly: true,
-          sameSite: "lax",
-          path: "/",
-        })
-        .redirect(`${frontend_redirect}`);
+      .cookie("access_token", access_token, {
+        httpOnly: true,
+        sameSite: isProd ? "None" : "Lax",
+        secure: isProd,
+        path: "/",
+      })
+      .cookie("refresh_token", refresh_token, {
+        httpOnly: true,
+        sameSite: isProd ? "None" : "Lax",
+        secure: isProd,
+        path: "/",
+      })
+      .cookie("spotify_id", meBody.id, {
+        httpOnly: true,
+        sameSite: isProd ? "None" : "Lax",
+        secure: isProd,
+        path: "/",
+      })
+      .redirect(`${frontend_redirect}`);
     });
   });
 });
@@ -184,12 +190,21 @@ router.get("/auth/logout", function (req, res) {
   res.state = null;
   res.access_token = null;
   res
-    .clearCookie("state")
-    .clearCookie("client_id")
-    .clearCookie("client_secret")
-    .clearCookie("access_token")
-    .clearCookie("refresh_token")
-    .clearCookie("spotify_id")
+    .clearCookie("access_token", {
+      path: "/",
+      sameSite: "None",
+      secure: true,
+    })
+    .clearCookie("refresh_token", {
+      path: "/",
+      sameSite: "None",
+      secure: true,
+    })
+    .clearCookie("spotify_id", {
+      path: "/",
+      sameSite: "None",
+      secure: true,
+    })
     .redirect(`${frontend_redirect}`);
 });
 
