@@ -47,10 +47,14 @@ router.post(
       if (!token) throw new Error("Not authenticated");
       if (!req.file) throw new Error("No file uploaded");
 
+      send({ text: `Received file: ${req.file.originalname}` });
+      send({ text: "Parsing iTunes playlist..." });
+
       // Parse entire XML
       const raw = req.file.buffer.toString("utf-8");
       const dom = new JSDOM(raw, { contentType: "text/xml" });
       const tracks = Object.values(parseTracks(dom.window.document));
+      send({ text: `Parsed ${tracks.length} tracks` });
 
       // Get playlist name
       const playlistName =
@@ -60,6 +64,9 @@ router.post(
 
       for (let i = 0; i < tracks.length; i++) {
         const { artist, name, album, trackNumber } = tracks[i];
+        send({
+          text: `(${i + 1}/${tracks.length}) Searching: ${artist} - ${name} - ${album}`,
+        });
 
         const { uri, score } = await findBestTrack(token, {
           artist,
@@ -68,44 +75,50 @@ router.post(
           trackNumber,
         });
 
-        // Only add tracks that were found and have a reasonable confidence score
-        if (uri && score >= 0.5) {
-          trackFound = await fetch(
-            `https://api.spotify.com/v1/tracks/${uri.split("ck:").pop()}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          if (!trackFound.ok) {
-            console.error(
-              `Failed to fetch track info for ${uri}: ${trackFound.statusText}`
-            );
-            continue;
-          }
-          const trackInfo = await trackFound.json();
+        // normalize to [0..100]
+        const confidence =
+          typeof score === "number" && score <= 1
+            ? Math.round(score * 100)
+            : score || 0;
+
+        if (uri && confidence >= 50) {
+          // look up the album art
+          const trackId = uri.split(":").pop();
+          const trackInfo = await getTrackById(token, trackId);
           const pic = trackInfo.album.images[0]?.url;
 
-          // Log the found track URI and album art
-
-          // Add to the list of found tracks
           foundTracks.push({
             uri,
             name: trackInfo.name,
             artist: trackInfo.artists[0]?.name,
             album: trackInfo.album.name,
             pic,
+            score: confidence,
+          });
+
+          send({
+            text: `Matched!`,
+            pic,
+            score: confidence,
+          });
+        } else {
+          send({
+            text: `No match found.`,
+            score: null,
           });
         }
       }
-      res.json({
+
+      send({ text: "Import finished." });
+      res.end(JSON.stringify({
         tracks: foundTracks,
         name: playlistName,
-      });
+      }));
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: err.message });
+      send({ text: `Error: ${err.message}` });
+      send({ text: "Failed to import playlist." });
+      res.end();
     }
   }
 );
