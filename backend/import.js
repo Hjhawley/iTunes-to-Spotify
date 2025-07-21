@@ -33,6 +33,15 @@ router.post(
   upload.single("file"),
   loadUserFromCookies,
   async (req, res) => {
+    res.set({
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+    });
+    const send = (obj) => {
+      res.write(`data: ${JSON.stringify(obj)}\n\n`);
+    };
+
     try {
       const token = req.user.accessToken;
       if (!token) throw new Error("Not authenticated");
