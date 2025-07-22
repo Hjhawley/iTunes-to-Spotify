@@ -1,15 +1,15 @@
 <script setup>
 import { ref, watch, nextTick, onMounted } from "vue";
-const defaultAvatar = new URL('./assets/pic.jpg', import.meta.url).href;
+const defaultAvatar = new URL("./assets/pic.jpg", import.meta.url).href;
 console.log("defaultAvatar →", defaultAvatar);
 
 const user = ref(null);
-const file = ref(null);       // the uploaded XML
-const fileInput = ref(null);  // so we can reupload files
-const uris = ref([]);         // holds the array of track objects
-const status = ref([]);       // messages about how many tracks found or errors
-const log = ref(null);        // the DOM element reference of the status log
-const logEntries = ref([]);   // array of { text?: string; pic?: string; score?: number }
+const file = ref(null); // the uploaded XML
+const fileInput = ref(null); // so we can reupload files
+const uris = ref([]); // holds the array of track objects
+const status = ref([]); // messages about how many tracks found or errors
+const log = ref(null); // the DOM element reference of the status log
+const logEntries = ref([]); // array of { text?: string; pic?: string; score?: number }
 const playlistName = ref("");
 const showModal = ref(false);
 
@@ -170,7 +170,8 @@ function extractPlaylistId(text) {
   return m ? m[1] : null;
 }
 function logClass(text) {
-  if (text.startsWith("Error:") || text.startsWith("No match")) return "log-error";
+  if (text.startsWith("Error:") || text.startsWith("No match"))
+    return "log-error";
   if (text.startsWith("Playlist successfully migrated")) return "log-success";
   return "";
 }
@@ -249,7 +250,9 @@ watch(
           <p class="file-name" v-if="file">{{ file.name }}</p>
         </div>
         <div>
-          <button v-if="file" @click="openPlaylistModal">Preview playlist</button>
+          <button v-if="file" @click="openPlaylistModal">
+            Preview playlist
+          </button>
 
           <button v-if="file" @click="onSubmit">Migrate playlist</button>
         </div>

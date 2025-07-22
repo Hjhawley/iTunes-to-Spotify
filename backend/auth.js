@@ -9,7 +9,7 @@ const { generateRandomString } = require("./utils");
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const spotify_redirect = process.env.SPOTIFY_REDIRECT_URI;
-const frontend_redirect = process.env.FRONTEND_REDIRECT_URI
+const frontend_redirect = process.env.FRONTEND_REDIRECT_URI;
 
 const stateKey = "spotify_auth_state";
 const router = express.Router();
@@ -46,8 +46,7 @@ router.get("/auth/callback", (req, res) => {
   if (req.query.error) {
     // Redirect to frontend with error message
     return res.redirect(
-      `${frontend_redirect}` +
-        querystring.stringify({ error: req.query.error })
+      `${frontend_redirect}` + querystring.stringify({ error: req.query.error })
     );
   }
   const code = req.query.code || null;
@@ -108,25 +107,25 @@ router.get("/auth/callback", (req, res) => {
 
       // store tokens and Spotify user ID in cookies
       res
-      .cookie("access_token", access_token, {
-        httpOnly: true,
-        sameSite: isProd ? "None" : "Lax",
-        secure: isProd,
-        path: "/",
-      })
-      .cookie("refresh_token", refresh_token, {
-        httpOnly: true,
-        sameSite: isProd ? "None" : "Lax",
-        secure: isProd,
-        path: "/",
-      })
-      .cookie("spotify_id", meBody.id, {
-        httpOnly: true,
-        sameSite: isProd ? "None" : "Lax",
-        secure: isProd,
-        path: "/",
-      })
-      .redirect(`${frontend_redirect}`);
+        .cookie("access_token", access_token, {
+          httpOnly: true,
+          sameSite: isProd ? "None" : "Lax",
+          secure: isProd,
+          path: "/",
+        })
+        .cookie("refresh_token", refresh_token, {
+          httpOnly: true,
+          sameSite: isProd ? "None" : "Lax",
+          secure: isProd,
+          path: "/",
+        })
+        .cookie("spotify_id", meBody.id, {
+          httpOnly: true,
+          sameSite: isProd ? "None" : "Lax",
+          secure: isProd,
+          path: "/",
+        })
+        .redirect(`${frontend_redirect}`);
     });
   });
 });
