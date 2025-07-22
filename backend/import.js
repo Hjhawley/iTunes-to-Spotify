@@ -33,6 +33,8 @@ router.post(
   upload.single("file"),
   loadUserFromCookies,
   async (req, res) => {
+    console.log("Cookies received:", req.cookies);
+    console.log("User extracted:", req.user);
     try {
       const token = req.user.accessToken;
       if (!token) throw new Error("Not authenticated");
@@ -106,6 +108,8 @@ router.post(
   upload.single("file"),
   loadUserFromCookies,
   async (req, res) => {
+    console.log("Cookies received:", req.cookies);
+    console.log("User extracted:", req.user);
     // Switch to SSE
     res.set({
       "Content-Type": "text/event-stream",

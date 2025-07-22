@@ -105,26 +105,17 @@ router.get("/auth/callback", (req, res) => {
         );
       }
 
-      // store tokens and Spotify user ID in cookies
+      const cookieOptions = {
+        httpOnly: true,
+        secure: isProd,
+        sameSite: isProd ? "None" : "Lax",
+        path: "/",
+      };
+
       res
-        .cookie("access_token", access_token, {
-          httpOnly: true,
-          sameSite: isProd ? "None" : "Lax",
-          secure: isProd,
-          path: "/",
-        })
-        .cookie("refresh_token", refresh_token, {
-          httpOnly: true,
-          sameSite: isProd ? "None" : "Lax",
-          secure: isProd,
-          path: "/",
-        })
-        .cookie("spotify_id", meBody.id, {
-          httpOnly: true,
-          sameSite: isProd ? "None" : "Lax",
-          secure: isProd,
-          path: "/",
-        })
+        .cookie("access_token", access_token, cookieOptions)
+        .cookie("refresh_token", refresh_token, cookieOptions)
+        .cookie("spotify_id", meBody.id, cookieOptions)
         .redirect(`${frontend_redirect}`);
     });
   });
