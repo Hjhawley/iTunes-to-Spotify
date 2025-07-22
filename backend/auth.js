@@ -112,13 +112,36 @@ router.get("/auth/callback", (req, res) => {
         path: "/",
       };
 
-      res
-        .cookie("access_token", access_token, cookieOptions)
-        .cookie("refresh_token", refresh_token, cookieOptions)
-        .cookie("spotify_id", meBody.id, cookieOptions)
-        .redirect(`${frontend_redirect}`);
+      const redirectUrl = `${frontend_redirect}?token_set=true&access_token=${encodeURIComponent(
+        access_token
+      )}&refresh_token=${encodeURIComponent(
+        refresh_token
+      )}&spotify_id=${encodeURIComponent(meBody.id)}`;
+
+      res.redirect(redirectUrl);
     });
   });
+});
+
+// handle /auth/session
+router.post("/auth/session", express.json(), (req, res) => {
+  const { access_token, refresh_token, spotify_id } = req.body;
+  if (!access_token || !refresh_token || !spotify_id) {
+    return res.status(400).json({ error: "Missing credentials" });
+  }
+
+  const cookieOptions = {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "None" : "Lax",
+    path: "/",
+  };
+
+  res
+    .cookie("access_token", access_token, cookieOptions)
+    .cookie("refresh_token", refresh_token, cookieOptions)
+    .cookie("spotify_id", spotify_id, cookieOptions)
+    .json({ success: true });
 });
 
 // refresh access token using refresh token
