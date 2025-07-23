@@ -15,8 +15,7 @@ const showModal = ref(false);
 
 // Backend base URL
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-console.log("⛳ import.meta.env =", import.meta.env);
+console.log("Debug: BACKEND_URL =", BACKEND_URL);
 
 // Redirect to backend login
 function loginWithSpotify() {
