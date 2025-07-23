@@ -93,7 +93,7 @@ async function onFileSelect(event) {
   form.append("file", chosen);
 
   try {
-    const res = await fetch(`${BACKEND_URL}/import`, {
+    const res = await fetch(`${BACKEND_URL}/import/import`, {
       method: "POST",
       body: form,
       credentials: "include",
@@ -131,7 +131,7 @@ async function onSubmit() {
   const form = new FormData();
   form.append("file", file.value);
 
-  const res = await fetch(`${BACKEND_URL}/import-stream`, {
+  const res = await fetch(`${BACKEND_URL}/import/import-stream`, {
     method: "POST",
     body: form,
     credentials: "include",
