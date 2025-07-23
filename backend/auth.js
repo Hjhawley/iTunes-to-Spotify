@@ -3,7 +3,6 @@ const request = require("request");
 const cors = require("cors");
 const querystring = require("querystring");
 const cookieParser = require("cookie-parser");
-
 const { generateRandomString } = require("./utils");
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
@@ -14,34 +13,39 @@ const frontend_redirect = process.env.FRONTEND_REDIRECT_URI;
 const stateKey = "spotify_auth_state";
 const router = express.Router();
 
-// check if the app is deployed
+// determine if running in production mode
 const isProd = process.env.NODE_ENV === "production";
 
-// middleware setup
-router.use(express.static(__dirname + "/public")).use(cookieParser());
+// middleware to serve static files (if needed) and parse cookies
+router.use(express.static(__dirname + "/public"));
+router.use(cookieParser());
+
+// All routes below are relative to `/auth`
 
 // initiate Spotify OAuth login
-router.get("/auth/login", function (req, res) {
+router.get("/login", (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
+
   const scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private";
-  // redirect user to Spotify authorization URL, force account selection
+
+  // redirect to Spotify's login page
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
         response_type: "code",
-        client_id: client_id,
-        scope: scope,
+        client_id,
+        scope,
         redirect_uri: spotify_redirect,
-        state: state,
-        show_dialog: true, // force Spotify to show login dialog
+        state,
+        show_dialog: true, // always show login screen
       })
   );
 });
 
 // Spotify redirect callback - handles token exchange
-router.get("/auth/callback", (req, res) => {
+router.get("/callback", (req, res) => {
   // Handle Spotify login cancellation or error
   if (req.query.error) {
     // Redirect to frontend with error message
@@ -50,26 +54,23 @@ router.get("/auth/callback", (req, res) => {
         querystring.stringify({ error: req.query.error })
     );
   }
+
   const code = req.query.code || null;
   const state = req.query.state || null;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  // validate state to prevent CSRF
   if (!state || state !== storedState) {
-    // state mismatch
     return res.redirect(
       "/#" + querystring.stringify({ error: "state_mismatch" })
     );
   }
 
-  // state checks out, clear it
   res.clearCookie(stateKey);
 
-  // token exchange request to Spotify
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     form: {
-      code: code,
+      code,
       redirect_uri: spotify_redirect,
       grant_type: "authorization_code",
     },
@@ -77,7 +78,7 @@ router.get("/auth/callback", (req, res) => {
       "content-type": "application/x-www-form-urlencoded",
       Authorization:
         "Basic " +
-        Buffer.from(client_id + ":" + client_secret).toString("base64"),
+        Buffer.from(`${client_id}:${client_secret}`).toString("base64"),
     },
     json: true,
   };
@@ -89,10 +90,9 @@ router.get("/auth/callback", (req, res) => {
       );
     }
 
-    const access_token = tokenBody.access_token;
-    const refresh_token = tokenBody.refresh_token;
+    const { access_token, refresh_token } = tokenBody;
 
-    // fetch the user profile
+    // fetch Spotify user profile
     const meOptions = {
       url: "https://api.spotify.com/v1/me",
       headers: { Authorization: `Bearer ${access_token}` },
@@ -128,9 +128,10 @@ router.get("/auth/callback", (req, res) => {
   });
 });
 
-// handle /auth/session
-router.post("/auth/session", express.json(), (req, res) => {
+// Save credentials from frontend
+router.post("/session", express.json(), (req, res) => {
   const { access_token, refresh_token, spotify_id } = req.body;
+
   if (!access_token || !refresh_token || !spotify_id) {
     return res.status(400).json({ error: "Missing credentials" });
   }
@@ -149,39 +150,39 @@ router.post("/auth/session", express.json(), (req, res) => {
     .json({ success: true });
 });
 
-// refresh access token using refresh token
-router.get("/auth/refresh_token", function (req, res) {
+// Refresh access token
+router.get("/refresh_token", (req, res) => {
   const refresh_token = req.query.refresh_token;
+
   const authOptions = {
     url: "https://accounts.spotify.com/api/token",
     headers: {
       "content-type": "application/x-www-form-urlencoded",
       Authorization:
         "Basic " +
-        new Buffer.from(client_id + ":" + client_secret).toString("base64"),
+        Buffer.from(`${client_id}:${client_secret}`).toString("base64"),
     },
     form: {
       grant_type: "refresh_token",
-      refresh_token: refresh_token,
+      refresh_token,
     },
     json: true,
   };
 
-  request.post(authOptions, function (error, response, body) {
+  request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
-      const access_token = body.access_token,
-        refresh_token = body.refresh_token;
-      res.send({
-        access_token: access_token,
-        refresh_token: refresh_token,
-      });
+      const { access_token, refresh_token } = body;
+      res.send({ access_token, refresh_token });
+    } else {
+      res.status(500).json({ error: "Failed to refresh token" });
     }
   });
 });
 
-// return current user profile using stored token
-router.get("/auth/whoami", function (req, res) {
+// Return Spotify profile for current user
+router.get("/whoami", (req, res) => {
   const access_token = req.cookies.access_token;
+
   if (!access_token) {
     return res.status(401).json({ error: "Not logged in" });
   }
@@ -201,12 +202,8 @@ router.get("/auth/whoami", function (req, res) {
   });
 });
 
-// 'Logging out' by just unassigning client_id, state, etc...
-router.get("/auth/logout", function (req, res) {
-  res.client_id = null;
-  res.client_secret = null;
-  res.state = null;
-  res.access_token = null;
+// Log out: clear relevant cookies and redirect home
+router.get("/logout", (req, res) => {
   res
     .clearCookie("access_token", {
       path: "/",
