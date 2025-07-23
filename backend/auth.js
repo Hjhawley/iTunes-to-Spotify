@@ -46,7 +46,8 @@ router.get("/auth/callback", (req, res) => {
   if (req.query.error) {
     // Redirect to frontend with error message
     return res.redirect(
-      `${frontend_redirect}` + querystring.stringify({ error: req.query.error })
+      `${frontend_redirect}?` +
+        querystring.stringify({ error: req.query.error })
     );
   }
   const code = req.query.code || null;
