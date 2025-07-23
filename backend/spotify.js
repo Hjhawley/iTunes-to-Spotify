@@ -1,6 +1,6 @@
 const { cleanTrack, cleanAlbum, cleanArtist } = require("./parser");
 const { compareTwoStrings } = require("string-similarity");
-const fetch = require("node-fetch");
+/* const fetch = require("node-fetch"); // this might be breaking things */
 const API = "https://api.spotify.com/v1";
 
 /* Search for a track and return the best match URI, or null. */

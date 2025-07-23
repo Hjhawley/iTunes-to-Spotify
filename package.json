@@ -27,7 +27,6 @@
     "express": "^5.1.0",
     "jsdom": "^26.1.0",
     "multer": "^2.0.2",
-    "node-fetch": "^3.3.2",
     "request": "^2.88.2",
     "string-similarity": "^4.0.4"
   },
