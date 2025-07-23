@@ -118,7 +118,11 @@ router.get("/auth/callback", (req, res) => {
         refresh_token
       )}&spotify_id=${encodeURIComponent(meBody.id)}`;
 
-      res.redirect(redirectUrl);
+      res
+        .cookie("access_token", access_token, cookieOptions)
+        .cookie("refresh_token", refresh_token, cookieOptions)
+        .cookie("spotify_id", meBody.id, cookieOptions)
+        .redirect(redirectUrl);
     });
   });
 });
