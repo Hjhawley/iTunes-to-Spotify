@@ -8,6 +8,18 @@ const importRouter = require("./import");
 const app = express();
 const PORT = process.env.PORT || 8888;
 
+const path = require("path");
+const fs = require("fs");
+
+// Serve frontend build
+const distPath = path.resolve(__dirname, "../dist");
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+}
+
 // middleware
 const allowedOrigins = [
   "http://localhost:5173", // dev
