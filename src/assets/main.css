@@ -73,7 +73,7 @@ button {
   border: none;
   padding: 0.8rem 1.2rem;
   border-radius: 2rem;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 1);
   cursor: pointer;
   color: white;
 }
@@ -88,7 +88,7 @@ button::after {
 }
 
 button::before {
-  background: linear-gradient(to right, #70f, #1cc);
+  background: linear-gradient(to right, #70f, #399);
   opacity: 1;
 }
 
@@ -324,7 +324,7 @@ footer {
     margin: 1rem auto;
   }
   button {
-    width: 100%;
+    width: 90%;
     padding: 0.75rem 1rem;
     font-size: 1rem;
   }
