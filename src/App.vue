@@ -316,11 +316,13 @@ watch(
               <div
                 style="flex: 1; display: flex; flex-direction: row; gap: 10px"
               >
-                <img
-                  :src="track.pic"
-                  class="track-pic"
-                  style="border-radius: 10%"
-                />
+                <a :href="track.albumUrl" target="_blank" rel="noopener">
+                  <img
+                    :src="track.pic"
+                    class="track-pic"
+                    style="border-radius: 10%; cursor: pointer"
+                  />
+                </a>
                 <div class="track-info">
                   <strong>{{ track.name || "Unknown Track" }}</strong>
                   <span class="artist">{{

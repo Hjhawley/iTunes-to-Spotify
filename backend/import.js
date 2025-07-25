@@ -85,6 +85,7 @@ router.post(
           // Add to the list of found tracks
           foundTracks.push({
             uri,
+            albumUrl: trackInfo.album.external_urls.spotify,
             name: trackInfo.name,
             artist: trackInfo.artists[0]?.name,
             album: trackInfo.album.name,
