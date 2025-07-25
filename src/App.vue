@@ -316,21 +316,22 @@ watch(
               <div
                 style="flex: 1; display: flex; flex-direction: row; gap: 10px"
               >
-                <img
-                  :src="track.pic"
-                  class="track-pic"
-                  style="border-radius: 10%; cursor: pointer"
-                  @click="window.open(track.albumUrl, '_blank')"
-                />
-                <div class="track-info">
-                  <strong>{{ track.name || "Unknown Track" }}</strong>
-                  <span class="artist">{{
-                    track.artist || "Unknown Artist"
-                  }}</span>
-                  <span class="album" v-if="track.album">{{
-                    track.album
-                  }}</span>
-                </div>
+                <a :href="track.albumUrl" target="_blank" rel="noopener">
+                  <img
+                    :src="track.pic"
+                    class="track-pic"
+                    style="border-radius: 10%; cursor: pointer"
+                  />
+                  <div class="track-info">
+                    <strong>{{ track.name || "Unknown Track" }}</strong>
+                    <span class="artist">{{
+                      track.artist || "Unknown Artist"
+                    }}</span>
+                    <span class="album" v-if="track.album">{{
+                      track.album
+                    }}</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
