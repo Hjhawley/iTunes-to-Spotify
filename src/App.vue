@@ -319,7 +319,8 @@ watch(
                 <img
                   :src="track.pic"
                   class="track-pic"
-                  style="border-radius: 10%"
+                  style="border-radius: 10%; cursor: pointer"
+                  @click="window.open(track.albumUrl, '_blank')"
                 />
                 <div class="track-info">
                   <strong>{{ track.name || "Unknown Track" }}</strong>
