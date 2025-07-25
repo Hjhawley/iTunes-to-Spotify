@@ -7,22 +7,22 @@ const { generateRandomString } = require("./utils");
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
-const spotify_redirect = process.env.SPOTIFY_REDIRECT_URI;
-const frontend_redirect = process.env.FRONTEND_REDIRECT_URI;
+const spotify_redirect = process.env.SPOTIFY_REDIRECT_URI; // "itunestospotify://callback"
+const frontend_redirect = process.env.FRONTEND_REDIRECT_URI; // "https://itunes-to-spotify.onrender.com"
 
 const stateKey = "spotify_auth_state";
 const router = express.Router();
 
-// determine if running in production mode
+// Determine if running in production mode
 const isProd = process.env.NODE_ENV === "production";
 
-// middleware to serve static files (if needed) and parse cookies
+// Middleware to serve static files (if needed) and parse cookies
 router.use(express.static(__dirname + "/public"));
 router.use(cookieParser());
 
 // All routes below are relative to `/auth`
 
-// initiate Spotify OAuth login
+// Initiate Spotify OAuth login
 router.get("/login", (req, res) => {
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -30,16 +30,19 @@ router.get("/login", (req, res) => {
   const scope =
     "user-read-private user-read-email playlist-modify-public playlist-modify-private";
 
-  // redirect to Spotify's login page
+  // Allow dynamic redirect_uri from query parameter (for mobile/web support)
+  const redirectUri = req.query.redirect_uri || spotify_redirect;
+
+  // Redirect to Spotify's login page
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
         response_type: "code",
         client_id,
         scope,
-        redirect_uri: spotify_redirect,
+        redirect_uri: redirectUri,
         state,
-        show_dialog: true, // always show login screen
+        show_dialog: true, // Always show login screen
       })
   );
 });
@@ -71,7 +74,7 @@ router.get("/callback", (req, res) => {
     url: "https://accounts.spotify.com/api/token",
     form: {
       code,
-      redirect_uri: spotify_redirect,
+      redirect_uri: spotify_redirect, // Use the original redirect_uri for token exchange
       grant_type: "authorization_code",
     },
     headers: {
@@ -92,7 +95,7 @@ router.get("/callback", (req, res) => {
 
     const { access_token, refresh_token } = tokenBody;
 
-    // fetch Spotify user profile
+    // Fetch Spotify user profile
     const meOptions = {
       url: "https://api.spotify.com/v1/me",
       headers: { Authorization: `Bearer ${access_token}` },
@@ -113,11 +116,19 @@ router.get("/callback", (req, res) => {
         path: "/",
       };
 
-      const redirectUrl = `${frontend_redirect}?token_set=true&access_token=${encodeURIComponent(
-        access_token
-      )}&refresh_token=${encodeURIComponent(
-        refresh_token
-      )}&spotify_id=${encodeURIComponent(meBody.id)}`;
+      // Determine redirect URL based on the original request
+      const redirectUri = req.query.redirect_uri || spotify_redirect;
+      const redirectUrl = redirectUri.startsWith("itunestospotify")
+        ? `${redirectUri}?access_token=${encodeURIComponent(
+            access_token
+          )}&refresh_token=${encodeURIComponent(
+            refresh_token
+          )}&spotify_id=${encodeURIComponent(meBody.id)}`
+        : `${frontend_redirect}?token_set=true&access_token=${encodeURIComponent(
+            access_token
+          )}&refresh_token=${encodeURIComponent(
+            refresh_token
+          )}&spotify_id=${encodeURIComponent(meBody.id)}`;
 
       res
         .cookie("access_token", access_token, cookieOptions)

@@ -1,6 +1,8 @@
 <script setup>
-import { ref, watch, nextTick, onMounted } from "vue";
-import { Browser } from '@capacitor/browser';
+import { ref, watch, nextTick, onMounted, onUnmounted } from "vue";
+import { Browser } from '@capacitor/browser'; // Updated import
+import { Capacitor } from '@capacitor/core';
+
 const defaultAvatar = new URL("./assets/pic.jpg", import.meta.url).href;
 console.log("defaultAvatar →", defaultAvatar);
 
@@ -17,11 +19,49 @@ const showModal = ref(false);
 // Backend base URL
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 console.log("Debug: BACKEND_URL =", BACKEND_URL);
+console.log("VITE_BACKEND_URL from env:", import.meta.env.VITE_BACKEND_URL);
 
-// Redirect to backend login
-function loginWithSpotify() {
-  window.location.href = `${BACKEND_URL}/auth/login`;
+// Redirect to backend login using Browser
+async function loginWithSpotify() {
+  try {
+    const redirectUri = Capacitor.isNativePlatform() ? 'itunestospotify://callback' : `${BACKEND_URL}/auth/callback`;
+    console.log("Opening URL:", `${BACKEND_URL}/auth/login?redirect_uri=${encodeURIComponent(redirectUri)}`);
+    await Browser.open({
+      url: `${BACKEND_URL}/auth/login?redirect_uri=${encodeURIComponent(redirectUri)}`,
+    });
+
+    // Listen for page loaded event
+    const pageLoadedListener = await Browser.addListener('browserPageLoaded', () => {
+      console.log("Page loaded");
+    });
+
+    // Listen for browser finished event (closed by user)
+    const finishedListener = await Browser.addListener('browserFinished', async () => {
+      console.log("Browser was closed by user");
+      status.value = ["Login cancelled"];
+      pageLoadedListener.remove();
+      finishedListener.remove();
+
+      // Check if login was successful after closure
+      try {
+        const whoamiRes = await fetch(`${BACKEND_URL}/auth/whoami`, {
+          credentials: "include",
+        });
+        user.value = whoamiRes.ok ? await whoamiRes.json() : null;
+        if (user.value) {
+          status.value = ["Login successful"];
+        }
+      } catch (err) {
+        console.error("Error checking session:", err);
+        status.value = ["Login failed"];
+      }
+    });
+  } catch (err) {
+    console.error("Error opening Browser:", err);
+    status.value = [`Error opening browser: ${err.message}`];
+  }
 }
+
 // Redirect to backend logout
 function logoutWithSpotify() {
   window.location.href = `${BACKEND_URL}/auth/logout`;
@@ -38,43 +78,11 @@ function closeModal() {
 
 // Check session on mount
 onMounted(async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-
-  if (urlParams.get("token_set") === "true") {
-    const access_token = urlParams.get("access_token");
-    const refresh_token = urlParams.get("refresh_token");
-    const spotify_id = urlParams.get("spotify_id");
-
-    if (access_token && refresh_token && spotify_id) {
-      try {
-        const res = await fetch(`${BACKEND_URL}/auth/session`, {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ access_token, refresh_token, spotify_id }),
-        });
-
-        if (res.ok) {
-          // Clean the URL
-          window.location.href =
-            window.location.origin + window.location.pathname;
-        } else {
-          console.error("Failed to set session cookies");
-        }
-      } catch (err) {
-        console.error("Error during session setup:", err);
-      }
-    }
-  }
-
-  // Then do normal whoami check
   try {
     const res = await fetch(`${BACKEND_URL}/auth/whoami`, {
       credentials: "include",
     });
     user.value = res.ok ? await res.json() : null;
-    /* // test: no profile pic
-    if (user.value) user.value.images = []; */
   } catch {
     user.value = null;
   }
@@ -117,7 +125,6 @@ function reset() {
   playlistName.value = "";
   uris.value = [];
   file.value = null;
-  // clear the DOM input so selecting the same file fires change again
   if (fileInput.value) fileInput.value.value = "";
 }
 
@@ -144,7 +151,6 @@ async function onSubmit() {
     return;
   }
 
-  // Read the body as a stream
   const reader = res.body.getReader();
   const decoder = new TextDecoder("utf-8");
   let buf = "";
@@ -154,37 +160,30 @@ async function onSubmit() {
     if (done) break;
 
     buf += decoder.decode(value, { stream: true });
-    // SSE frames are delimited by "\n\n"
     const parts = buf.split("\n\n");
-    buf = parts.pop(); // leftover for next chunk
+    buf = parts.pop();
 
     for (const chunk of parts) {
       if (!chunk.startsWith("data:")) continue;
       const entry = JSON.parse(chunk.replace(/^data:\s*/, ""));
 
-      // capture original playlist size
       if (entry.text?.startsWith("Parsed ")) {
         const m = entry.text.match(/^Parsed\s+(\d+)\s+tracks/);
         if (m) totalCount = parseInt(m[1], 10);
       }
 
-      // count successful matches
       if (entry.score != null) {
         matchCount++;
       }
 
-      // append percentage on final message
       if (entry.text === "Playlist successfully migrated!") {
-        const pct =
-          totalCount > 0 ? Math.round((matchCount / totalCount) * 100) : 0;
+        const pct = totalCount > 0 ? Math.round((matchCount / totalCount) * 100) : 0;
         entry.text += ` ${pct}% success rate.`;
       }
 
       logEntries.value.push(entry);
 
-      // Reset the form if migration was successful
       if (entry.text?.startsWith("Playlist successfully migrated")) {
-        // Optional: Add a small delay so user can see the success message
         setTimeout(() => {
           reset();
         }, 100);
@@ -202,8 +201,7 @@ function extractPlaylistId(text) {
   return m ? m[1] : null;
 }
 function logClass(text) {
-  if (text.startsWith("Error:") || text.startsWith("No match"))
-    return "log-error";
+  if (text.startsWith("Error:") || text.startsWith("No match")) return "log-error";
   if (text.startsWith("Playlist successfully migrated")) return "log-success";
   return "";
 }
@@ -213,7 +211,6 @@ window.onscroll = function () {
 };
 
 function myFunction() {
-  // Get the modal body element
   const modalBody = document.querySelector(".modal-body");
   const progressBar = document.getElementById("myBar");
   if (!modalBody || !progressBar) return;
@@ -224,14 +221,12 @@ function myFunction() {
   progressBar.style.width = scrolled + "%";
 }
 
-// Attach scroll event to modal body when modal is shown
 watch(showModal, (val) => {
   if (val) {
     nextTick(() => {
       const modalBody = document.querySelector(".modal-body");
       if (modalBody) {
         modalBody.addEventListener("scroll", myFunction);
-        // Initialize progress bar
         myFunction();
       }
     });
@@ -245,7 +240,6 @@ watch(showModal, (val) => {
   }
 });
 
-// Auto scroll
 watch(
   () => logEntries.value.length,
   async () => {
@@ -253,20 +247,23 @@ watch(
     if (log.value) log.value.scrollTop = log.value.scrollHeight;
   }
 );
+
+onUnmounted(() => {
+  Browser.removeAllListeners(); // Updated to Browser
+});
 </script>
 
 <template>
   <div class="container" :class="{ centered: !user }">
-    <!-- main-content: login and buttons -->
     <div class="main-content">
-      <h1>iTunes &gt;&gt; Spotify<br />Playlist Migrator</h1>
+      <h1>iTunes >> Spotify<br />Playlist Migrator</h1>
 
-      <!-- if not logged in -->
       <div v-if="!user">
-        <button @click="loginWithSpotify">Log in with Spotify</button>
+        <button @click="loginWithSpotify" :disabled="status.length > 0">
+          {{ status.length > 0 ? status[0] : "Log in with Spotify" }}
+        </button>
       </div>
 
-      <!-- once logged in -->
       <div v-else class="user-info">
         <a href="https://open.spotify.com/" target="_blank" rel="noopener">
           <img
@@ -294,18 +291,16 @@ watch(
           <button v-if="file" @click="openPlaylistModal">
             Preview playlist
           </button>
-
           <button v-if="file" @click="onSubmit">Migrate playlist</button>
         </div>
       </div>
     </div>
 
-    <!-- Playlist Modal -->
     <div v-if="showModal" class="modal-overlay" @click="closeModal">
       <div class="modal-content" @click.stop>
         <div class="modal-header">
           <h2>{{ playlistName || "Playlist Preview" }}</h2>
-          <button class="close-btn" @click="closeModal">&times;</button>
+          <button class="close-btn" @click="closeModal">×</button>
         </div>
         <div class="progress-container">
           <div class="progress-bar" id="myBar"></div>
@@ -314,9 +309,7 @@ watch(
           <div v-if="!uris.length" class="loader"></div>
           <div v-else class="track-list">
             <div v-for="(track, index) in uris" :key="index" class="track-item">
-              <div
-                style="flex: 1; display: flex; flex-direction: row; gap: 10px"
-              >
+              <div style="flex: 1; display: flex; flex-direction: row; gap: 10px">
                 <img
                   :src="track.pic"
                   class="track-pic"
@@ -324,12 +317,8 @@ watch(
                 />
                 <div class="track-info">
                   <strong>{{ track.name || "Unknown Track" }}</strong>
-                  <span class="artist">{{
-                    track.artist || "Unknown Artist"
-                  }}</span>
-                  <span class="album" v-if="track.album">{{
-                    track.album
-                  }}</span>
+                  <span class="artist">{{ track.artist || "Unknown Artist" }}</span>
+                  <span class="album" v-if="track.album">{{ track.album }}</span>
                 </div>
               </div>
             </div>
@@ -338,7 +327,6 @@ watch(
       </div>
     </div>
 
-    <!-- status log -->
     <div class="status-log" v-if="user" ref="log">
       <div v-for="(entry, i) in logEntries" :key="i" class="log-entry">
         <img
@@ -351,9 +339,7 @@ watch(
           <span>
             Playlist created (ID:
             <a
-              :href="`https://open.spotify.com/playlist/${extractPlaylistId(
-                entry.text
-              )}`"
+              :href="`https://open.spotify.com/playlist/${extractPlaylistId(entry.text)}`"
               target="_blank"
               rel="noopener"
             >

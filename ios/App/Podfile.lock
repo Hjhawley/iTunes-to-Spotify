@@ -4,11 +4,20 @@ PODS:
   - CapacitorBrowser (7.0.1):
     - Capacitor
   - CapacitorCordova (7.4.2)
+  - CapacitorInappbrowser (2.2.0):
+    - Capacitor
+    - OSInAppBrowserLib (~> 2.1.0)
+  - OSInAppBrowserLib (2.1.0)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorInappbrowser (from `../../node_modules/@capacitor/inappbrowser`)"
+
+SPEC REPOS:
+  trunk:
+    - OSInAppBrowserLib
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -17,12 +26,16 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/browser"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorInappbrowser:
+    :path: "../../node_modules/@capacitor/inappbrowser"
 
 SPEC CHECKSUMS:
   Capacitor: 9d9e481b79ffaeacaf7a85d6a11adec32bd33b59
   CapacitorBrowser: 6299776d496e968505464884d565992faa20444a
   CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
+  CapacitorInappbrowser: 6d5630c9194cf108ba71a745ef44e45a68a73109
+  OSInAppBrowserLib: 02111d866ad1bf19c663cd9b268bb22c7d41df4f
 
-PODFILE CHECKSUM: 7115ebfcc8e464367f45d5ad337660b037d4c13c
+PODFILE CHECKSUM: 9f55fcb619dabec85f35faf1ed0d948b26d486d9
 
 COCOAPODS: 1.16.2
