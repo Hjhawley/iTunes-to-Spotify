@@ -21,6 +21,10 @@
   },
   "homepage": "https://github.com/Hjhawley/iTunes-to-Spotify#readme",
   "dependencies": {
+    "@capacitor/browser": "^7.0.1",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/ios": "^7.4.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",

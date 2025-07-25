@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, nextTick, onMounted } from "vue";
+import { Browser } from '@capacitor/browser';
 const defaultAvatar = new URL("./assets/pic.jpg", import.meta.url).href;
 console.log("defaultAvatar →", defaultAvatar);
 
