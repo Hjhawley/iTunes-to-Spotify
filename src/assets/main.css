@@ -122,13 +122,13 @@ button:hover::after {
 
 .status-log {
   flex: 13;
-  max-width: 90%;
-  border-radius: 2rem;
+  border-radius: 1rem;
   font-size: 1rem;
   text-align: left;
   background-color: #0004;
   overflow-y: auto;
   scroll-behavior: smooth;
+  margin: auto;
   padding: 1rem;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
@@ -305,7 +305,6 @@ footer {
     max-height: 30vh;
     min-height: 80px;
     font-size: 0.95rem;
-    padding: 0.5rem;
   }
   .song_content {
     flex-direction: column;
