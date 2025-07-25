@@ -122,7 +122,7 @@ button:hover::after {
 
 .status-log {
   flex: 13;
-  max-width: 90%;
+  width: 100%;
   border-radius: 2rem;
   font-size: 1rem;
   text-align: left;
@@ -303,8 +303,6 @@ footer {
     padding: 8px;
   }
   .status-log {
-    max-height: 30vh;
-    min-height: 80px;
     font-size: 0.95rem;
   }
   .song_content {
