@@ -123,6 +123,7 @@ button:hover::after {
 
 .status-log {
   flex: 13;
+  max-width: 90%;
   border-radius: 2rem;
   font-size: 1rem;
   text-align: left;
